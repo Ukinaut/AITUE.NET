@@ -1,0 +1,1507 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AITUE COMUNICA S.A. - Conectividad en movimiento. Integraciones seguras y blindadas para Starlink Mini en entornos industriales." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    
+    <!-- Tab Icon -->
+    <link rel="icon" type="image/jpg" href="/src/assets/logo-icon-blue.jpg" />
+    <title>AITUE COMUNICA S.A. | Conectividad Industrial en Movimiento</title>
+    
+    <style>
+      /* Splash Screen Styles */
+      .entry-splash-screen {
+        position: fixed;
+        inset: 0;
+        background: #01040f;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1), transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        font-family: 'Outfit', sans-serif;
+      }
+      .splash-bg-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .splash-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+      .splash-text-step {
+        font-size: 2.2rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #ffffff;
+        letter-spacing: 4px;
+        opacity: 0;
+        transform: translateY(25px);
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        position: absolute;
+        text-shadow: 0 0 25px rgba(89, 168, 255, 0.5);
+        text-align: center;
+        width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+      }
+      .splash-brand-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        position: absolute;
+        width: 100%;
+      }
+      .splash-brand-logo {
+        height: 220px;
+        width: auto;
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        filter: drop-shadow(0 0 25px rgba(89, 168, 255, 0.5));
+      }
+      .splash-skip-btn {
+        position: absolute;
+        bottom: 3rem;
+        z-index: 10;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 0.72rem;
+        color: rgba(89, 168, 255, 0.45);
+        background: transparent;
+        border: 1px solid rgba(89, 168, 255, 0.15);
+        padding: 0.6rem 1.2rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 2px;
+      }
+      .splash-skip-btn:hover {
+        color: #59A8FF;
+        border-color: #59A8FF;
+        background: rgba(89, 168, 255, 0.05);
+        box-shadow: 0 0 12px rgba(89, 168, 255, 0.25);
+      }
+      @media (max-width: 768px) {
+        .splash-text-step {
+          font-size: 1.5rem;
+        }
+        .splash-brand-title {
+          font-size: 3rem;
+        }
+        .splash-brand-logo {
+          height: 80px;
+        }
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Force overflow hidden on body to avoid scrolling during splash
+        document.body.style.overflow = 'hidden';
+
+        // Background animated network simulation
+        const canvas = document.getElementById('splash-network-canvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          let width = canvas.width = window.innerWidth;
+          let height = canvas.height = window.innerHeight;
+
+          window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+          });
+
+          const nodes = [];
+          const maxNodes = 40;
+          const connectionDistance = 140;
+
+          for (let i = 0; i < maxNodes; i++) {
+            nodes.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.45,
+              vy: (Math.random() - 0.5) * 0.45,
+              radius: Math.random() * 2 + 1
+            });
+          }
+
+          function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Connect nodes
+            for (let i = 0; i < nodes.length; i++) {
+              const n1 = nodes[i];
+              n1.x += n1.vx;
+              n1.y += n1.vy;
+
+              if (n1.x < 0 || n1.x > width) n1.vx *= -1;
+              if (n1.y < 0 || n1.y > height) n1.vy *= -1;
+
+              ctx.beginPath();
+              ctx.arc(n1.x, n1.y, n1.radius, 0, Math.PI * 2);
+              ctx.fillStyle = '#59A8FF';
+              ctx.fill();
+
+              for (let j = i + 1; j < nodes.length; j++) {
+                const n2 = nodes[j];
+                const dx = n1.x - n2.x;
+                const dy = n1.y - n2.y;
+                const dist = Math.hypot(dx, dy);
+
+                if (dist < connectionDistance) {
+                  const alpha = 1 - dist / connectionDistance;
+                  ctx.strokeStyle = `rgba(89, 168, 255, ${alpha * 0.15})`;
+                  ctx.lineWidth = alpha * 0.8;
+                  ctx.beginPath();
+                  ctx.moveTo(n1.x, n1.y);
+                  ctx.lineTo(n2.x, n2.y);
+                  ctx.stroke();
+                }
+              }
+            }
+            requestAnimationFrame(animate);
+          }
+          animate();
+        }
+
+        // Timeline variables
+        const msgCombined = document.getElementById('splash-msg-combined');
+        const logo = document.getElementById('splash-logo-img');
+        const splashScreen = document.getElementById('entry-splash');
+        let isSkipped = false;
+
+        function finishSplash() {
+          if (isSkipped) return;
+          isSkipped = true;
+          splashScreen.style.opacity = '0';
+          splashScreen.style.transform = 'scale(1.03)';
+          setTimeout(() => {
+            splashScreen.style.display = 'none';
+            document.body.style.overflow = '';
+          }, 800);
+        }
+
+        // Show Element helpers
+        function showEl(el) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0) scale(1)';
+        }
+
+        function hideEl(el) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(-20px) scale(0.95)';
+        }
+
+        // Step 1: Combined text (SOLUCIONES GLOBALES / EN TELECOMUNICACIONES)
+        setTimeout(() => {
+          if (isSkipped) return;
+          showEl(msgCombined);
+        }, 800);
+
+        // Step 2: Hide Combined Text and Show Logo (larger)
+        setTimeout(() => {
+          if (isSkipped) return;
+          hideEl(msgCombined);
+          setTimeout(() => {
+            if (isSkipped) return;
+            showEl(logo);
+          }, 600);
+        }, 4400);
+
+        // Step 3: Finish Intro
+        setTimeout(() => {
+          finishSplash();
+        }, 8400);
+
+        // Skip button trigger
+        document.getElementById('splash-skip-trigger').addEventListener('click', finishSplash);
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Entry Splash Loader Screen -->
+    <div class="entry-splash-screen" id="entry-splash">
+      <canvas class="splash-bg-canvas" id="splash-network-canvas"></canvas>
+      
+      <div class="splash-content">
+        <div class="splash-text-step" id="splash-msg-combined" style="line-height: 1.4;">
+          SOLUCIONES GLOBALES
+          <span style="font-size: 1.4rem; color: #a5f3fc; font-weight: 500; margin-top: 0.8rem; display: block; letter-spacing: 2px;">EN TELECOMUNICACIONES</span>
+        </div>
+        
+        <div class="splash-brand-wrap">
+          <img src="/src/assets/Log-win-nav.png" alt="AITUE Logo" class="splash-brand-logo" id="splash-logo-img" />
+        </div>
+      </div>
+      
+      <button class="splash-skip-btn" id="splash-skip-trigger">SALTAR INTRO // CORRER_SISTEMA</button>
+    </div>
+
+    <!-- Top Fixed Navigation Header -->
+    <header class="hud-header">
+      <div class="header-container">
+        <div class="header-brand">
+          <div class="brand-logo-wrap">
+            <div class="logo-spinner">
+              <img src="/src/assets/Log-win-nav.png" alt="AITUE Logo 1" class="brand-logo-img logo-img active" />
+              <img src="/src/assets/Log-win-nav2.png" alt="AITUE Logo 2" class="brand-logo-img logo-img" />
+              <img src="/src/assets/Log-win-nav3.png" alt="AITUE Logo 3" class="brand-logo-img logo-img" />
+              <img src="/src/assets/Log-win-nav4.png" alt="AITUE Logo 4" class="brand-logo-img logo-img" />
+              <img src="/src/assets/Log-win-nav5.png" alt="AITUE Logo 5" class="brand-logo-img logo-img" />
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation Links and Sliding Underline -->
+        <nav class="hud-nav-wrap">
+          <ul class="hud-nav-list">
+            <li><a class="hud-nav-link active" data-target="inicio">Inicio</a></li>
+            <li><a class="hud-nav-link-external" href="/tienda.html">Tienda Online</a></li>
+            <li><a class="hud-nav-link" data-target="contacto">Contacto</a></li>
+          </ul>
+          <div class="nav-indicator"></div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Section 1: Hero / Inicio -->
+    <section class="hero-section" id="inicio">
+      <!-- Background Video Layer -->
+      <div class="hero-video-bg">
+        <iframe 
+          src="https://www.youtube.com/embed/YDL8HbY9ENU?autoplay=1&mute=1&loop=1&playlist=YDL8HbY9ENU&controls=0&showinfo=0&autohide=1&modestbranding=1&enablejsapi=1&rel=0&playsinline=1&vq=hd1080"
+          title="AITUE Background Video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          class="hero-video-iframe">
+        </iframe>
+        <div class="hero-video-overlay"></div>
+      </div>
+
+      <!-- Canvas de estrellas/orbitas -->
+      <canvas class="hero-bg-canvas" id="stars-canvas"></canvas>
+
+      <div class="container hero-container-centered">
+
+        <!-- Tagline badge -->
+        <div class="hero-top-badge">
+          <span class="hud-status-dot"></span>
+          <span>CONECTIVIDAD EN MOVIMIENTO // SISTEMA ACTIVO</span>
+        </div>
+
+        <!-- Main headline -->
+        <h1 class="hero-title-centered">
+          SOLUCIONES GLOBALES
+          <span class="hero-subtitle-line">EN TELECOMUNICACIONES</span>
+        </h1>
+
+        <!-- Description -->
+        <p class="hero-desc-centered">
+          Integraciones modulares blindadas para <strong class="highlight-cyan">Starlink Mini / Mini X</strong>.
+          Conectividad móvil, telemetría activa y ciberseguridad redundante
+          en gabinetes certificados para flotas terrestres y marítimas.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="hero-cta-centered">
+          <button class="btn btn-primary btn-hero" id="hero-to-configurator">Configurar AITUE Ultra+ â†’</button>
+          <a href="#caminos" class="btn btn-ghost-hero">Ver Soluciones</a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <span class="stat-number">+500</span>
+            <span class="stat-label">Unidades Desplegadas</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-item">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Países LATAM</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Líneas de Producto</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Conectividad Garantizada</span>
+          </div>
+        </div>
+
+        <!-- Countries bar -->
+        <div class="hero-countries-bar">
+          <span class="countries-label">OPERACIONES ACTIVAS:</span>
+          <div class="flag-node">
+            <img src="https://flagcdn.com/w20/ar.png" alt="Argentina" class="flag-img" />
+            <span class="flag-name">ARG</span>
+          </div>
+          <div class="flag-node">
+            <img src="https://flagcdn.com/w20/co.png" alt="Colombia" class="flag-img" />
+            <span class="flag-name">COL</span>
+          </div>
+          <div class="flag-node">
+            <img src="https://flagcdn.com/w20/cl.png" alt="Chile" class="flag-img" />
+            <span class="flag-name">CHL</span>
+          </div>
+          <div class="flag-node">
+            <img src="https://flagcdn.com/w20/pe.png" alt="Perú" class="flag-img" />
+            <span class="flag-name">PER</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Scroll Indicator -->
+    <div class="hero-scroll-indicator-wrap">
+      <div class="hero-scroll-indicator">
+        <span class="scroll-label">SCROLL</span>
+        <div class="scroll-arrow-wrap">
+          <div class="scroll-arrow-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TRUST STRIP                                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="trust-strip">
+      <div class="trust-strip-inner">
+        <div class="trust-stat">
+          <span class="trust-num" data-target="500">0</span><span class="trust-suffix">+</span>
+          <span class="trust-label">Unidades Activas</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+          <span class="trust-num" data-target="4">0</span>
+          <span class="trust-label">Países LATAM</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-cert">
+          <span class="cert-badge">IP67</span>
+          <span class="cert-badge">IK10</span>
+          <span class="cert-badge">STARLINK READY</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+          <span class="trust-live-dot"></span>
+          <span class="trust-label" style="color: #59A8FF;">SISTEMA ACTIVO 24/7</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PRODUCTOS — Tabs horizontales con imagen destacada     -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="products-tab-section" id="productos" style="position: relative; overflow: hidden;">
+      <canvas class="products-bg-canvas" id="products-network-canvas"></canvas>
+      <div class="container" style="position: relative; z-index: 2;">
+
+        <div class="section-header">
+          <span class="section-badge">LÍNEA DE PRODUCTOS</span>
+          <h2 class="section-title">Modelos AITUE</h2>
+          <p class="section-subtitle">Soluciones certificadas para Starlink Mini y Mini X, llave en mano.</p>
+        </div>
+
+        <!-- Tab selector -->
+        <div class="prod-tab-bar">
+          <button class="prod-tab active" data-tab="standard">
+            <span class="prod-tab-num">01</span>
+            <span class="prod-tab-name">STANDARD</span>
+            <span class="prod-tab-price">$800 USD</span>
+          </button>
+          <button class="prod-tab" data-tab="pro">
+            <span class="prod-tab-num">02</span>
+            <span class="prod-tab-name">PRO</span>
+            <span class="prod-tab-price">$1,200 USD</span>
+          </button>
+          <button class="prod-tab" data-tab="ultra">
+            <span class="prod-tab-num">03</span>
+            <span class="prod-tab-name">ULTRA+</span>
+            <span class="prod-tab-price">$1,500 USD</span>
+          </button>
+        </div>
+
+        <!-- Tab Panels -->
+        <div class="prod-panel active" id="panel-standard">
+          <div class="prod-panel-layout">
+            <div class="prod-panel-img-col">
+              <div class="prod-panel-gallery">
+                <img src="/src/assets/standar-1.png" id="standard-gallery-main" alt="AITUE Standard" class="prod-main-img" />
+                <div class="prod-thumb-row">
+                  <button class="prod-thumb active" data-src="/src/assets/standar-1.png" data-target="standard-gallery-main"><img src="/src/assets/standar-1.png" alt="Vista 1" /></button>
+                  <button class="prod-thumb" data-src="/src/assets/standar-2.png" data-target="standard-gallery-main"><img src="/src/assets/standar-2.png" alt="Vista 2" /></button>
+                  <button class="prod-thumb" data-src="/src/assets/standar-3.png" data-target="standard-gallery-main"><img src="/src/assets/standar-3.png" alt="Vista 3" /></button>
+                </div>
+              </div>
+            </div>
+            <div class="prod-panel-info-col">
+              <div class="prod-tag-row">
+                <span class="prod-tag">STARLINK MINI</span>
+                <span class="prod-tag">LLAVE EN MANO</span>
+              </div>
+              <h3 class="prod-panel-title">AITUE Standard</h3>
+              <p class="prod-panel-desc">Solución de protección profesional para Starlink Mini y Starlink Mini X. Desarrollada por ingenieros para entornos comerciales y vehiculares de mediana exigencia.</p>
+              <ul class="prod-specs-list">
+                <li><span class="spec-dot"></span> Carcasa de polímero reforzado resistente a impactos</li>
+                <li><span class="spec-dot"></span> Compatible con cable de alimentación 12V y elevador de voltaje</li>
+                <li><span class="spec-dot"></span> Sin antena Starlink ni imanes de neodimio incluidos</li>
+                <li><span class="spec-dot"></span> Configuración modular según variante requerida</li>
+              </ul>
+              <div class="prod-panel-footer">
+                <span class="prod-panel-price">$800 <span>USD</span></span>
+                <button class="btn btn-primary btn-hero open-configurator" id="hero-to-configurator">Configurar → </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-panel" id="panel-pro">
+          <div class="prod-panel-layout">
+            <div class="prod-panel-img-col">
+              <div class="prod-panel-gallery">
+                <img src="/src/assets/pro-1.png" id="pro-gallery-main" alt="AITUE Pro" class="prod-main-img" />
+                <div class="prod-thumb-row">
+                  <button class="prod-thumb active" data-src="/src/assets/pro-1.png" data-target="pro-gallery-main"><img src="/src/assets/pro-1.png" alt="Vista 1" /></button>
+                  <button class="prod-thumb" data-src="/src/assets/pro-2.png" data-target="pro-gallery-main"><img src="/src/assets/pro-2.png" alt="Vista 2" /></button>
+                  <button class="prod-thumb" data-src="/src/assets/pro-3.png" data-target="pro-gallery-main"><img src="/src/assets/pro-3.png" alt="Vista 3" /></button>
+                </div>
+              </div>
+            </div>
+            <div class="prod-panel-info-col">
+              <div class="prod-tag-row">
+                <span class="prod-tag prod-tag-sky">INDUSTRIAL PRO</span>
+                <span class="prod-tag prod-tag-sky">BASES MAGNÉTICAS</span>
+              </div>
+              <h3 class="prod-panel-title" style="color: #59A8FF;">AITUE Pro</h3>
+              <p class="prod-panel-desc">Pensada para uso vehicular sobre superficies metálicas. Incluye bases magnéticas 360° de alta resistencia y sistema de fijación mecánica de precisión industrial.</p>
+              <ul class="prod-specs-list">
+                <li><span class="spec-dot" style="background:#59A8FF;"></span> Bases magnéticas 360° para fijación sobre superficies metálicas</li>
+                <li><span class="spec-dot" style="background:#59A8FF;"></span> Compatible con Starlink Mini y Starlink Mini X</li>
+                <li><span class="spec-dot" style="background:#59A8FF;"></span> Sistema de fijación mecánica industrial de precisión</li>
+                <li><span class="spec-dot" style="background:#59A8FF;"></span> Configuración modular con alimentación 12V y elevador</li>
+              </ul>
+              <div class="prod-panel-footer">
+                <span class="prod-panel-price" style="color:#59A8FF;">$1,200 <span>USD</span></span>
+                <button class="btn btn-primary btn-hero open-configurator">Configurar Pro → </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-panel" id="panel-ultra">
+          <div class="prod-panel-layout">
+            <div class="prod-panel-img-col">
+              <div class="prod-panel-gallery">
+                <img src="/src/assets/card-mountain-cabinet.png" alt="AITUE Ultra+" class="prod-main-img" style="object-fit:contain;" />
+              </div>
+            </div>
+            <div class="prod-panel-info-col">
+              <div class="prod-tag-row">
+                <span class="prod-tag" style="color:#7DD3FA; border-color:rgba(125,211,250,0.3); background:rgba(125,211,250,0.08);">FLAGSHIP</span>
+                <span class="prod-tag" style="color:#7DD3FA; border-color:rgba(125,211,250,0.3); background:rgba(125,211,250,0.08);">BLINDAJE IK10</span>
+              </div>
+              <h3 class="prod-panel-title" style="color: #7DD3FA;">AITUE Ultra+</h3>
+              <p class="prod-panel-desc">La solución más completa de la línea AITUE. Plataforma lista para integrar conectividad, LTE, video, telemetría, rastreo y administración remota en instalaciones vehiculares, industriales y corporativas.</p>
+              <ul class="prod-specs-list">
+                <li><span class="spec-dot" style="background:#7DD3FA;"></span> Blindaje IK10 + sellado IP67 certificados</li>
+                <li><span class="spec-dot" style="background:#7DD3FA;"></span> Integración de LTE backup, video y telemetría activa</li>
+                <li><span class="spec-dot" style="background:#7DD3FA;"></span> Rastreo GPS y administración remota 24/7</li>
+                <li><span class="spec-dot" style="background:#7DD3FA;"></span> UPS integrado con batería LiPo de respaldo</li>
+              </ul>
+              <div class="prod-panel-footer">
+                <span class="prod-panel-price" style="color:#7DD3FA;">$1,500 <span>USD</span></span>
+                <button class="btn btn-primary btn-hero open-configurator">Configurar Ultra+ → </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- CASOS DE USO — Diseñado para                           -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="use-cases-section" id="caminos">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">SECTORES DE APLICACIÓN</span>
+          <h2 class="section-title">Diseñado Para</h2>
+          <p class="section-subtitle">Cada sector tiene sus propias exigencias. AITUE tiene la solución.</p>
+        </div>
+        <div class="use-cases-grid">
+
+          <div class="use-case-card reveal-item">
+            <div class="use-case-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+                <rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <h3 class="use-case-title">Flotas Terrestres</h3>
+            <p class="use-case-desc">Camiones, vehículos de transporte de carga y flotas logísticas con conectividad satelital en ruta, sin importar la zona.</p>
+            <a href="#" class="use-case-link open-configurator">Cotizar para flota →</a>
+          </div>
+
+          <div class="use-case-card reveal-item">
+            <div class="use-case-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+                <path d="M2 20h20M4 20V10l8-6 8 6v10"/><path d="M9 20v-8h6v8"/>
+              </svg>
+            </div>
+            <h3 class="use-case-title">Operaciones Marítimas</h3>
+            <p class="use-case-desc">Barcos pesqueros, embarcaciones de transporte y plataformas offshore. Conectividad resistente a condiciones extremas de mar.</p>
+            <a href="#" class="use-case-link open-configurator">Ver solución marítima →</a>
+          </div>
+
+          <div class="use-case-card reveal-item">
+            <div class="use-case-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>
+              </svg>
+            </div>
+            <h3 class="use-case-title">Sites Corporativos</h3>
+            <p class="use-case-desc">Edificios, plantas industriales y oficinas en zonas remotas que necesitan conectividad de alta disponibilidad y redundancia activa.</p>
+            <a href="#" class="use-case-link open-configurator">Ver solución corporativa →</a>
+          </div>
+
+          <div class="use-case-card reveal-item">
+            <div class="use-case-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+            <h3 class="use-case-title">Despliegue de Emergencia</h3>
+            <p class="use-case-desc">Kits de respuesta rápida para catástrofes, operativos en zonas de desastre y situaciones donde la conectividad es crítica.</p>
+            <a href="#" class="use-case-link open-configurator">Ver kit de emergencia →</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- ¿POR QUÉ AITUE? — Diferenciadores                     -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="why-aitue-section" id="aitue-ultra" style="border-top: 1px solid rgba(89, 168, 255, 0.08); background: linear-gradient(180deg, rgba(12, 35, 74, 0.15) 0%, rgba(7, 22, 47, 0.05) 100%);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">¿POR QUÉ AITUE?</span>
+          <h2 class="section-title">Ingeniería que Marca la Diferencia</h2>
+          <p class="section-subtitle">Cada integración AITUE está diseñada por ingenieros para resistir las condiciones más exigentes del mundo real.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <h3 class="why-title">Blindaje IK10</h3>
+            <p class="why-desc">Gabinetes certificados contra impacto IK10 y sellado IP67. Protección total en entornos industriales, vehiculares y marítimos.</p>
+            <div class="why-badge">IK10 · IP67</div>
+          </div>
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <h3 class="why-title">Conectividad Redundante</h3>
+            <p class="why-desc">Arquitectura de doble enlace con failover automático entre Starlink y LTE. Cero interrupciones en rutas críticas.</p>
+            <div class="why-badge">FAILOVER · DUAL-LINK</div>
+          </div>
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+            <h3 class="why-title">Telemetría Activa</h3>
+            <p class="why-desc">Monitoreo en tiempo real de señal, posición GPS, temperatura y estado eléctrico. Dashboard remoto 24/7.</p>
+            <div class="why-badge">GPS · LIVE · DASHBOARD</div>
+          </div>
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <h3 class="why-title">Cobertura LATAM</h3>
+            <p class="why-desc">Red de operaciones activa en Argentina, Colombia, Chile y Perú. Soporte técnico local con ingenieros certificados.</p>
+            <div class="why-badge">ARG · COL · CHL · PER</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- EN EL CAMPO — Videos de operaciones                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="social-stack-section" style="border-top: 1px solid rgba(89,168,255,0.08);">
+      <div class="container social-stack-grid">
+        <div class="social-stack-intro">
+          <div class="hud-tag">// BITÁCORA OPERATIVA //</div>
+          <h2 class="section-title">Nuestras Operaciones en el Terreno</h2>
+          <p class="section-desc">Despliegues de conectividad satelital de alta redundancia, gabinetes blindados y configuraciones Starlink Mini activas en geografías desafiantes.</p>
+          <div class="social-stack-actions">
+            <a href="https://www.instagram.com/aituecomunica/" target="_blank" rel="noopener" class="btn btn-secondary">Ver en Instagram</a>
+            <a href="https://www.youtube.com/@Aitue-TIENDA" target="_blank" rel="noopener" class="btn btn-ghost-hero" style="margin-left:10px;">Ver en YouTube</a>
+          </div>
+          <div class="hud-stack-telemetry">
+            <div class="telemetry-item">
+              <span class="telemetry-label">STACK_INDEX:</span>
+              <span class="telemetry-val" id="stack-index-display">1 / 4 [PATAGONIA]</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">INSTRUCCIÓN:</span>
+              <span class="telemetry-val" style="color: var(--color-cyber);">CLICK_CARD_TO_CYCLE</span>
+            </div>
+          </div>
+        </div>
+        <div class="social-stack-container">
+          <div class="card-stack" id="interactive-card-stack">
+            <div class="stack-card active" data-index="1">
+              <video src="/Pres/video-conviccion.mp4" autoplay loop muted playsinline></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Conectividad</span>
+                <h4 class="card-title">Enlace Satelital Global</h4>
+                <p class="card-meta">Latitud -34.61, Longitud -58.38 // Convicción AITUE</p>
+              </div>
+            </div>
+            <div class="stack-card" data-index="2">
+              <video src="/Pres/video-aventura.mp4" autoplay loop muted playsinline></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Aventura</span>
+                <h4 class="card-title">Despliegue de Alta Movilidad</h4>
+                <p class="card-meta">Operaciones en Ruta // Conexión Todo Terreno</p>
+              </div>
+            </div>
+            <div class="stack-card" data-index="3">
+              <video src="/Pres/video-proteccion-mini.mp4" autoplay loop muted playsinline></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Protección</span>
+                <h4 class="card-title">Protección de Equipamiento Mini</h4>
+                <p class="card-meta">AITUE Protection Kit // Blindaje Activo</p>
+              </div>
+            </div>
+            <div class="stack-card" data-index="4">
+              <video src="/Pres/video-vacaciones-ruta.mp4" autoplay loop muted playsinline></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Ruta</span>
+                <h4 class="card-title">Vacaciones e Integración Remota</h4>
+                <p class="card-meta">Valles de Jujuy a Río Negro // Cuidado Satelital</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- CTA BAND — Llamada a la acción final                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="cta-band">
+      <div class="cta-band-bg"></div>
+      <div class="container cta-band-inner">
+        <div class="cta-band-text">
+          <p class="cta-band-sub">¿LISTO PARA CONECTAR TODO?</p>
+          <h2 class="cta-band-title">Hablemos de tu<br/><span>Proyecto de Conectividad</span></h2>
+          <p class="cta-band-desc">Un ingeniero AITUE te contactará en menos de 24 horas para analizar tu necesidad y diseñar la solución ideal.</p>
+        </div>
+        <div class="cta-band-actions">
+          <a href="/contacto.html" class="cta-band-btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Quiero que me contacten
+          </a>
+          <a href="https://wa.me/5491154565634" target="_blank" rel="noopener" class="cta-band-btn-ghost">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.012 2c-5.506 0-9.989 4.478-9.989 9.999 0 1.76.459 3.441 1.33 4.925L2 22l5.233-1.303A9.97 9.97 0 0 0 12.012 22c5.505 0 9.988-4.478 9.988-9.999S17.517 2 12.012 2zm0 18.181a8.17 8.17 0 0 1-4.17-1.143l-.299-.177-3.104.773.833-2.976-.194-.306A8.12 8.12 0 0 1 3.84 12.001c0-4.51 3.672-8.182 8.172-8.182 4.501 0 8.172 3.672 8.172 8.182s-3.671 8.18-8.172 8.18zm4.49-6.122c-.246-.123-1.456-.718-1.682-.8-.225-.082-.389-.123-.552.123-.164.245-.634.8-.777.963-.143.164-.286.184-.532.062-.246-.123-1.038-.383-1.977-1.22-.731-.651-1.224-1.455-1.368-1.701-.143-.246-.015-.379.108-.501.11-.11.246-.287.369-.43.123-.143.164-.246.246-.41.082-.163.041-.307-.021-.43-.061-.123-.552-1.332-.756-1.824-.2-.48-.403-.415-.552-.422l-.471-.008a.904.904 0 0 0-.654.307c-.225.245-.859.84-.859 2.048s.879 2.374 1.002 2.538c.123.163 1.731 2.643 4.195 3.707.587.253 1.045.404 1.401.518.589.187 1.124.161 1.548.098.472-.071 1.456-.596 1.661-1.17.205-.574.205-1.067.144-1.17-.062-.103-.226-.164-.472-.287z"/></svg>
+            WhatsApp Directo
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+      <!-- Moving Network Constellation Canvas Background -->
+      <canvas class="products-bg-canvas" id="products-network-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.75;"></canvas>
+      
+      <div class="container" style="position: relative; z-index: 2;">
+        <div class="section-header" style="text-align: center; margin-bottom: 2.5rem;">
+          <span class="section-badge" style="background: rgba(89, 168, 255, 0.1); color: #59A8FF; border-color: rgba(89, 168, 255, 0.3);">SOLUCIONES DESTACADAS</span>
+          <h2 class="section-title" style="color: #ffffff; text-shadow: 0 0 15px rgba(89, 168, 255, 0.2);">Modelos Estrella AITUE</h2>
+        </div>
+
+        <div class="products-grid">
+          <!-- Card 1: STANDARD -->
+          <div class="glow-card product-blue-card" id="card-standard-container">
+            <span class="product-num">01 // STARLINK MINI</span>
+            <h4 class="product-name">STANDARD</h4>
+            
+            <!-- Gallery Component for Standard Product -->
+            <div class="product-card-gallery">
+              <div class="product-main-view">
+                <img src="/src/assets/standar-1.png" id="standard-gallery-main" alt="Gabinete AITUE Standard - Vista Frontal" class="gallery-main-img" />
+                <div class="gallery-badge">
+                  <span class="pulse-dot"></span>
+                  <span id="standard-gallery-label">FOTO 1/3: VISTA FRONTAL</span>
+                </div>
+                <button class="gallery-expand-btn" id="open-lightbox-standard" title="Ampliar imagen HD">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Thumbnails row -->
+              <div class="product-thumb-row">
+                <button class="product-thumb-btn active" data-src="/src/assets/standar-1.png" data-label="FOTO 1/3: VISTA FRONTAL CERRADA">
+                  <img src="/src/assets/standar-1.png" alt="Standard Vista 1" />
+                </button>
+                <button class="product-thumb-btn" data-src="/src/assets/standar-2.png" data-label="FOTO 2/3: DESPIECE / INTERIOR Y CABLEADO">
+                  <img src="/src/assets/standar-2.png" alt="Standard Vista 2" />
+                </button>
+                <button class="product-thumb-btn" data-src="/src/assets/standar-3.png" data-label="FOTO 3/3: PLACA INTERNA Y TAPA CUBIERTA">
+                  <img src="/src/assets/standar-3.png" alt="Standard Vista 3" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Hover Hint Indicator -->
+            <div class="hover-info-hint" id="standard-hover-hint">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>Mantén el ratón aquí para ver <strong>Detalles Destacados</strong></span>
+              <div class="hover-progress-bar" id="standard-hover-progress"></div>
+            </div>
+
+            <div class="product-desc">
+              <p>AITUE Standard es una solución de protección profesional desarrollada por ingenieros a medida para Starlink Mini y Starlink Mini X.</p>
+              <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.78rem;"><em>* Este producto no incluye antena Starlink ni imanes de neodimio.</em></p>
+              <p style="margin-top: 0.5rem;">Podés configurar tu compra agregando cable de alimentación 12V y/o elevador de voltaje, según la variante que necesites.</p>
+            </div>
+
+            <div class="product-card-footer">
+              <span class="product-price-tag">$800 USD</span>
+              <button class="product-action open-configurator">
+                CONFIGURAR STANDARD <span>â†’</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: PRO -->
+          <div class="glow-card product-blue-card" id="card-pro-container" style="border-color: rgba(89, 168, 255, 0.4);">
+            <span class="product-num" style="color: #59A8FF; text-shadow: 0 0 8px rgba(89, 168, 255, 0.4);">02 // INDUSTRIAL PRO</span>
+            <h4 class="product-name" style="color: #ffffff;">PRO</h4>
+            
+            <!-- Gallery Component for Pro Product -->
+            <div class="product-card-gallery">
+              <div class="product-main-view">
+                <img src="/src/assets/pro-1.png" id="pro-gallery-main" alt="Gabinete AITUE Pro - Soportes Magnéticos" class="gallery-main-img" />
+                <div class="gallery-badge" style="background: rgba(7, 22, 47, 0.85); color: #59A8FF; border-color: rgba(89, 168, 255, 0.4);">
+                  <span class="pulse-dot" style="background:#59A8FF; box-shadow: 0 0 6px #59A8FF;"></span>
+                  <span id="pro-gallery-label">FOTO 1/3: BASES MAGNÉTICAS 360°</span>
+                </div>
+                <button class="gallery-expand-btn" id="open-lightbox-pro" title="Ampliar imagen HD" style="color: #59A8FF; border-color: rgba(89, 168, 255, 0.4);">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Thumbnails row -->
+              <div class="product-thumb-row">
+                <button class="product-thumb-btn pro-thumb active" data-src="/src/assets/pro-1.png" data-label="FOTO 1/3: VISTA CON BASES MAGNÉTICAS">
+                  <img src="/src/assets/pro-1.png" alt="Pro Vista 1" />
+                </button>
+                <button class="product-thumb-btn pro-thumb" data-src="/src/assets/pro-2.png" data-label="FOTO 2/3: DESPIECE / BASE Y TORNILLERÃA">
+                  <img src="/src/assets/pro-2.png" alt="Pro Vista 2" />
+                </button>
+                <button class="product-thumb-btn pro-thumb" data-src="/src/assets/pro-3.png" data-label="FOTO 3/3: MONTAJE INTERNO Y SOPORTES">
+                  <img src="/src/assets/pro-3.png" alt="Pro Vista 3" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Hover Hint Indicator for PRO -->
+            <div class="hover-info-hint pro-hover-hint" id="pro-hover-hint" style="border-color: rgba(89, 168, 255, 0.35); color: #59A8FF;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>Mantén el ratón aquí para ver <strong>Detalles Destacados PRO</strong></span>
+              <div class="hover-progress-bar pro-progress-bar" id="pro-hover-progress"></div>
+            </div>
+
+            <div class="product-desc">
+              <p>AITUE Pro es una solución de protección profesional desarrollada por ingenieros a medida para Starlink Mini y Starlink Mini X, pensada para uso vehicular sobre superficies metálicas compatibles.</p>
+              <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.78rem;"><em>* Este producto no incluye antena Starlink.</em></p>
+              <p style="margin-top: 0.5rem;">Podés configurar tu compra agregando cable de alimentación 12V y/o elevador de voltaje, según la variante que necesites.</p>
+            </div>
+
+            <div class="product-card-footer">
+              <span class="product-price-tag" style="color: #59A8FF;">$1,200 USD</span>
+              <button class="product-action open-configurator" style="color: #59A8FF;">
+                CONFIGURAR PRO <span>â†’</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3: ULTRA+ -->
+          <div class="glow-card product-blue-card" style="border-color: rgba(217, 70, 239, 0.4);">
+            <span class="product-num" style="color: #7DD3FA; text-shadow: 0 0 8px rgba(217, 70, 239, 0.4);">03 // FLAGSHIP BLINDADO</span>
+            <h4 class="product-name" style="color: #ffffff;">ULTRA+</h4>
+            
+            <div class="product-card-gallery">
+              <div class="product-main-view">
+                <img src="/src/assets/card-mountain-cabinet.png" alt="Gabinete AITUE Ultra+" class="gallery-main-img" />
+                <div class="gallery-badge" style="background: rgba(217, 70, 239, 0.85); color: #ffffff;">
+                  <span>BLINDAJE IK10</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-desc">
+              <p>AITUE Ultra+ es la solución más completa de la línea AITUE, desarrollada por ingenieros para Starlink Mini y Starlink Mini X. Combina protección profesional con una plataforma preparada para integrar conectividad, LTE, video, telemetría, rastreo y administración remota en instalaciones vehiculares, industriales y corporativas.</p>
+              <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.78rem;"><em>* Este producto no incluye antena Starlink.</em></p>
+              <p style="margin-top: 0.5rem;">Podés configurar tu compra agregando cable de alimentación 12V con elevador de voltaje, según la variante que necesites.</p>
+            </div>
+
+            <div class="product-card-footer">
+              <span class="product-price-tag" style="color: #7DD3FA;">$1,500 USD</span>
+              <button class="product-action open-configurator" style="color: #7DD3FA;">
+                CONFIGURAR ULTRA+ <span>â†’</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </section>
+
+    <!-- Section: Diferenciadores AITUE -->
+    <section class="why-aitue-section reveal-section" id="aitue-ultra" style="border-top: 1px solid rgba(89, 168, 255, 0.08); background: linear-gradient(180deg, rgba(12, 35, 74, 0.15) 0%, rgba(7, 22, 47, 0.05) 100%);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">¿POR QUÉ AITUE?</span>
+          <h2 class="section-title">Ingeniería que Marca la Diferencia</h2>
+          <p class="section-subtitle">Cada integración AITUE está diseñada por ingenieros para resistir las condiciones más exigentes del mundo real.</p>
+        </div>
+
+        <div class="why-grid">
+
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="why-title">Blindaje IK10</h3>
+            <p class="why-desc">Gabinetes certificados contra impacto IK10 y sellado IP67. Protección total en entornos industriales, vehiculares y marítimos.</p>
+            <div class="why-badge">IK10 · IP67</div>
+          </div>
+
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h3 class="why-title">Conectividad Redundante</h3>
+            <p class="why-desc">Arquitectura de doble enlace con failover automático entre Starlink y LTE. Cero interrupciones en rutas críticas.</p>
+            <div class="why-badge">FAILOVER · DUAL-LINK</div>
+          </div>
+
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+              </svg>
+            </div>
+            <h3 class="why-title">Telemetría Activa</h3>
+            <p class="why-desc">Monitoreo en tiempo real de señal, posición GPS, temperatura y estado eléctrico. Dashboard remoto 24/7 desde cualquier dispositivo.</p>
+            <div class="why-badge">GPS · LIVE · DASHBOARD</div>
+          </div>
+
+          <div class="why-card reveal-item">
+            <div class="why-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h3 class="why-title">Cobertura LATAM</h3>
+            <p class="why-desc">Red de operaciones activa en Argentina, Colombia, Chile y Perú. Soporte técnico local con ingenieros certificados en campo.</p>
+            <div class="why-badge">ARG · COL · CHL · PER</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">INGENIERÃA AVANZADA</span>
+          <h2 class="section-title">AITUE Ultra+ Hardware</h2>
+        </div>
+
+        <div class="blueprint-grid">
+          <!-- Left: Schematic SVG Blueprint with Hotspots -->
+          <div class="blueprint-visual-box">
+            <svg class="blueprint-svg" viewBox="0 0 300 300">
+              <circle cx="150" cy="150" r="130" fill="none" stroke="rgba(89, 168, 255, 0.08)" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <circle cx="150" cy="150" r="100" fill="none" stroke="rgba(89, 168, 255, 0.12)" stroke-width="1"/>
+              <circle cx="150" cy="150" r="70" fill="none" stroke="rgba(217, 70, 239, 0.08)" stroke-width="1.5" stroke-dasharray="8 4"/>
+              <line x1="150" y1="0" x2="150" y2="300" stroke="rgba(89, 168, 255, 0.05)" stroke-width="1"/>
+              <line x1="0" y1="150" x2="300" y2="150" stroke="rgba(89, 168, 255, 0.05)" stroke-width="1"/>
+            </svg>
+
+            <!-- Floating core cabinet -->
+            <div class="blueprint-cabinet-core">
+              <div class="blueprint-cabinet-pattern"></div>
+            </div>
+
+            <!-- Interactivity Hotspots -->
+            <div class="hotspot" data-id="1" title="Protección de Cúpula Satelital"></div>
+            <div class="hotspot" data-id="2" title="Gabinete Blindado 360°"></div>
+            <div class="hotspot" data-id="3" title="Estabilización Eléctrica Integrada"></div>
+            <div class="hotspot" data-id="4" title="Fijación Magnética/Mecánica Industrial"></div>
+          </div>
+
+          <!-- Right: Monospace technical details monitor -->
+          <div class="blueprint-details-hud">
+            <h3 class="cabinet-info-title mono-text">DIAGNOSTIC_FEED: AITUE_MODULE</h3>
+            <p id="cabinet-info-desc" class="mono-text" style="font-size: 0.95rem; line-height: 1.7; min-height: 110px;">
+              Pulse sobre los puntos calientes del gabinete esquema en el panel izquierdo para escanear y proyectar datos.
+            </p>
+
+            <div class="blueprint-spec-grid">
+              <div class="spec-cell">
+                <strong>SHIELDING:</strong>
+                <span>IK10 IMPACT RESISTANT</span>
+              </div>
+              <div class="spec-cell">
+                <strong>WATERPROOF:</strong>
+                <span>IP67 CERTIFIED SEAL</span>
+              </div>
+              <div class="spec-cell">
+                <strong>COMPATIBILITY:</strong>
+                <span>STARLINK MINI & STANDARD</span>
+              </div>
+              <div class="spec-cell">
+                <strong>UPS BACKUP:</strong>
+                <span>INTEGRATED LI-PO BLOCK</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Caminos de Conversión -->
+    <section class="caminos-section" id="caminos" style="border-top: 1px solid rgba(89, 168, 255, 0.08);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">CÃ“MO AVANZAR</span>
+          <h2 class="section-title">Canales de Atención</h2>
+        </div>
+
+        <div class="caminos-grid">
+          <!-- Card 1: Tienda Online -->
+          <div class="glow-card camino-card">
+            <span class="camino-num">01 // ECOMMERCE</span>
+            <h3 class="camino-title">Tienda Online</h3>
+            <p class="camino-desc">
+              Explore accesorios estandarizados, soportes magnéticos y repuestos para un despliegue inmediato de Starlink Mini en sus equipos comerciales.
+            </p>
+            <a href="/tienda.html" class="camino-action">
+              EXPLORAR TIENDA <span>â†’</span>
+            </a>
+          </div>
+
+          <!-- Card 2: Soluciones Corporativas -->
+          <div class="glow-card camino-card" style="border-color: rgba(217, 70, 239, 0.25);">
+            <span class="camino-num" style="color:var(--color-cyber); text-shadow:var(--glow-cyber);">02 // SOLUCIONES B2B</span>
+            <h3 class="camino-title">Soluciones Corp</h3>
+            <p class="camino-desc">
+              Cotice integraciones modulares blindadas a medida. Desarrollos para flotas de camiones, barcos pesqueros y despliegues en catástrofes.
+            </p>
+            <a href="#" class="camino-action open-configurator" style="color:var(--color-cyber);">
+              SOLICITAR ASESORAMIENTO <span>â†’</span>
+            </a>
+          </div>
+
+          <!-- Card 3: Quiero ser Distribuidor -->
+          <div class="glow-card camino-card">
+            <span class="camino-num">03 // CANALES LATAM</span>
+            <h3 class="camino-title">Distribuidores</h3>
+            <p class="camino-desc">
+              Súmese a la red de distribución regional de AITUE COMUNICA S.A. y acceda a precios mayoristas y soporte técnico de ingeniería exclusivo.
+            </p>
+            <a href="#" class="camino-action" id="cta-partners-distribuidor">
+              UNIRSE A LA RED <span>â†’</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Card Stack Section -->
+    <section class="social-stack-section">
+      <div class="container social-stack-grid">
+        <!-- Text/Intro Area -->
+        <div class="social-stack-intro">
+          <div class="hud-tag">// BITÃCORA OPERATIVA //</div>
+          <h2 class="section-title">Nuestras Operaciones en el Terreno</h2>
+          <p class="section-desc">
+            Vea en tiempo real nuestros despliegues de conectividad satelital de alta redundancia, gabinetes blindados y configuraciones Starlink Mini activas en las geografías más desafiantes.
+          </p>
+          <div class="social-stack-actions">
+            <a href="https://www.instagram.com/aituecomunica/" target="_blank" rel="noopener" class="btn btn-secondary">
+              Ver en Instagram
+            </a>
+            <a href="https://www.youtube.com/@Aitue-TIENDA" target="_blank" rel="noopener" class="btn btn-outline" style="border: 1px solid rgba(89, 168, 255, 0.25); color: var(--text-secondary); margin-left: 10px; font-family: var(--font-mono); font-size: 0.8rem; padding: 12px 20px; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; transition: all 0.3s ease;">
+              Ver en YouTube
+            </a>
+          </div>
+          <!-- Stack Controls / Technical Info -->
+          <div class="hud-stack-telemetry">
+            <div class="telemetry-item">
+              <span class="telemetry-label">STACK_INDEX:</span>
+              <span class="telemetry-val" id="stack-index-display">1 / 4 [PATAGONIA]</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">INSTRUCTION:</span>
+              <span class="telemetry-val" style="color: var(--color-cyber);">CLICK_CARD_TO_CYCLE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Card Stack Area -->
+        <div class="social-stack-container">
+          <div class="card-stack" id="interactive-card-stack">
+            <!-- Card 1 -->
+            <div class="stack-card active" data-index="1">
+              <video src="/Pres/video-conviccion.mp4" autoplay loop muted playsinline alt="Convicción AITUE"></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Conectividad</span>
+                <h4 class="card-title">Enlace Satelital Global</h4>
+                <p class="card-meta">Latitud -34.61, Longitud -58.38 // Convicción AITUE</p>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="stack-card" data-index="2">
+              <video src="/Pres/video-aventura.mp4" autoplay loop muted playsinline alt="Aventuras AITUE"></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Aventura</span>
+                <h4 class="card-title">Despliegue de Alta Movilidad</h4>
+                <p class="card-meta">Operaciones en Ruta // Conexión Todo Terreno</p>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="stack-card" data-index="3">
+              <video src="/Pres/video-proteccion-mini.mp4" autoplay loop muted playsinline alt="Protección Mini"></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Protección</span>
+                <h4 class="card-title">Protección de Equipamiento Mini</h4>
+                <p class="card-meta">AITUE Protection Kit // Blindaje Activo</p>
+              </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="stack-card" data-index="4">
+              <video src="/Pres/video-vacaciones-ruta.mp4" autoplay loop muted playsinline alt="Ruta AITUE"></video>
+              <div class="card-overlay">
+                <span class="card-tag">#Ruta</span>
+                <h4 class="card-title">Vacaciones e Integración Remota</h4>
+                <p class="card-meta">Valles de Jujuy a Río Negro // Cuidado Satelital</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer - 4 Column Layout -->
+    <footer class="corporate-footer" id="contacto">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Col 1: Brand details -->
+          <div>
+            <img src="/src/assets/logo-transparent.png" alt="AITUE Logo" class="brand-logo-img" style="height:32px; margin-bottom:1.2rem;" />
+            <p class="footer-about-text">
+              Soluciones industriales integrales de telecomunicación, telemetría activa y conectividad redundante para flotas terrestres y marítimas.
+            </p>
+            <a href="/contacto.html" class="btn btn-primary" style="margin-top: 1.2rem; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; box-shadow: 0 0 15px rgba(89, 168, 255, 0.25);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              Quiero que me contacten
+            </a>
+          </div>
+
+          <!-- Col 2: Soluciones Links -->
+          <div>
+            <h4 class="footer-col-title">Soluciones</h4>
+            <ul class="footer-links-list">
+              <li><a href="#" class="open-configurator">Flotas de Transporte</a></li>
+              <li><a href="#" class="open-configurator">Monitoreo Marítimo</a></li>
+              <li><a href="#" class="open-configurator">Kits de Despliegue Rápido</a></li>
+              <li><a href="#" class="open-configurator">Starlink Mini Integrado</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Comercial Links -->
+          <div>
+            <h4 class="footer-col-title">Canal Comercial</h4>
+            <ul class="footer-links-list">
+              <li><a href="#" class="open-configurator">Asesoramiento B2B</a></li>
+              <li><a href="#" class="open-configurator">Cotizador Modular</a></li>
+              <li><a href="#" id="footer-partners-trigger">Quiero ser Distribuidor</a></li>
+              <li><a href="#">Soporte Técnico</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Contacto Fisico -->
+          <div>
+            <h4 class="footer-col-title">Contacto Directo</h4>
+            <div class="footer-contact-item">
+              <span class="footer-contact-badge">TEL</span>
+              <span>0800 345 2488</span>
+            </div>
+            <div class="footer-contact-item">
+              <span class="footer-contact-badge">WSP</span>
+              <span><a href="https://wa.me/5491154565634" target="_blank" rel="noopener">+54 9 11 5456-5634</a></span>
+            </div>
+            <div class="footer-contact-item">
+              <span class="footer-contact-badge">EMAIL</span>
+              <span><a href="mailto:comercial@aitue.net">comercial@aitue.net</a></span>
+            </div>
+            <div class="footer-contact-item">
+              <span class="footer-contact-badge">DIR</span>
+              <span style="font-size: 0.8rem; line-height: 1.4;">Cerrito 260, 2° piso ”” C.P. 1010, CABA, Buenos Aires, Argentina</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-bottom-info">
+            <p>© 2026 AITUE COMUNICA S.A. Todos los derechos reservados.</p>
+            <p style="margin-top: 4px; opacity: 0.6;">Cerrito 260, CABA, Argentina // Operaciones Globales</p>
+          </div>
+          <div class="footer-social-wrap" style="align-items: center;">
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/aitue.net" target="_blank" rel="noopener" class="social-btn facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+              </svg>
+              <span class="social-name">Facebook</span>
+            </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/aituecomunica/" target="_blank" rel="noopener" class="social-btn instagram" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+              <span class="social-name">Instagram</span>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/company/aitue/" target="_blank" rel="noopener" class="social-btn linkedin" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              <span class="social-name">LinkedIn</span>
+            </a>
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@Aitue-TIENDA" target="_blank" rel="noopener" class="social-btn youtube" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+                <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11C4.482 20.455 12 20.455 12 20.455s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+              <span class="social-name">YouTube</span>
+            </a>
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@aitue.movil" target="_blank" rel="noopener" class="social-btn tiktok" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.52-4.06-1.39v7.94c0 1.93-.66 3.86-1.95 5.25-1.54 1.67-3.92 2.62-6.23 2.4-2.86-.18-5.59-2.12-6.53-4.83-.98-2.73-.25-6.07 1.83-8.08 1.43-1.4 3.49-2.15 5.51-2.02.01 1.34 0 2.68.01 4.02-1.22-.05-2.52.28-3.39 1.17-.98.98-1.12 2.64-.34 3.79.79 1.22 2.4 1.74 3.78 1.34 1.13-.3 1.95-1.33 2.13-2.48.06-1.18.02-2.38.03-3.57V0h.07z"/>
+              </svg>
+              <span class="social-name">TikTok</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- B2B Configurator Drawer -->
+    <div class="drawer-backdrop" id="config-backdrop"></div>
+    <div class="configurador-drawer" id="config-drawer">
+      <div class="drawer-header">
+        <h3 class="drawer-title">Configurador B2B</h3>
+        <button class="drawer-close" id="drawer-close-btn" aria-label="Cerrar configurador">&times;</button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Steps content -->
+        <div id="drawer-steps-content" style="display:flex; flex-direction:column; gap:2.2rem;">
+          <!-- Step 1 -->
+          <div class="config-step-container">
+            <h4 class="config-step-title">Paso 1: Plataforma de Fijación</h4>
+            <div class="options-grid">
+              <div class="option-card selected" data-step="1" data-id="plataforma-movil" data-price="1200" data-name="Fijación Flota Terrestre">
+                <span class="option-name">Flota Terrestre</span>
+                <span class="option-desc">Camionetas y maquinaria vial.</span>
+                <span class="option-price">$1,200 USD</span>
+              </div>
+              <div class="option-card" data-step="1" data-id="plataforma-maritima" data-price="1800" data-name="Fijación Marítima 360°">
+                <span class="option-name">Embarcaciones</span>
+                <span class="option-desc">Bases inoxidables marinas.</span>
+                <span class="option-price">$1,800 USD</span>
+              </div>
+              <div class="option-card" data-step="1" data-id="plataforma-tactica" data-price="1500" data-name="Kit Despliegue Rápido Táctico">
+                <span class="option-name">Despliegue Rápido</span>
+                <span class="option-desc">Fuerzas tácticas y de rescate.</span>
+                <span class="option-price">$1,500 USD</span>
+              </div>
+              <div class="option-card" data-step="1" data-id="plataforma-fija" data-price="950" data-name="Fijación Fija Remota">
+                <span class="option-name">Fija Estacionaria</span>
+                <span class="option-desc">Campamentos u obra civil.</span>
+                <span class="option-price">$950 USD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="config-step-container">
+            <h4 class="config-step-title">Paso 2: Receptor Satelital</h4>
+            <div class="options-grid">
+              <div class="option-card selected" data-step="2" data-id="starlink-mini" data-price="800" data-name="Integración Starlink Mini">
+                <span class="option-name">Starlink Mini</span>
+                <span class="option-desc">Consumo eficiente optimizado.</span>
+                <span class="option-price">$800 USD</span>
+              </div>
+              <div class="option-card" data-step="2" data-id="starlink-standard" data-price="1400" data-name="Integración Starlink Standard (Mini X)">
+                <span class="option-name">Starlink Standard</span>
+                <span class="option-desc">Caudal de enlace máximo.</span>
+                <span class="option-price">$1,400 USD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="config-step-container">
+            <h4 class="config-step-title">Paso 3: Módulos Operativos (Opcional)</h4>
+            <div class="options-grid">
+              <div class="option-card" data-step="3" data-id="mod-lte" data-price="450" data-name="Módulo Dual Cellular LTE / Failover">
+                <span class="option-name">Cellular LTE Backup</span>
+                <span class="option-desc">Conmutación redundante LTE.</span>
+                <span class="option-price">+$450 USD</span>
+              </div>
+              <div class="option-card" data-step="3" data-id="mod-gps" data-price="250" data-name="Módulo GPS de Alta Precisión">
+                <span class="option-name">GPS Telemetría</span>
+                <span class="option-desc">Rastreo activo permanente.</span>
+                <span class="option-price">+$250 USD</span>
+              </div>
+              <div class="option-card" data-step="3" data-id="mod-video" data-price="600" data-name="Cámara Telemetría & Video exterior">
+                <span class="option-name">Cámara IP Exterior</span>
+                <span class="option-desc">Video de seguridad del entorno.</span>
+                <span class="option-price">+$600 USD</span>
+              </div>
+              <div class="option-card" data-step="3" data-id="mod-bateria" data-price="350" data-name="Batería de Respaldo UPS 12V/24V">
+                <span class="option-name">UPS de Respaldo</span>
+                <span class="option-desc">Batería inteligente integrada.</span>
+                <span class="option-price">+$350 USD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form content -->
+        <div id="drawer-form-content" style="display:none; width:100%;">
+          <div class="b2b-form-container">
+            <h4 class="config-step-title">Datos del Solicitante</h4>
+            <form id="b2b-quote-form" style="display:flex; flex-direction:column; gap:1.2rem;" onsubmit="return false;">
+              <div class="form-group">
+                <label class="form-label" for="quote-name">Nombre de Contacto</label>
+                <input type="text" id="quote-name" class="form-input" placeholder="Ej. Marcos Herrera" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="quote-email">Correo Corporativo</label>
+                <input type="email" id="quote-email" class="form-input" placeholder="nombre@empresa.com" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="quote-company">Nombre de la Empresa</label>
+                <input type="text" id="quote-company" class="form-input" placeholder="Ej. Minería del Sur S.A." required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="quote-fleet">Tamaño de Flota</label>
+                <select id="quote-fleet" class="form-input" style="background:#0C234A; color:inherit; border:1px solid rgba(89, 168, 255, 0.25);" required>
+                  <option value="1 a 5 vehículos">1 a 5 vehículos</option>
+                  <option value="6 a 20 vehículos">6 a 20 vehículos</option>
+                  <option value="21 a 50 vehículos">21 a 50 vehículos</option>
+                  <option value="más de 50 vehículos">Más de 50 vehículos</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="quote-notes">Escenario Operativo</label>
+                <textarea id="quote-notes" class="form-input" rows="3" placeholder="Comente los requisitos o zonas de trabajo..." style="resize:none;"></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer calculation footer -->
+      <div class="drawer-footer">
+        <div class="price-summary-belt">
+          <span class="price-label">ESTIMACIÃ“N_HARDWARE:</span>
+          <span id="config-total-price" class="price-value">$2,000 <span>USD</span></span>
+        </div>
+        <button class="btn btn-primary" id="config-main-action" style="width:100%;">Solicitar Propuesta Comercial â†’</button>
+        <button class="btn btn-secondary" id="config-back-action" style="width:100%; display:none;">â† Volver a Configuración</button>
+      </div>
+    </div>
+
+    <!-- Floating Assistance Hub -->
+    <div class="assistance-hub-container" id="assistance-hub">
+      <!-- Options Menu -->
+      <div class="assistance-menu" id="assistance-menu">
+        <a href="https://wa.me/5491154565634" target="_blank" rel="noopener" class="assistance-menu-item whatsapp-opt">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12.012 2c-5.506 0-9.988 4.482-9.988 9.988 0 1.761.46 3.473 1.332 4.978L2 22l5.233-1.372c1.448.789 3.075 1.205 4.774 1.205 5.507 0 9.988-4.482 9.988-9.988 0-2.661-1.036-5.161-2.919-7.046C17.192 3.036 14.673 2 12.012 2zm5.727 13.918c-.244.688-1.22 1.25-1.688 1.341-.469.091-1.077.164-3.149-.691-2.651-1.092-4.316-3.811-4.448-3.987-.132-.176-1.069-1.424-1.069-2.716 0-1.293.681-1.928.924-2.189.243-.261.533-.326.711-.326l.51.004c.159.003.376-.062.589.453.22.533.753 1.839.818 1.971.065.132.109.284.022.457-.087.174-.131.282-.261.434-.13.152-.272.339-.39.456-.131.13-.268.272-.116.533.152.261.678 1.119 1.457 1.815.999.892 1.84 1.168 2.1.13.26-.13.565-.434.739-.674.174-.24.348-.201.587-.114.24.087 1.52.717 1.782.848.261.13.435.196.499.304.066.11.066.63-.178 1.319z"/>
+          </svg>
+          <span>Chat WhatsApp</span>
+        </a>
+        <button class="assistance-menu-item bot-opt" id="bot-assistance-trigger">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <circle cx="12" cy="5" r="2"></circle>
+            <path d="M12 7v4"></path>
+            <line x1="8" y1="16" x2="8" y2="16"></line>
+            <line x1="16" y1="16" x2="16" y2="16"></line>
+          </svg>
+          <span>Asistente Virtual</span>
+        </button>
+      </div>
+
+      <!-- Toggle Button -->
+      <button class="whatsapp-float" id="whatsapp-float-btn" aria-label="Asistencia AITUE">
+        <div class="whatsapp-spinner">
+          <!-- Logo 1: WhatsApp Icon (SVG) -->
+          <div class="whatsapp-logo-img logo-img active">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
+              <path d="M12.012 2c-5.506 0-9.988 4.482-9.988 9.988 0 1.761.46 3.473 1.332 4.978L2 22l5.233-1.372c1.448.789 3.075 1.205 4.774 1.205 5.507 0 9.988-4.482 9.988-9.988 0-2.661-1.036-5.161-2.919-7.046C17.192 3.036 14.673 2 12.012 2zm5.727 13.918c-.244.688-1.22 1.25-1.688 1.341-.469.091-1.077.164-3.149-.691-2.651-1.092-4.316-3.811-4.448-3.987-.132-.176-1.069-1.424-1.069-2.716 0-1.293.681-1.928.924-2.189.243-.261.533-.326.711-.326l.51.004c.159.003.376-.062.589.453.22.533.753 1.839.818 1.971.065.132.109.284.022.457-.087.174-.131.282-.261.434-.13.152-.272.339-.39.456-.131.13-.268.272-.116.533.152.261.678 1.119 1.457 1.815.999.892 1.84 1.168 2.1.13.26-.13.565-.434.739-.674.174-.24.348-.201.587-.114.24.087 1.52.717 1.782.848.261.13.435.196.499.304.066.11.066.63-.178 1.319z"/>
+            </svg>
+          </div>
+          <!-- Logo 2: AITUE Icon (Image) -->
+          <img src="/src/assets/logo-icon-blue.jpg" alt="AITUE Icon" class="whatsapp-logo-img logo-img" />
+        </div>
+      </button>
+    </div>
+
+    <!-- Virtual Assistant Chat Box -->
+    <div class="assistant-chat-container" id="assistant-chat">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-avatar-status">
+            <img src="/src/assets/logo-icon-blue.jpg" alt="AITUE Avatar" class="chat-avatar" />
+            <span class="chat-status-dot"></span>
+          </div>
+          <div>
+            <h4 class="chat-title">Asistente Virtual</h4>
+            <span class="chat-subtitle">AITUE Inteligencia Activa</span>
+          </div>
+        </div>
+        <button class="chat-close-btn" id="chat-close-btn" aria-label="Cerrar Chat">&times;</button>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-message bot">
+          <p>¡Hola! Soy el asistente virtual de AITUE COMUNICA S.A. ¿En qué puedo ayudarte hoy sobre conectividad, Starlink Mini y nuestras integraciones blindadas?</p>
+          <span class="message-time">16:44</span>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off" />
+        <button id="chat-send-btn" aria-label="Enviar Mensaje">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Lightbox Modal -->
+    <div class="lightbox-modal" id="product-lightbox">
+      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+      <div class="lightbox-content">
+        <button class="lightbox-close" id="lightbox-close-btn" aria-label="Cerrar visor">&times;</button>
+        <div class="lightbox-header">
+          <span class="lightbox-badge">VISOR HD AITUE</span>
+          <h4 id="lightbox-title" class="lightbox-title">Gabinete AITUE Standard</h4>
+        </div>
+        <div class="lightbox-image-container">
+          <img src="" id="lightbox-img" alt="Vista Ampliada del Producto" />
+        </div>
+        <div class="lightbox-footer">
+          <span class="lightbox-caption" id="lightbox-caption">FOTO 1/3: VISTA FRONTAL CERRADA</span>
+          <div class="lightbox-nav">
+            <button id="lightbox-prev-btn" class="lightbox-nav-btn">”¹</button>
+            <span id="lightbox-counter" class="lightbox-counter">1 / 3</span>
+            <button id="lightbox-next-btn" class="lightbox-nav-btn">”º</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standard Hover Popover Modal -->
+    <div class="hover-details-popover" id="standard-hover-popover">
+      <div class="popover-backdrop" id="popover-backdrop-standard"></div>
+      <div class="popover-content">
+        <button class="popover-close-btn" id="popover-close-standard" aria-label="Cerrar ventana">&times;</button>
+        <div class="popover-header">
+          <span class="popover-tag">ESPECIFICACIONES DE INGENIERÃA // HOVER HUD</span>
+          <h3 class="popover-title">DETALLES DESTACADOS ”” AITUE STANDARD</h3>
+        </div>
+        <div class="popover-img-wrap">
+          <img src="/src/assets/standar-detalles.png" alt="Detalles Destacados AITUE Standard" class="popover-img" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro Hover Popover Modal -->
+    <div class="hover-details-popover" id="pro-hover-popover">
+      <div class="popover-backdrop" id="popover-backdrop-pro"></div>
+      <div class="popover-content" style="border-color: rgba(89, 168, 255, 0.5); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(89, 168, 255, 0.35);">
+        <button class="popover-close-btn" id="popover-close-pro" aria-label="Cerrar ventana">&times;</button>
+        <div class="popover-header">
+          <span class="popover-tag" style="color: #59A8FF;">ESPECIFICACIONES DE INGENIERÃA // HOVER HUD PRO</span>
+          <h3 class="popover-title">DETALLES DESTACADOS ”” AITUE PRO</h3>
+        </div>
+        <div class="popover-img-wrap">
+          <img src="/src/assets/pro-detalles.png" alt="Detalles Destacados AITUE Pro" class="popover-img" />
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+

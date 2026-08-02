@@ -1,0 +1,448 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AITUE COMUNICA S.A. - Formulario de Contacto Corporativo. Conectividad en movimiento." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    
+    <!-- Tab Icon -->
+    <link rel="icon" type="image/jpg" href="/src/assets/logo-icon-blue.jpg" />
+    <title>Contacto Corporativo | AITUE COMUNICA S.A.</title>
+    
+    <style>
+      :root {
+        --color-bg: #07162F;
+        --color-surface: rgba(12, 35, 74, 0.65);
+        --color-primary: #59A8FF;
+        --color-secondary: #59A8FF;
+        --color-accent: #d946ef;
+        --text-primary: #ffffff;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --font-sans: 'Inter', sans-serif;
+        --font-heading: 'Outfit', sans-serif;
+        --font-mono: 'Share Tech Mono', monospace;
+        --glow-primary: 0 0 15px rgba(89, 168, 255, 0.35);
+        --glow-accent: 0 0 15px rgba(217, 70, 239, 0.35);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background-color: var(--color-bg);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Video Background */
+      .video-bg-container {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .video-bg-file {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        height: 100vh;
+        min-width: 177.77vh; /* 16:9 */
+        min-height: 56.25vw;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        opacity: 0.45;
+        filter: brightness(0.7) contrast(1.1);
+      }
+
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(7, 22, 47, 0.3) 0%, rgba(7, 22, 47, 0.85) 100%),
+                    linear-gradient(180deg, rgba(7, 22, 47, 0.4) 0%, rgba(7, 22, 47, 0.95) 100%);
+      }
+
+      /* Top HUD Header */
+      .top-hud-bar {
+        width: 100%;
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 10;
+        border-bottom: 1px solid rgba(89, 168, 255, 0.08);
+        backdrop-filter: blur(10px);
+        background: rgba(7, 22, 47, 0.4);
+      }
+
+      .brand-logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .logo-img {
+        height: 30px;
+        object-fit: contain;
+      }
+
+      .btn-back {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--color-primary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border: 1px solid rgba(89, 168, 255, 0.3);
+        border-radius: 4px;
+        background: rgba(89, 168, 255, 0.05);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+
+      .btn-back:hover {
+        background: var(--color-primary);
+        color: #07162F;
+        box-shadow: var(--glow-primary);
+        border-color: var(--color-primary);
+      }
+
+      /* Main Form Section Wrapper */
+      .form-main-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        z-index: 5;
+      }
+
+      .glass-form-card {
+        width: 100%;
+        max-width: 580px;
+        background: var(--color-surface);
+        border: 1px solid rgba(89, 168, 255, 0.2);
+        border-radius: 16px;
+        padding: 2.2rem;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(89, 168, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.4s ease, border-color 0.3s ease;
+      }
+
+      .glass-form-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+      }
+
+      .form-hud-title {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--color-primary);
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .form-title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        letter-spacing: 0.5px;
+        background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Form Fields styles */
+      .form-group {
+        margin-bottom: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-label {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+        letter-spacing: 1px;
+      }
+
+      .form-input {
+        width: 100%;
+        background: rgba(7, 22, 47, 0.8);
+        border: 1px solid rgba(89, 168, 255, 0.2);
+        border-radius: 6px;
+        padding: 12px 14px;
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 10px rgba(89, 168, 255, 0.2);
+        background: rgba(7, 22, 47, 0.95);
+      }
+
+      textarea.form-input {
+        resize: none;
+      }
+
+      /* Submit Button styling */
+      .btn-submit {
+        width: 100%;
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #07162F;
+        background: var(--color-primary);
+        border: none;
+        border-radius: 6px;
+        padding: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: var(--glow-primary);
+        position: relative;
+      }
+
+      .btn-submit:hover {
+        background: #ffffff;
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* Loader spinner inside submit button */
+      .loader-spinner {
+        display: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(7, 22, 47, 0.2);
+        border-top-color: #07162F;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* Success Overlay Card */
+      .success-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: #0C234A;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2.5rem;
+        text-align: center;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+      }
+
+      .success-card-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .success-icon-wrap {
+        width: 68px;
+        height: 68px;
+        background: rgba(89, 168, 255, 0.1);
+        border: 2px solid var(--color-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--glow-primary);
+        animation: pulse-success 2s infinite;
+      }
+
+      .success-icon {
+        color: var(--color-primary);
+        width: 32px;
+        height: 32px;
+      }
+
+      @keyframes pulse-success {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(89, 168, 255, 0.4); }
+        70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(89, 168, 255, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(89, 168, 255, 0); }
+      }
+
+      .success-title {
+        font-family: var(--font-heading);
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #ffffff;
+      }
+
+      .success-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+      }
+
+      .btn-success-close {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: #07162F;
+        background: var(--color-primary);
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--glow-primary);
+      }
+
+      .btn-success-close:hover {
+        background: #ffffff;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Video Layer -->
+    <div class="video-bg-container">
+      <video class="video-bg-file" autoplay loop muted playsinline>
+        <source src="/Pres/video-conviccion.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="top-hud-bar">
+      <div class="brand-logo-wrap">
+        <img src="/src/assets/logo-transparent.png" alt="AITUE Logo" class="logo-img" />
+      </div>
+      <a href="/index.html" class="btn-back">
+        â† Volver al Inicio
+      </a>
+    </header>
+
+    <!-- Main Container -->
+    <main class="form-main-wrap">
+      <div class="glass-form-card" id="contact-card">
+        <span class="form-hud-title">// FORMULARIO_DE_CONTACTO //</span>
+        <h2 class="form-title">Solicitar Contacto Corporativo</h2>
+        
+        <form id="corporate-contact-form" onsubmit="handleFormSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="contact-name">NOMBRE Y APELLIDO</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="Ej. Marcos Herrera" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-email">CORREO ELECTRÃ“NICO</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="nombre@empresa.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-phone">TELÃ‰FONO DE CONTACTO</label>
+            <input type="tel" id="contact-phone" class="form-input" placeholder="Ej. +54 9 11 5456-5634" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-company">EMPRESA / ORGANIZACIÃ“N</label>
+            <input type="text" id="contact-company" class="form-input" placeholder="Ej. Minera del Sur S.A." required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-msg">ESPECIFICACIONES / REQUISITOS</label>
+            <textarea id="contact-msg" class="form-input" rows="4" placeholder="Indique las zonas geogrÃ¡ficas, cantidad de vehÃ­culos, barcos o campamentos..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submit-btn">
+            <span class="loader-spinner" id="btn-loader"></span>
+            <span id="btn-text">ENVIAR SOLICITUD</span>
+          </button>
+        </form>
+
+        <!-- Success Overlay Card -->
+        <div class="success-card-overlay" id="success-overlay">
+          <div class="success-icon-wrap">
+            <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="success-title">SOLICITUD ENVIADA</h3>
+          <p class="success-text">
+            Pronto alguien de nuestro equipo se contactarÃ¡ contigo.<br />
+            <strong>Bienvenido al mundo AITUE.</strong>
+          </p>
+          <a href="/index.html" class="btn-success-close">Volver al Inicio</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const submitBtn = document.getElementById('submit-btn');
+        const loader = document.getElementById('btn-loader');
+        const btnText = document.getElementById('btn-text');
+        const successOverlay = document.getElementById('success-overlay');
+
+        // Disable button and show loader spinner
+        submitBtn.disabled = true;
+        loader.style.display = 'inline-block';
+        btnText.textContent = 'PROCESANDO ENLACE...';
+
+        // 2 seconds loading simulation
+        setTimeout(() => {
+          loader.style.display = 'none';
+          btnText.textContent = 'ENVIADO';
+          
+          // Show success overlay card
+          successOverlay.classList.add('active');
+        }, 2200);
+      }
+    </script>
+  </body>
+</html>
+

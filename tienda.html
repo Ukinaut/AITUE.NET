@@ -1,0 +1,378 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AITUE COMUNICA S.A. - Tienda Online Oficial. Soportes magnÃ©ticos e integraciones industriales Starlink Mini." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    
+    <!-- Tab Icon -->
+    <link rel="icon" type="image/jpg" href="/src/assets/logo-icon-blue.jpg" />
+    <title>Tienda Online Oficial | AITUE COMUNICA S.A.</title>
+    
+    <style>
+      :root {
+        --color-bg: #07162F;
+        --color-surface: rgba(12, 35, 74, 0.65);
+        --color-primary: #59A8FF;
+        --color-secondary: #59A8FF;
+        --color-accent: #d946ef;
+        --text-primary: #ffffff;
+        --text-secondary: #94a3b8;
+        --font-sans: 'Inter', sans-serif;
+        --font-heading: 'Outfit', sans-serif;
+        --font-mono: 'Share Tech Mono', monospace;
+        --glow-primary: 0 0 15px rgba(89, 168, 255, 0.35);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background-color: var(--color-bg);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Moving Network Background */
+      .network-bg-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.45;
+      }
+
+      /* Top Fixed Header */
+      .top-hud-bar {
+        width: 100%;
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 10;
+        border-bottom: 1px solid rgba(89, 168, 255, 0.08);
+        backdrop-filter: blur(10px);
+        background: rgba(7, 22, 47, 0.4);
+      }
+
+      .btn-back {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--color-primary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border: 1px solid rgba(89, 168, 255, 0.3);
+        border-radius: 4px;
+        background: rgba(89, 168, 255, 0.05);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-back:hover {
+        background: var(--color-primary);
+        color: #07162F;
+        box-shadow: var(--glow-primary);
+        border-color: var(--color-primary);
+      }
+
+      /* Main Under Construction Card */
+      .construction-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        z-index: 5;
+      }
+
+      .hud-status-card {
+        width: 100%;
+        max-width: 620px;
+        background: var(--color-surface);
+        border: 1px solid rgba(89, 168, 255, 0.25);
+        border-radius: 12px;
+        padding: 3rem 2.2rem;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(89, 168, 255, 0.1);
+        text-align: center;
+        position: relative;
+      }
+
+      .hud-status-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+      }
+
+      .spinner-wrap {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 2rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .outer-spinner {
+        position: absolute;
+        inset: 0;
+        border: 2px dashed var(--color-primary);
+        border-radius: 50%;
+        animation: spin-clockwise 15s linear infinite;
+        opacity: 0.7;
+      }
+
+      .inner-spinner {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(217, 70, 239, 0.2);
+        border-top-color: var(--color-accent);
+        border-radius: 50%;
+        animation: spin-counter 3s linear infinite;
+      }
+
+      .center-icon {
+        color: var(--color-primary);
+        width: 24px;
+        height: 24px;
+        z-index: 2;
+        filter: drop-shadow(0 0 8px var(--color-primary));
+        animation: pulse-icon 1.8s infinite;
+      }
+
+      @keyframes spin-clockwise {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes spin-counter {
+        to { transform: rotate(-360deg); }
+      }
+
+      @keyframes pulse-icon {
+        0% { transform: scale(0.9); opacity: 0.8; }
+        50% { transform: scale(1.15); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.8; }
+      }
+
+      .status-tag {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--color-accent);
+        letter-spacing: 2px;
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+
+      .main-heading {
+        font-family: var(--font-heading);
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 1.2rem;
+        background: linear-gradient(135deg, #ffffff 40%, #a5f3fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .desc-text {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 2.2rem;
+      }
+
+      .badge-hud-panel {
+        background: rgba(7, 22, 47, 0.6);
+        border: 1px solid rgba(89, 168, 255, 0.15);
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .spec-row {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+      }
+
+      .spec-label {
+        color: var(--text-secondary);
+      }
+
+      .spec-val {
+        color: var(--color-primary);
+        font-weight: 700;
+      }
+
+      .actions-row {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .btn-action-primary {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #07162F;
+        background: var(--color-primary);
+        border: none;
+        border-radius: 4px;
+        padding: 12px 24px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--glow-primary);
+      }
+
+      .btn-action-primary:hover {
+        background: #ffffff;
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Canvas -->
+    <canvas class="network-bg-canvas" id="shop-bg-canvas"></canvas>
+
+    <!-- Top Navigation HUD -->
+    <header class="top-hud-bar">
+      <div class="brand-logo-wrap">
+        <img src="/src/assets/logo-transparent.png" alt="AITUE Logo" class="logo-img" style="height:28px;" />
+      </div>
+      <a href="/index.html" class="btn-back">
+        â† Volver al Inicio
+      </a>
+    </header>
+
+    <!-- Main Placeholder Container -->
+    <main class="construction-main">
+      <div class="hud-status-card">
+        <div class="spinner-wrap">
+          <div class="outer-spinner"></div>
+          <div class="inner-spinner"></div>
+          <svg class="center-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </div>
+
+        <span class="status-tag">// PORTAL_EN_DESARROLLO //</span>
+        <h2 class="main-heading">Tienda Online AITUE</h2>
+        
+        <p class="desc-text">
+          Estamos preparando nuestro catÃ¡logo modular autogestionado de repuestos, kits de alimentaciÃ³n 12V/24V y anclajes magnÃ©ticos para Starlink Mini.
+        </p>
+
+        <div class="badge-hud-panel">
+          <div class="spec-row">
+            <span class="spec-label">ESTADO:</span>
+            <span class="spec-val" style="color:var(--color-accent);">PROYECCIÃ“N_ACTIVA</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">VERSIÃ“N:</span>
+            <span class="spec-val">V5.0.0-STAGE</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">MÃ“DULOS HARDWARE:</span>
+            <span class="spec-val">STANDARD, PRO & ULTRA+</span>
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <a href="/contacto.html" class="btn-action-primary">Solicitar CotizaciÃ³n Directa</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Quick animated background constellation simulation
+      const canvas = document.getElementById('shop-bg-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        });
+
+        const nodes = [];
+        for (let i = 0; i < 30; i++) {
+          nodes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35
+          });
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, width, height);
+          ctx.strokeStyle = 'rgba(89, 168, 255, 0.05)';
+          ctx.lineWidth = 0.5;
+
+          // Connect
+          for (let i = 0; i < nodes.length; i++) {
+            const n1 = nodes[i];
+            n1.x += n1.vx;
+            n1.y += n1.vy;
+
+            if (n1.x < 0 || n1.x > width) n1.vx *= -1;
+            if (n1.y < 0 || n1.y > height) n1.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(n1.x, n1.y, 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(89, 168, 255, 0.4)';
+            ctx.fill();
+
+            for (let j = i + 1; j < nodes.length; j++) {
+              const n2 = nodes[j];
+              const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+              if (dist < 150) {
+                ctx.beginPath();
+                ctx.moveTo(n1.x, n1.y);
+                ctx.lineTo(n2.x, n2.y);
+                ctx.strokeStyle = `rgba(89, 168, 255, ${0.15 - dist/1000})`;
+                ctx.stroke();
+              }
+            }
+          }
+          requestAnimationFrame(animate);
+        }
+        animate();
+      }
+    </script>
+  </body>
+</html>
+
