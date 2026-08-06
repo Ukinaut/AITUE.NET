@@ -2612,13 +2612,13 @@ img.whatsapp-logo-img.logo-img {
   align-items: center;
   position: relative;
   perspective: 1000px;
-  height: 420px;
+  height: 340px;
 }
 
 .card-stack {
   position: relative;
-  width: 320px;
-  height: 400px;
+  width: 450px;
+  height: 300px;
   transform-style: preserve-3d;
   cursor: pointer;
 }
@@ -2717,11 +2717,11 @@ img.whatsapp-logo-img.logo-img {
     margin: 2rem auto 0;
   }
   .social-stack-container {
-    height: 380px;
+    height: 250px;
   }
   .card-stack {
-    width: 280px;
-    height: 350px;
+    width: 320px;
+    height: 215px;
   }
   .stack-card[data-index="2"] { transform: translate3d(10px, -10px, -20px) rotate(1.5deg); }
   .stack-card[data-index="3"] { transform: translate3d(20px, -20px, -40px) rotate(-1deg); }
