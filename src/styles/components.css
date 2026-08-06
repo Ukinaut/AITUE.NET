@@ -1287,6 +1287,10 @@
 .use-cases-section {
   padding: 6rem 0;
   border-top: 1px solid rgba(89, 168, 255, 0.08);
+  background: linear-gradient(rgba(7, 22, 47, 0.82) 0%, rgba(7, 22, 47, 0.82) 100%),
+              url('/src/assets/device-layflat.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .use-cases-grid {
@@ -2110,6 +2114,9 @@
   .use-cases-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
+  }
+  .use-cases-section {
+    background-attachment: scroll !important;
   }
   .cta-band-inner {
     grid-template-columns: 1fr;
