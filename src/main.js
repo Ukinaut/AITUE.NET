@@ -3,6 +3,15 @@ import './styles/main.css';
 import './styles/components.css';
 import './styles/ecommerce.css';
 
+// Force scroll to top on page entry/refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
+
 // ----------------------------------------------------
 // 1. DYNAMIC TOP NAV INDICATOR & SCROLL SPY
 // ----------------------------------------------------
@@ -180,7 +189,7 @@ if (canvas) {
   window.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
     mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-    
+
     targetTiltX = mouseX * 0.3;
     targetTiltY = mouseY * 0.12;
   });
@@ -216,7 +225,7 @@ if (canvas) {
     draw(tiltX, tiltY) {
       const cos = Math.cos(this.angle);
       const sin = Math.sin(this.angle);
-      
+
       const rx = this.baseRadiusX;
       const ry = this.baseRadiusY;
 
@@ -273,7 +282,7 @@ if (canvas) {
       ctx.scale(1, ry / rx);
       ctx.arc(0, 0, rx, 0, Math.PI * 2);
       ctx.restore();
-      
+
       ctx.strokeStyle = o % 2 === 0 ? 'rgba(89, 168, 255, 0.04)' : 'rgba(217, 70, 239, 0.02)';
       ctx.stroke();
     }
@@ -320,20 +329,20 @@ const infoDesc = document.getElementById('cabinet-info-desc');
 
 const hotspotData = {
   1: {
-    title: "SCAN: 001_DOME_SHIELD // PROTECCIÃ“N DE CÃšPULA",
-    desc: "CÃºpula aerodinÃ¡mica de ingenierÃ­a aeroespacial. Fabricada con polÃ­meros especiales con bloqueo ultravioleta. Protege el terminal satelital de temperaturas extremas, lluvia Ã¡cida y golpes de piedras sin mermar la transferencia de datos."
+    title: "SCAN: 001_DOME_SHIELD // PROTECCIÓN DE CÃšPULA",
+    desc: "Cúpula aerodinámica de ingeniería aeroespacial. Fabricada con polímeros especiales con bloqueo ultravioleta. Protege el terminal satelital de temperaturas extremas, lluvia ácida y golpes de piedras sin mermar la transferencia de datos."
   },
   2: {
     title: "SCAN: 002_ARMOR_360 // GABINETE BLINDADO IP67",
-    desc: "Placa metÃ¡lica blindada con sellado hermÃ©tico contra partÃ­culas de polvo y agua. Capacidad de absorciÃ³n de impactos grado IK10 certificado. DiseÃ±ado para maquinaria de excavaciÃ³n minera pesada y transportes tÃ¡cticos."
+    desc: "Placa metálica blindada con sellado hermético contra partículas de polvo y agua. Capacidad de absorción de impactos grado IK10 certificado. Diseñado para maquinaria de excavación minera pesada y transportes tácticos."
   },
   3: {
     title: "SCAN: 003_POWER_UPS // FILTRADO Y ESTABILIZADOR",
-    desc: "Aislador elÃ©ctrico y regulador de tensiÃ³n redundante. Asegura alimentaciÃ³n trifÃ¡sica o continua de 12V/24V, inmunizando la antena satelital contra caÃ­das de baterÃ­a al encender motores o sobretensiones de alternadores."
+    desc: "Aislador eléctrico y regulador de tensión redundante. Asegura alimentación trifásica o continua de 12V/24V, inmunizando la antena satelital contra caídas de batería al encender motores o sobretensiones de alternadores."
   },
   4: {
-    title: "SCAN: 004_FIX_ING // INGENIERÃA DE MONTAJE MÃ“VIL",
-    desc: "Soportes modulares intercambiables a demanda. Imanes de neodimio de grado militar que soportan rÃ¡fagas de viento superiores a 180 km/h o anclajes permanentes certificados sobre techos de embarcaciones y vehÃ­culos pesados."
+    title: "SCAN: 004_FIX_ING // INGENIERÍA DE MONTAJE MÓVIL",
+    desc: "Soportes modulares intercambiables a demanda. Imanes de neodimio de grado militar que soportan ráfagas de viento superiores a 180 km/h o anclajes permanentes certificados sobre techos de embarcaciones y vehículos pesados."
   }
 };
 
@@ -341,11 +350,11 @@ hotspots.forEach(spot => {
   spot.addEventListener('click', () => {
     const id = spot.getAttribute('data-id');
     const data = hotspotData[id];
-    
+
     if (data) {
       infoTitle.textContent = data.title;
       infoDesc.textContent = data.desc;
-      
+
       // Highlight selected hotspot
       hotspots.forEach(s => s.style.borderColor = 'var(--color-accent)');
       spot.style.borderColor = 'var(--color-cyber)';
@@ -395,11 +404,11 @@ if (backdrop) backdrop.addEventListener('click', closeDrawer);
 if (partnersCtaBtn) {
   partnersCtaBtn.addEventListener('click', () => {
     openDrawer();
-    
+
     // Prefill notes field
     const notesField = document.getElementById('quote-notes');
     if (notesField) {
-      notesField.value = "InterÃ©s en unirme a la red de distribuidores de AITUE COMUNICA en mi paÃ­s/regiÃ³n.";
+      notesField.value = "Interés en unirme a la red de distribuidores de AITUE COMUNICA en mi país/región.";
     }
 
     // Go straight to step/form transition if desired
@@ -430,7 +439,7 @@ const quoteForm = document.getElementById('b2b-quote-form');
 optionCards.forEach(card => {
   card.addEventListener('click', () => {
     const step = card.getAttribute('data-step');
-    
+
     if (step === "1" || step === "2") {
       document.querySelectorAll(`.option-card[data-step="${step}"]`).forEach(c => {
         c.classList.remove('selected');
@@ -439,7 +448,7 @@ optionCards.forEach(card => {
     } else if (step === "3") {
       card.classList.toggle('selected');
     }
-    
+
     calculateTotal();
   });
 });
@@ -447,13 +456,13 @@ optionCards.forEach(card => {
 function calculateTotal() {
   let total = 0;
   const selectedOptions = [];
-  
+
   document.querySelectorAll('.option-card.selected').forEach(card => {
     const price = parseInt(card.getAttribute('data-price')) || 0;
     total += price;
     selectedOptions.push(card.getAttribute('data-name'));
   });
-  
+
   if (totalPriceValue) {
     totalPriceValue.innerHTML = `$${total.toLocaleString()} <span>USD</span>`;
   }
@@ -486,7 +495,7 @@ if (configBackAction) {
       drawerStepsContent.style.display = 'flex';
       drawerFormContent.style.display = 'none';
       configBackAction.style.display = 'none';
-      configMainAction.textContent = 'Solicitar Propuesta Comercial â†’';
+      configMainAction.textContent = 'Solicitar Propuesta Comercial →';
       currentDrawerState = 'steps';
     }
   });
@@ -508,20 +517,20 @@ function submitDrawerLead() {
         <h3 style="font-family: var(--font-title); text-transform: uppercase; margin-bottom: 0.5rem;">Propuesta Solicitada</h3>
         <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem;">
           Operador <strong>${name}</strong> registrado.<br>
-          EstimaciÃ³n: <strong style="color: var(--color-cyber)">$${total.toLocaleString()} USD</strong> para <strong>${fleet}</strong> unidades.
+          Configuración solicitada para una flota de <strong>${fleet}</strong> unidades.
         </p>
         
         <div style="background: rgba(1, 4, 13, 0.7); border: 1px solid rgba(89, 168, 255, 0.15); padding: 1rem; border-radius: 4px; text-align: left; width: 100%; font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: 1.5rem;">
-          <strong style="color: var(--color-accent); display: block; margin-bottom: 0.6rem;">TELEMETRÃA CONFIGURADA:</strong>
+          <strong style="color: var(--color-accent); display: block; margin-bottom: 0.6rem;">TELEMETRÍA CONFIGURADA:</strong>
           <ul style="list-style: none; padding-left: 0; color: var(--text-secondary);">
             ${selectedOptions.map(opt => `<li style="margin-bottom: 0.3rem;">> ${opt}</li>`).join('')}
           </ul>
         </div>
         
         <p style="color: var(--text-muted); font-size: 0.8rem; line-height: 1.6;">
-          Enviamos el dossier comercial de hardware a <strong>${email}</strong>. Un especialista de AITUE validarÃ¡ los requisitos de tu flota en breve.
+          Enviamos el dossier comercial de hardware a <strong>${email}</strong>. Un especialista de AITUE validará los requisitos de tu flota en breve.
         </p>
-        <button class="btn btn-primary" id="drawer-success-reset" style="margin-top: 1.5rem; width: 100%;">Reiniciar OperaciÃ³n</button>
+        <button class="btn btn-primary" id="drawer-success-reset" style="margin-top: 1.5rem; width: 100%;">Reiniciar Operación</button>
       </div>
     `;
 
@@ -685,17 +694,17 @@ function initAssistantChat() {
     // Mock bot responses based on keywords
     setTimeout(() => {
       removeTypingIndicator();
-      let reply = "Lo lamento, en este momento estoy operando en modo local fuera de lÃ­nea. PrÃ³ximamente se integrarÃ¡ mi panel con la API de OpenAI para brindarte respuestas inteligentes personalizadas sobre Starlink Mini e integraciones industriales.";
-      
+      let reply = "Lo lamento, en este momento estoy operando en modo local fuera de línea. Próximamente se integrará mi panel con la API de OpenAI para brindarte respuestas inteligentes personalizadas sobre Starlink Mini e integraciones industriales.";
+
       const lower = text.toLowerCase();
       if (lower.includes('hola') || lower.includes('buen')) {
-        reply = "Â¡Hola! Â¿CÃ³mo estÃ¡s? Soy el Asistente Virtual de AITUE COMUNICA. Â¿En quÃ© te puedo asesorar hoy sobre conectividad Starlink Mini e integraciones industriales?";
+        reply = "¡Hola! ¿Cómo estás? Soy el Asistente Virtual de AITUE COMUNICA. ¿En qué te puedo asesorar hoy sobre conectividad Starlink Mini e integraciones industriales?";
       } else if (lower.includes('starlink') || lower.includes('mini')) {
-        reply = "Ofrecemos gabinetes blindados e integraciones redundantes personalizadas para Starlink Mini y Standard. Â¿Te interesarÃ­a cotizar un modelo Standard, Pro o Ultra+?";
+        reply = "Ofrecemos gabinetes blindados e integraciones redundantes personalizadas para Starlink Mini y Standard. ¿Te interesaría cotizar un modelo Standard, Pro o Ultra+?";
       } else if (lower.includes('precio') || lower.includes('cuanto') || lower.includes('costo')) {
-        reply = "Los precios base de integraciÃ³n son: Standard ($800 USD), Pro ($1200 USD) y Flagship Ultra+ ($1500 USD). Puedes ver los detalles usando el cotizador B2B de la pÃ¡gina web.";
+        reply = "Nuestras soluciones se cotizan a medida según los requerimientos específicos de conectividad, telemetría y tamaño de tu flota. Puedes solicitar una propuesta comercial personalizada usando el cotizador B2B o nuestro formulario de contacto.";
       } else if (lower.includes('contacto') || lower.includes('telefono') || lower.includes('mail')) {
-        reply = "Puedes llamarnos al 0800 345 2488 o enviarnos un email a comercial@aitue.net. Â¡TambiÃ©n puedes pulsar en 'Chat WhatsApp' en el menÃº de asistencia!";
+        reply = "Puedes llamarnos al 0800 345 2488 o enviarnos un email a comercial@aitue.net. ¡También puedes pulsar en 'Chat WhatsApp' en el menú de asistencia!";
       }
 
       addMessage(reply, 'bot');
@@ -706,10 +715,10 @@ function initAssistantChat() {
   function addMessage(text, sender) {
     const msgDiv = document.createElement('div');
     msgDiv.className = `chat-message ${sender}`;
-    
+
     const now = new Date();
     const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-    
+
     msgDiv.innerHTML = `<p>${text}</p><span class="message-time">${timeStr}</span>`;
     chatMessages.appendChild(msgDiv);
   }
@@ -827,8 +836,8 @@ function initProductGallery() {
   ];
 
   const proImages = [
-    { src: '/src/assets/pro-1.png', label: 'FOTO 1/3: BASES MAGNÃ‰TICAS 360Â°', title: 'Gabinete AITUE Pro - Soportes MagnÃ©ticos' },
-    { src: '/src/assets/pro-2.png', label: 'FOTO 2/3: DESPIECE / BASE Y TORNILLERÃA', title: 'Gabinete AITUE Pro - Despiece Industrial' },
+    { src: '/src/assets/pro-1.png', label: 'FOTO 1/3: BASES MAGNÉTICAS 360°', title: 'Gabinete AITUE Pro - Soportes Magnéticos' },
+    { src: '/src/assets/pro-2.png', label: 'FOTO 2/3: DESPIECE / BASE Y TORNILLERÍA', title: 'Gabinete AITUE Pro - Despiece Industrial' },
     { src: '/src/assets/pro-3.png', label: 'FOTO 3/3: MONTAJE INTERNO Y SOPORTES', title: 'Gabinete AITUE Pro - Estructura Interna' }
   ];
 
@@ -1270,20 +1279,21 @@ document.querySelectorAll('.trust-num[data-target]').forEach(el => {
 
 
 // ─────────────────────────────────────────────────────────────
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, {
-  threshold: 0.12,
-  rootMargin: '0px 0px -40px 0px'
-});
-
-document.querySelectorAll('.reveal-item').forEach(el => {
-  revealObserver.observe(el);
-});
+// (Disabled) Scroll Reveal Observer
+// const revealObserver = new IntersectionObserver((entries) => {
+//   entries.forEach(entry => {
+//     if (entry.isIntersecting) {
+//       entry.target.classList.add('visible');
+//     }
+//   });
+// }, {
+//   threshold: 0.12,
+//   rootMargin: '0px 0px -40px 0px'
+// });
+// 
+// document.querySelectorAll('.reveal-item').forEach(el => {
+//   revealObserver.observe(el);
+// });
 
 // ─────────────────────────────────────────────────────────────
 // SCROLL INDICATOR CLICK — smooth scroll to next section
@@ -1297,5 +1307,269 @@ if (scrollIndicator) {
     }
   });
 }
+
+// ─────────────────────────────────────────────────────────────
+// ACCORDION GALLERY INTERACTION
+// ─────────────────────────────────────────────────────────────
+(function initAccordionGallery() {
+  const accordionCards = document.querySelectorAll('.accordion-card');
+  if (accordionCards.length === 0) return;
+
+  accordionCards.forEach(card => {
+    // Hover event for desktop
+    card.addEventListener('mouseenter', () => {
+      accordionCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+
+    // Touch/click event for mobile and fallback
+    card.addEventListener('click', () => {
+      accordionCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+  });
+})();
+
+
+// ─────────────────────────────────────────────────────────────
+// GRADIENT WAVES BACKGROUND ANIMATION (FOOTER)
+// ─────────────────────────────────────────────────────────────
+(function initFooterWaves() {
+  const canvas = document.getElementById('footer-waves-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width = (canvas.width = canvas.offsetWidth);
+  let height = (canvas.height = canvas.offsetHeight);
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    if (canvas.offsetWidth > 0) {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    }
+  });
+
+  // Define Wave configuration (overlapping layers)
+  // We use gradients that match the site theme (cyan, magenta, deep blue)
+  const waveLayers = [
+    {
+      baseY: 0.55,      // Position in canvas (55% from top)
+      amplitude: 38,     // Height of the sine wave
+      wavelength: 0.003, // Wavelength frequency
+      speed: 0.007,      // Speed of shifting phase
+      phase: 0,
+      gradientColors: ['rgba(0, 240, 255, 0.22)', 'rgba(89, 168, 255, 0.01)'] // Cyan to transparent
+    },
+    {
+      baseY: 0.62,
+      amplitude: 28,
+      wavelength: 0.0045,
+      speed: -0.005,
+      phase: Math.PI / 4,
+      gradientColors: ['rgba(217, 70, 239, 0.18)', 'rgba(89, 168, 255, 0.01)'] // Magenta to transparent
+    },
+    {
+      baseY: 0.48,
+      amplitude: 45,
+      wavelength: 0.002,
+      speed: 0.0035,
+      phase: Math.PI * 1.2,
+      gradientColors: ['rgba(89, 168, 255, 0.25)', 'rgba(7, 22, 47, 0.01)'] // Blue to transparent
+    }
+  ];
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Render each wave layer
+    waveLayers.forEach(wave => {
+      ctx.beginPath();
+
+      // Starting point at bottom left
+      ctx.moveTo(0, height);
+
+      // Draw bezier-like sin curve across the width of canvas
+      for (let x = 0; x <= width; x += 3) {
+        // base y coordinate
+        const targetBaseY = height * wave.baseY;
+        // add sinusoidal displacement
+        const y = targetBaseY + Math.sin(x * wave.wavelength + wave.phase) * wave.amplitude;
+        ctx.lineTo(x, y);
+      }
+
+      // Connect to bottom right and bottom left to close the fill region
+      ctx.lineTo(width, height);
+      ctx.lineTo(0, height);
+      ctx.closePath();
+
+      // Create vertical gradient matching the wave top coordinate down to bottom
+      const gradient = ctx.createLinearGradient(0, height * wave.baseY - wave.amplitude, 0, height);
+      gradient.addColorStop(0, wave.gradientColors[0]);
+      gradient.addColorStop(1, wave.gradientColors[1]);
+
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Shift phase for the next frame
+      wave.phase += wave.speed;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
+
+// LETTER GLITCH BACKGROUND ANIMATION (WHY AITUE)
+// ─────────────────────────────────────────────────────────────
+(function initWhyGlitch() {
+  const canvas = document.getElementById('why-glitch-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
+  // Custom glitch colors matching AITUE's dark theme (dark blue, cyan, light blue, magenta)
+  const glitchColors = ['#1e293b', '#00f0ff', '#89a8ff', '#d946ef'];
+  const glitchSpeed = 80;
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789';
+  const charList = Array.from(characters);
+
+  const fontSize = 14;
+  const charWidth = 9;
+  const charHeight = 18;
+
+  let width = 0;
+  let height = 0;
+  let columns = 0;
+  let rows = 0;
+  let letters = [];
+  let animationFrameId = null;
+  let lastGlitchTime = Date.now();
+
+  const getRandomChar = () => charList[Math.floor(Math.random() * charList.length)];
+  const getRandomColor = () => glitchColors[Math.floor(Math.random() * glitchColors.length)];
+
+  const hexToRgb = (hex) => {
+    if (hex.startsWith('rgb')) {
+      const match = hex.match(/\d+/g);
+      return match ? { r: parseInt(match[0]), g: parseInt(match[1]), b: parseInt(match[2]) } : null;
+    }
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    const cleanHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleanHex);
+    return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+  };
+
+  const interpolateColor = (start, end, factor) => {
+    return `rgb(${Math.round(start.r + (end.r - start.r) * factor)}, ${Math.round(start.g + (end.g - start.g) * factor)}, ${Math.round(start.b + (end.b - start.b) * factor)})`;
+  };
+
+  const resizeCanvas = () => {
+    const parent = canvas.parentElement;
+    if (!parent) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const rect = parent.getBoundingClientRect();
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    width = rect.width;
+    height = rect.height;
+    columns = Math.ceil(width / charWidth);
+    rows = Math.ceil(height / charHeight);
+
+    const totalLetters = columns * rows;
+    letters = Array.from({ length: totalLetters }, () => {
+      const color = getRandomColor();
+      return {
+        char: getRandomChar(),
+        color: color,
+        targetColor: getRandomColor(),
+        colorProgress: 1
+      };
+    });
+
+    drawLetters();
+  };
+
+  const drawLetters = () => {
+    if (letters.length === 0) return;
+    ctx.clearRect(0, 0, width, height);
+    ctx.font = `${fontSize}px monospace`;
+    ctx.textBaseline = 'top';
+
+    letters.forEach((letter, index) => {
+      const x = (index % columns) * charWidth;
+      const y = Math.floor(index / columns) * charHeight;
+      ctx.fillStyle = letter.color;
+      ctx.fillText(letter.char, x, y);
+    });
+  };
+
+  const updateLetters = () => {
+    if (letters.length === 0) return;
+    const updateCount = Math.max(1, Math.floor(letters.length * 0.04));
+
+    for (let i = 0; i < updateCount; i++) {
+      const index = Math.floor(Math.random() * letters.length);
+      if (!letters[index]) continue;
+      letters[index].char = getRandomChar();
+      letters[index].targetColor = getRandomColor();
+      letters[index].colorProgress = 0;
+    }
+  };
+
+  const handleSmoothTransitions = () => {
+    let needsRedraw = false;
+    letters.forEach(letter => {
+      if (letter.colorProgress < 1) {
+        letter.colorProgress += 0.04;
+        if (letter.colorProgress > 1) letter.colorProgress = 1;
+
+        const startRgb = hexToRgb(letter.color);
+        const endRgb = hexToRgb(letter.targetColor);
+        if (startRgb && endRgb) {
+          letter.color = interpolateColor(startRgb, endRgb, letter.colorProgress);
+          needsRedraw = true;
+        }
+      }
+    });
+
+    if (needsRedraw) {
+      drawLetters();
+    }
+  };
+
+  const animate = () => {
+    const now = Date.now();
+    if (now - lastGlitchTime >= glitchSpeed) {
+      updateLetters();
+      drawLetters();
+      lastGlitchTime = now;
+    }
+
+    handleSmoothTransitions();
+    animationFrameId = requestAnimationFrame(animate);
+  };
+
+  resizeCanvas();
+  animate();
+
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      cancelAnimationFrame(animationFrameId);
+      resizeCanvas();
+      animate();
+    }, 100);
+  });
+})();
 
 

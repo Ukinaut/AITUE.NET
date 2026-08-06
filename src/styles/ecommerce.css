@@ -1,4 +1,4 @@
-﻿/* B2B Configurator Drawer Styles */
+/* B2B Configurator Drawer Styles */
 
 .drawer-backdrop {
   position: fixed;
@@ -188,6 +188,7 @@
   font-weight: 700;
   color: var(--color-cyber);
   margin-top: auto;
+  display: none !important;
 }
 
 /* Quote Request Form inside drawer */
@@ -240,7 +241,7 @@
 }
 
 .price-summary-belt {
-  display: flex;
+  display: none !important;
   justify-content: space-between;
   align-items: center;
 }
