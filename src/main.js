@@ -179,6 +179,16 @@ if (canvas) {
   let width = canvas.width = canvas.offsetWidth;
   let height = canvas.height = canvas.offsetHeight;
 
+  let isVisible = false;
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { isVisible = entry.isIntersecting; });
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+  } else {
+    isVisible = true;
+  }
+
   let mouseX = 0;
   let mouseY = 0;
   let targetTiltX = 0;
@@ -303,6 +313,10 @@ if (canvas) {
   }
 
   function animate() {
+    if (!isVisible) {
+      requestAnimationFrame(animate);
+      return;
+    }
     ctx.clearRect(0, 0, width, height);
 
     currentTiltX += (targetTiltX - currentTiltX) * 0.05;
@@ -1048,6 +1062,16 @@ function initNetworkConstellation() {
   let width = (canvas.width = canvas.offsetWidth);
   let height = (canvas.height = canvas.offsetHeight);
 
+  let isVisible = false;
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { isVisible = entry.isIntersecting; });
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+  } else {
+    isVisible = true;
+  }
+
   // Resize handler
   window.addEventListener('resize', () => {
     if (canvas.offsetWidth > 0) {
@@ -1057,7 +1081,7 @@ function initNetworkConstellation() {
   });
 
   const nodes = [];
-  const maxNodes = 45;
+  const maxNodes = 30;
   const connectionDistance = 140;
 
   // Pulse Rings Array
@@ -1144,6 +1168,10 @@ function initNetworkConstellation() {
   }, 1800);
 
   function animate() {
+    if (!isVisible) {
+      requestAnimationFrame(animate);
+      return;
+    }
     ctx.clearRect(0, 0, width, height);
 
     // Draw grid lines
@@ -1179,7 +1207,9 @@ function initNetworkConstellation() {
       for (let j = i + 1; j < nodes.length; j++) {
         const n2 = nodes[j];
         const dx = n1.x - n2.x;
+        if (Math.abs(dx) >= connectionDistance) continue;
         const dy = n1.y - n2.y;
+        if (Math.abs(dy) >= connectionDistance) continue;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < connectionDistance) {
@@ -1342,6 +1372,16 @@ if (scrollIndicator) {
   let width = (canvas.width = canvas.offsetWidth);
   let height = (canvas.height = canvas.offsetHeight);
 
+  let isVisible = false;
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { isVisible = entry.isIntersecting; });
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+  } else {
+    isVisible = true;
+  }
+
   // Resize handler
   window.addEventListener('resize', () => {
     if (canvas.offsetWidth > 0) {
@@ -1380,6 +1420,10 @@ if (scrollIndicator) {
   ];
 
   function animate() {
+    if (!isVisible) {
+      requestAnimationFrame(animate);
+      return;
+    }
     ctx.clearRect(0, 0, width, height);
 
     // Render each wave layer
@@ -1390,7 +1434,7 @@ if (scrollIndicator) {
       ctx.moveTo(0, height);
 
       // Draw bezier-like sin curve across the width of canvas
-      for (let x = 0; x <= width; x += 3) {
+      for (let x = 0; x <= width; x += 8) {
         // base y coordinate
         const targetBaseY = height * wave.baseY;
         // add sinusoidal displacement
@@ -1429,15 +1473,25 @@ if (scrollIndicator) {
 
   const ctx = canvas.getContext('2d');
 
+  let isVisible = false;
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { isVisible = entry.isIntersecting; });
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+  } else {
+    isVisible = true;
+  }
+
   // Custom glitch colors matching AITUE's dark theme (dark blue, cyan, light blue, magenta)
   const glitchColors = ['#1e293b', '#00f0ff', '#89a8ff', '#d946ef'];
   const glitchSpeed = 80;
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789';
   const charList = Array.from(characters);
 
-  const fontSize = 14;
-  const charWidth = 9;
-  const charHeight = 18;
+  const fontSize = 22;
+  const charWidth = 14;
+  const charHeight = 26;
 
   let width = 0;
   let height = 0;
@@ -1529,7 +1583,7 @@ if (scrollIndicator) {
     let needsRedraw = false;
     letters.forEach(letter => {
       if (letter.colorProgress < 1) {
-        letter.colorProgress += 0.04;
+        letter.colorProgress += 0.1;
         if (letter.colorProgress > 1) letter.colorProgress = 1;
 
         const startRgb = hexToRgb(letter.color);
@@ -1547,6 +1601,10 @@ if (scrollIndicator) {
   };
 
   const animate = () => {
+    if (!isVisible) {
+      animationFrameId = requestAnimationFrame(animate);
+      return;
+    }
     const now = Date.now();
     if (now - lastGlitchTime >= glitchSpeed) {
       updateLetters();
