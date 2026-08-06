@@ -1554,56 +1554,73 @@
   border-radius: 4px;
 }
 
-/* Hotspots placement */
-.hotspot {
+/* Orbiting service icons styling */
+@keyframes rotate-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counter-rotate-item {
+  from { transform: translate(-50%, -50%) rotate(360deg); }
+  to { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+.orbit-container {
   position: absolute;
-  width: 22px;
-  height: 22px;
-  background: #07162F;
-  border: 2px solid var(--color-accent);
+  width: 280px;
+  height: 280px;
+  z-index: 5;
+  animation: rotate-orbit 30s linear infinite;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.orbit-container:hover,
+.orbit-container:has(.orbit-item:hover) {
+  animation-play-state: paused;
+}
+
+.orbit-item {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  background: rgba(7, 22, 47, 0.95);
+  border: 1.5px solid rgba(89, 168, 255, 0.4);
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
-  box-shadow: var(--glow-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-fast);
+  color: var(--color-accent);
+  box-shadow: 0 0 10px rgba(89, 168, 255, 0.25);
+  animation: counter-rotate-item 30s linear infinite;
+  pointer-events: auto;
+  transition: all 0.3s ease;
 }
 
-.hotspot::before {
-  content: '';
-  width: 6px;
-  height: 6px;
+.orbit-container:hover .orbit-item,
+.orbit-container:has(.orbit-item:hover) .orbit-item {
+  animation-play-state: paused;
+}
+
+.orbit-item:hover,
+.orbit-item.active {
   background: var(--color-accent);
-  border-radius: 50%;
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 15px var(--color-accent), 0 0 30px rgba(89, 168, 255, 0.5);
+  transform: translate(-50%, -50%) scale(1.15) !important;
 }
 
-.hotspot::after {
+.orbit-item.active::after {
   content: '';
   position: absolute;
-  width: 32px;
-  height: 32px;
+  inset: -6px;
   border: 1px solid var(--color-accent);
   border-radius: 50%;
-  animation: pulse-hud 2.2s infinite ease-out;
+  animation: pulse-hud 2s infinite ease-out;
   pointer-events: none;
 }
-
-.hotspot:hover {
-  transform: scale(1.25);
-  border-color: var(--color-cyber);
-  box-shadow: var(--glow-cyber);
-}
-
-.hotspot:hover::before {
-  background: var(--color-cyber);
-}
-
-.hotspot[data-id="1"] { top: 25px; left: 50%; transform: translateX(-50%); }
-.hotspot[data-id="2"] { top: 110px; left: 25px; }
-.hotspot[data-id="3"] { top: 130px; right: 30px; }
-.hotspot[data-id="4"] { bottom: 25px; left: 50%; transform: translateX(-50%); }
 
 /* Telemetry Cabinet Monitor details */
 .blueprint-details-hud #cabinet-info-desc {

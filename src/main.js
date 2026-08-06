@@ -335,50 +335,100 @@ if (canvas) {
 }
 
 // ----------------------------------------------------
-// 4. AITUE ULTRA+ CABINET INTERACTIVE HOTSPOTS
+// 4. AITUE ULTRA+ CABINET INTERACTIVE SERVICE ORBIT
 // ----------------------------------------------------
-const hotspots = document.querySelectorAll('.hotspot');
-const infoTitle = document.querySelector('.cabinet-info-title');
+const orbitItems = document.querySelectorAll('.orbit-item');
+const infoTitle = document.getElementById('cabinet-info-title');
 const infoDesc = document.getElementById('cabinet-info-desc');
 
-const hotspotData = {
-  1: {
-    title: "SCAN: 001_DOME_SHIELD // PROTECCIÓN DE CÃšPULA",
-    desc: "Cúpula aerodinámica de ingeniería aeroespacial. Fabricada con polímeros especiales con bloqueo ultravioleta. Protege el terminal satelital de temperaturas extremas, lluvia ácida y golpes de piedras sin mermar la transferencia de datos."
+const specLbl1 = document.getElementById('spec-lbl-1');
+const specVal1 = document.getElementById('spec-val-1');
+const specLbl2 = document.getElementById('spec-lbl-2');
+const specVal2 = document.getElementById('spec-val-2');
+const specLbl3 = document.getElementById('spec-lbl-3');
+const specVal3 = document.getElementById('spec-val-3');
+const specLbl4 = document.getElementById('spec-lbl-4');
+const specVal4 = document.getElementById('spec-val-4');
+
+const serviceData = {
+  wifi: {
+    title: "WI FI + LTE // SERVICIO DE ENLACE",
+    desc: "Acceso a internet de alta velocidad de órbita baja (LEO) vía satélite combinado con respaldo LTE redundante. Tráfico y ancho de banda inteligente a demanda de uso para operaciones en movimiento.",
+    specs: [
+      { label: "CONECTIVIDAD:", val: "SATELITAL + CELULAR LTE" },
+      { label: "ANCHO DE BANDA:", val: "HASTA 220 Mbps" },
+      { label: "LATENCIA:", val: "25ms - 40ms MÍNIMA" },
+      { label: "COBERTURA:", val: "GLOBAL 100% TERRESTRE" }
+    ]
   },
-  2: {
-    title: "SCAN: 002_ARMOR_360 // GABINETE BLINDADO IP67",
-    desc: "Placa metálica blindada con sellado hermético contra partículas de polvo y agua. Capacidad de absorción de impactos grado IK10 certificado. Diseñado para maquinaria de excavación minera pesada y transportes tácticos."
+  video: {
+    title: "MONITOREO DE VIDEO // SEGURIDAD EN VIVO",
+    desc: "Transmisión y gestión de imágenes de cámaras de seguridad en tiempo real. Gestor de video integrado con almacenamiento en disco SSD local para auditorías de ruta y seguridad patrimonial.",
+    specs: [
+      { label: "CÁMARAS:", val: "HASTA 4 EN VIVO SIMULTÁNEAS" },
+      { label: "GRABACIÓN:", val: "24/7 EN DISCO SSD INTEGRADO" },
+      { label: "COMPRESIÓN:", val: "H.265 DE ALTA EFICIENCIA" },
+      { label: "ACCESO:", val: "STREAMING REMOTO CIFRADO" }
+    ]
   },
-  3: {
-    title: "SCAN: 003_POWER_UPS // FILTRADO Y ESTABILIZADOR",
-    desc: "Aislador eléctrico y regulador de tensión redundante. Asegura alimentación trifásica o continua de 12V/24V, inmunizando la antena satelital contra caídas de batería al encender motores o sobretensiones de alternadores."
+  trackeo: {
+    title: "TRACKEO GPS + TELEMETRÍA // LOGÍSTICA ACTIVA",
+    desc: "Gestión y rastreo integrado de red LTE y WiFi con geolocalización satelital activa. Monitoreo constante de velocidad, ruta y cobertura en zonas geográficamente desafiantes.",
+    specs: [
+      { label: "RASTREO:", val: "GPS ACTIVO EN TIEMPO REAL" },
+      { label: "TELEMETRÍA:", val: "VELOCIDAD, RUTA Y SEÑAL" },
+      { label: "ALERTAS:", val: "GEOCERCAS E IMPACTOS (G-SENSOR)" },
+      { label: "HISTORIAL:", val: "ALMACENAMIENTO DE DATOS 90 DÍAS" }
+    ]
   },
-  4: {
-    title: "SCAN: 004_FIX_ING // INGENIERÍA DE MONTAJE MÓVIL",
-    desc: "Soportes modulares intercambiables a demanda. Imanes de neodimio de grado militar que soportan ráfagas de viento superiores a 180 km/h o anclajes permanentes certificados sobre techos de embarcaciones y vehículos pesados."
+  admin: {
+    title: "ADMINISTRACIÓN // CONTROL DE TRÁFICO",
+    desc: "Plataforma APPCONTROL para la gestión completa de usuarios, reglas de contenido y límites de tráfico. Incluye pasarela de pagos integrada para cobro de acceso en transportes públicos.",
+    specs: [
+      { label: "GESTIÓN:", val: "APPCONTROL MÓVIL Y WEB" },
+      { label: "PORTAL:", val: "AUTENTICACIÓN CAPTIVE PORTAL" },
+      { label: "PAGOS:", val: "PASARELA MULTIPAGO INTEGRADA" },
+      { label: "POLÍTICAS:", val: "FILTRADO DE CONTENIDO Y QOS" }
+    ]
+  },
+  operativa: {
+    title: "OPERATIVA IOT // TELEMETRÍA INDUSTRIAL",
+    desc: "Control total e inteligente de periféricos y sensores industriales mediante protocolo IoT. Monitoreo activo de temperatura, energía y estado físico del gabinete blindado.",
+    specs: [
+      { label: "DISPOSITIVOS:", val: "CONTROL IOT DE PERIFÉRICOS" },
+      { label: "TELEMETRÍA:", val: "TEMPERATURA, ENERGÍA Y VOLTAJE" },
+      { label: "ALERTAS:", val: "APERTURA DE PUERTAS E INTRUSIÓN" },
+      { label: "PROTOCOLOS:", val: "MQTT, MODBUS E INTERFAZ CAN" }
+    ]
   }
 };
 
-hotspots.forEach(spot => {
-  spot.addEventListener('click', () => {
-    const id = spot.getAttribute('data-id');
-    const data = hotspotData[id];
+orbitItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const serviceKey = item.getAttribute('data-service');
+    const data = serviceData[serviceKey];
 
     if (data) {
-      infoTitle.textContent = data.title;
-      infoDesc.textContent = data.desc;
+      // Toggle active states on buttons
+      orbitItems.forEach(s => s.classList.remove('active'));
+      item.classList.add('active');
 
-      // Highlight selected hotspot
-      hotspots.forEach(s => s.style.borderColor = 'var(--color-accent)');
-      spot.style.borderColor = 'var(--color-cyber)';
+      // Update panel content
+      if (infoTitle) infoTitle.textContent = data.title;
+      if (infoDesc) infoDesc.textContent = data.desc;
+
+      // Update spec cells dynamically
+      if (specLbl1 && specVal1) { specLbl1.textContent = data.specs[0].label; specVal1.textContent = data.specs[0].val; }
+      if (specLbl2 && specVal2) { specLbl2.textContent = data.specs[1].label; specVal2.textContent = data.specs[1].val; }
+      if (specLbl3 && specVal3) { specLbl3.textContent = data.specs[2].label; specVal3.textContent = data.specs[2].val; }
+      if (specLbl4 && specVal4) { specLbl4.textContent = data.specs[3].label; specVal4.textContent = data.specs[3].val; }
     }
   });
 });
 
-// Auto-trigger first hotspot on load
-if (hotspots.length > 0) {
-  hotspots[0].click();
+// Auto-trigger first service on load
+if (orbitItems.length > 0) {
+  orbitItems[0].click();
 }
 
 // ----------------------------------------------------
