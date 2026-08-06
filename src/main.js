@@ -1465,6 +1465,101 @@ if (scrollIndicator) {
   animate();
 })();
 
+// ─────────────────────────────────────────────────────────────
+// GRADIENT WAVES BACKGROUND ANIMATION (HEADER)
+// ─────────────────────────────────────────────────────────────
+(function initHeaderWaves() {
+  const canvas = document.getElementById('header-waves-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width = (canvas.width = canvas.offsetWidth);
+  let height = (canvas.height = canvas.offsetHeight);
+
+  let isVisible = true;
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    if (canvas.offsetWidth > 0) {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    }
+  });
+
+  // Wave configuration (very subtle, matching footer)
+  const waveLayers = [
+    {
+      baseY: 0.85,      // Position near bottom of header
+      amplitude: 10,     // Gentle wave amplitude
+      wavelength: 0.003,
+      speed: 0.007,
+      phase: 0,
+      gradientColors: ['rgba(0, 240, 255, 0.08)', 'rgba(7, 22, 47, 0.01)']
+    },
+    {
+      baseY: 0.9,
+      amplitude: 7,
+      wavelength: 0.0045,
+      speed: -0.005,
+      phase: Math.PI / 4,
+      gradientColors: ['rgba(217, 70, 239, 0.06)', 'rgba(7, 22, 47, 0.01)']
+    },
+    {
+      baseY: 0.8,
+      amplitude: 12,
+      wavelength: 0.002,
+      speed: 0.0035,
+      phase: Math.PI * 1.2,
+      gradientColors: ['rgba(89, 168, 255, 0.1)', 'rgba(7, 22, 47, 0.01)']
+    }
+  ];
+
+  function animate() {
+    if (!isVisible) {
+      requestAnimationFrame(animate);
+      return;
+    }
+    // Dynamically adjust height to header shrink animations (80px vs 65px)
+    if (canvas.offsetHeight !== height) {
+      height = canvas.height = canvas.offsetHeight;
+    }
+    ctx.clearRect(0, 0, width, height);
+
+    waveLayers.forEach(wave => {
+      ctx.beginPath();
+      // Start at top left
+      ctx.moveTo(0, 0);
+
+      // Draw bezier-like sin curve across the width of canvas
+      for (let x = 0; x <= width; x += 8) {
+        const targetBaseY = height * wave.baseY;
+        const y = targetBaseY + Math.sin(x * wave.wavelength + wave.phase) * wave.amplitude;
+        ctx.lineTo(x, y);
+      }
+
+      // Connect to top right and top left to close region
+      ctx.lineTo(width, 0);
+      ctx.lineTo(0, 0);
+      ctx.closePath();
+
+      // Create vertical gradient matching top to wave edge
+      const gradient = ctx.createLinearGradient(0, 0, 0, height * wave.baseY + wave.amplitude);
+      gradient.addColorStop(0, wave.gradientColors[0]);
+      gradient.addColorStop(1, wave.gradientColors[1]);
+
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Shift phase
+      wave.phase += wave.speed;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
+
 // LETTER GLITCH BACKGROUND ANIMATION (WHY AITUE)
 // ─────────────────────────────────────────────────────────────
 (function initWhyGlitch() {
