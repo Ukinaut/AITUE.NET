@@ -982,34 +982,39 @@
 
 /* ── PRODUCT TABS ─────────────────────────────────────────── */
 .products-tab-section,
-.star-products-section,
-.blueprint-section {
+.star-products-section {
   padding: 5rem 0;
   background: #ffffff;
 }
 
+.blueprint-section {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, rgba(7, 22, 47, 0.94) 0%, rgba(12, 35, 74, 0.94) 100%), 
+              url('/src/assets/device-exploded.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  border-top: 1px solid rgba(89, 168, 255, 0.08);
+  border-bottom: 1px solid rgba(89, 168, 255, 0.08);
+}
+
 .products-tab-section .section-title,
-.star-products-section .section-title,
-.blueprint-section .section-title {
+.star-products-section .section-title {
   color: #07162f !important;
 }
 
 .products-tab-section .section-subtitle,
-.star-products-section .section-subtitle,
-.blueprint-section .section-subtitle {
+.star-products-section .section-subtitle {
   color: #475569 !important;
 }
 
 .products-tab-section .section-badge,
-.star-products-section .section-badge,
-.blueprint-section .section-badge {
+.star-products-section .section-badge {
   color: #0066cc !important;
   text-shadow: none !important;
 }
 
 .products-tab-section .products-bg-canvas,
-.star-products-section .products-bg-canvas,
-.blueprint-section .products-bg-canvas {
+.star-products-section .products-bg-canvas {
   opacity: 0.15 !important;
 }
 
@@ -1529,12 +1534,13 @@
 }
 
 .blueprint-cabinet-core {
-  width: 190px;
-  height: 190px;
-  background: linear-gradient(135deg, rgba(89, 168, 255, 0.15) 0%, rgba(125, 211, 250, 0.05) 100%);
+  width: 180px;
+  height: 240px;
+  background: url('/src/assets/device-assembled.jpg') no-repeat center center;
+  background-size: cover;
   border: 2px solid var(--color-accent);
   box-shadow: var(--glow-accent);
-  border-radius: 8px;
+  border-radius: 12px;
   position: relative;
   animation: float-cabinet 6s ease-in-out infinite;
   z-index: 2;
@@ -1601,15 +1607,16 @@
 
 /* Telemetry Cabinet Monitor details */
 .blueprint-details-hud #cabinet-info-desc {
-  color: #334155 !important;
+  color: #94a3b8 !important;
 }
 
 .blueprint-details-hud {
-  background: var(--bg-white-panel);
-  border: 1px solid var(--border-white-glass);
+  background: rgba(7, 22, 47, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(89, 168, 255, 0.2);
   padding: 2.5rem;
   border-radius: var(--border-radius-sm);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   position: relative;
 }
 
@@ -1618,18 +1625,18 @@
   position: absolute;
   top: -10px;
   left: 20px;
-  background: #ffffff;
+  background: #07162f;
   padding: 0 8px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--color-primary);
   letter-spacing: 1.5px;
-  border: 1px solid rgba(89, 168, 255, 0.2);
+  border: 1px solid rgba(89, 168, 255, 0.3);
   border-radius: 2px;
 }
 
 .cabinet-info-title {
-  color: var(--text-dark);
+  color: #ffffff;
   margin-bottom: 1.2rem;
   font-size: 1.1rem;
 }
@@ -1644,13 +1651,13 @@
 }
 
 .spec-cell {
-  background: rgba(12, 35, 74, 0.05);
+  background: rgba(12, 35, 74, 0.25);
   border: 1px solid rgba(89, 168, 255, 0.25);
   padding: 0.9rem;
   border-radius: var(--border-radius-sm);
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--text-dark);
+  color: #ffffff;
 }
 
 .spec-cell strong {
