@@ -2054,6 +2054,27 @@
     height: 350px;
     margin-top: 2rem;
   }
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .prod-panel-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .use-cases-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .cta-band-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
   .blueprint-grid {
     grid-template-columns: 1fr;
   }
@@ -2063,9 +2084,31 @@
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .brand-logo-wrap,
+  .hud-header.scrolled .brand-logo-wrap {
+    height: 36px !important;
+    width: 120px !important;
+  }
+  .hud-nav-link,
+  .hud-nav-link-external {
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+  }
+  .hud-nav-list {
+    gap: 0.8rem;
+  }
 }
 
 @media (max-width: 576px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+  .use-cases-grid {
+    grid-template-columns: 1fr;
+  }
+  .blueprint-spec-grid {
+    grid-template-columns: 1fr;
+  }
   .footer-grid {
     grid-template-columns: 1fr;
   }
@@ -2075,15 +2118,32 @@
     text-align: center;
   }
   .header-container {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
+  }
+  .brand-logo-wrap,
+  .hud-header.scrolled .brand-logo-wrap {
+    height: 30px !important;
+    width: 100px !important;
   }
   .hud-nav-list {
-    gap: 1rem;
+    gap: 0.5rem;
   }
-  .hud-nav-link {
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
+  .hud-nav-link,
+  .hud-nav-link-external {
+    font-size: 0.65rem;
+    letter-spacing: 0.2px;
+    padding: 1.2rem 0.1rem;
   }
+  .social-stack-container {
+    height: 220px;
+  }
+  .card-stack {
+    width: 270px;
+    height: 180px;
+  }
+  .stack-card[data-index="2"] { transform: translate3d(6px, -6px, -12px) rotate(1deg); }
+  .stack-card[data-index="3"] { transform: translate3d(12px, -12px, -24px) rotate(-0.5deg); }
+  .stack-card[data-index="4"] { transform: translate3d(18px, -18px, -36px) rotate(1.5deg); }
 }
 
 /* Floating Assistance Hub Container */
