@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="AITUE COMUNICA S.A. - División Empresas & Proyectos Cumplidos. Nuestra identidad y casos de éxito en conectividad satelital industrial en movimiento." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tab Icon -->
+  <link rel="icon" type="image/jpg" href="/src/assets/logo-icon-blue.jpg" />
+  <title>Empresas & Proyectos Cumplidos | AITUE COMUNICA S.A.</title>
+</head>
+
+<body>
+  <!-- Top Fixed Navigation Header -->
+  <header class="hud-header">
+    <canvas id="header-waves-canvas"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="brand-logo-wrap">
+          <div class="logo-spinner">
+            <img src="/src/assets/Log-win-nav.png" alt="AITUE Logo 1" class="brand-logo-img logo-img active" />
+            <img src="/src/assets/Log-win-nav2.png" alt="AITUE Logo 2" class="brand-logo-img logo-img" />
+            <img src="/src/assets/Log-win-nav3.png" alt="AITUE Logo 3" class="brand-logo-img logo-img" />
+            <img src="/src/assets/Log-win-nav4.png" alt="AITUE Logo 4" class="brand-logo-img logo-img" />
+            <img src="/src/assets/Log-win-nav5.png" alt="AITUE Logo 5" class="brand-logo-img logo-img" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hud-nav-wrap">
+        <ul class="hud-nav-list">
+          <li><a class="hud-nav-link-external" href="/">Inicio</a></li>
+          <li><a class="hud-nav-link-external active" href="/empresas.html">Empresas</a></li>
+          <li><a class="hud-nav-link-external" href="https://shop.aitue.net/">Tienda Online</a></li>
+          <li><a class="hud-nav-link-external" href="/contacto.html">Contacto</a></li>
+        </ul>
+        <div class="nav-indicator"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HERO SECTION (Empresas - Identidad & Proyectos)         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="hero-section" id="empresas-hero">
+    <!-- Background Video Layer (Similar a Inicio) -->
+    <div class="hero-video-bg">
+      <video class="hero-video-file" autoplay loop muted playsinline style="opacity: 0.75;">
+        <source src="/Pres/video-aventura.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-video-overlay"></div>
+    </div>
+
+    <!-- Background Network Canvas -->
+    <canvas class="products-bg-canvas" id="empresas-hero-canvas"></canvas>
+
+    <div class="container hero-container-centered" style="position: relative; z-index: 2;">
+      <!-- Tagline badge -->
+      <div class="hero-top-badge">
+        <span class="hud-status-dot"></span>
+        <span>DIVISIÓN CORPORATIVA & PROYECTOS CUMPLIDOS</span>
+      </div>
+
+      <!-- Main headline -->
+      <h1 class="hero-title-centered">
+        NUESTRA IDENTIDAD
+        <span class="hero-subtitle-line">& CASOS DE ÉXITO</span>
+      </h1>
+
+      <!-- Description -->
+      <p class="hero-desc-centered">
+        Somos pioneros e ingenieros en conectividad satelital móvil. Desarrollamos integraciones blindadas
+        certificadas para <strong class="highlight-cyan">Starlink Mini / Mini X</strong>, diseñadas para operar en las condiciones industriales y climáticas más exigentes del planeta.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="hero-cta-centered">
+        <a href="#proyectos-cumplidos" class="btn btn-primary btn-hero">Ver Proyectos Cumplidos ↓</a>
+        <a href="/contacto.html" class="btn btn-ghost-hero">Contacto Corporativo</a>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="hero-stats-row">
+        <div class="hero-stat-item">
+          <span class="stat-number">+12.000</span>
+          <span class="stat-label">Equipos Vendidos</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="stat-number">5</span>
+          <span class="stat-label">Países / Regiones</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="stat-number">+150</span>
+          <span class="stat-label">Proyectos Industriales</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item">
+          <span class="stat-number">99.9%</span>
+          <span class="stat-label">Uptime Operativo</span>
+        </div>
+      </div>
+
+      <!-- Active Operations Bar -->
+      <div class="hero-countries-bar">
+        <span class="countries-label">DESPLIEGUES ACTIVOS:</span>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" class="flag-img" />
+          <span class="flag-name">ARG</span>
+        </div>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/br.png" alt="Brasil" class="flag-img" />
+          <span class="flag-name">BRA</span>
+        </div>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/co.png" alt="Colombia" class="flag-img" />
+          <span class="flag-name">COL</span>
+        </div>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/cl.png" alt="Chile" class="flag-img" />
+          <span class="flag-name">CHL</span>
+        </div>
+        <div class="flag-node">
+          <svg class="flag-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18">
+            <rect width="28" height="18" fill="#003087"/>
+            <polygon points="14,3 14.9,5.7 17.7,5.7 15.5,7.3 16.3,10 14,8.4 11.7,10 12.5,7.3 10.3,5.7 13.1,5.7" fill="white"/>
+            <polygon points="8,8 8.6,9.8 10.5,9.8 9,10.9 9.6,12.7 8,11.6 6.4,12.7 7,10.9 5.5,9.8 7.4,9.8" fill="white" transform="scale(0.7) translate(2,6)"/>
+            <polygon points="20,8 20.6,9.8 22.5,9.8 21,10.9 21.6,12.7 20,11.6 18.4,12.7 19,10.9 17.5,9.8 19.4,9.8" fill="white" transform="scale(0.7) translate(8,6)"/>
+            <polygon points="9,12 9.5,13.5 11.1,13.5 9.8,14.4 10.3,15.9 9,15 7.7,15.9 8.2,14.4 6.9,13.5 8.5,13.5" fill="white" transform="scale(0.7) translate(2,1)"/>
+            <polygon points="19,12 19.5,13.5 21.1,13.5 19.8,14.4 20.3,15.9 19,15 17.7,15.9 18.2,14.4 16.9,13.5 18.5,13.5" fill="white" transform="scale(0.7) translate(8,1)"/>
+          </svg>
+          <span class="flag-name">MERCOSUR</span>
+        </div>
+        <span class="countries-label" style="opacity: 0.3; font-size: 1rem; padding: 0 0.2rem;">|</span>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/es.png" alt="España" class="flag-img" />
+          <span class="flag-name">ESP</span>
+        </div>
+        <div class="flag-node">
+          <svg class="flag-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18">
+            <rect width="28" height="18" fill="#FFCC00"/>
+            <rect y="2" width="28" height="2" fill="#CC0001"/>
+            <rect y="6" width="28" height="2" fill="#CC0001"/>
+            <rect y="10" width="28" height="2" fill="#CC0001"/>
+            <rect y="14" width="28" height="2" fill="#CC0001"/>
+            <rect width="6" height="18" fill="#003399"/>
+          </svg>
+          <span class="flag-name">VALENCIA</span>
+        </div>
+        <div class="flag-node">
+          <svg class="flag-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18">
+            <rect width="28" height="18" fill="#FFCC00"/>
+            <rect y="2" width="28" height="2" fill="#CC0001"/>
+            <rect y="6" width="28" height="2" fill="#CC0001"/>
+            <rect y="10" width="28" height="2" fill="#CC0001"/>
+            <rect y="14" width="28" height="2" fill="#CC0001"/>
+            <rect x="10" y="4" width="8" height="10" fill="#003399" opacity="0.85" rx="1"/>
+            <text x="14" y="12" font-size="6" text-anchor="middle" fill="white" font-weight="bold">A</text>
+          </svg>
+          <span class="flag-name">ALICANTE</span>
+        </div>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/eu.png" alt="Unión Europea" class="flag-img" />
+          <span class="flag-name">EU</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- TRUST STRIP                                            -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="trust-strip">
+    <div class="trust-strip-inner">
+      <div class="trust-stat">
+        <span class="trust-num" data-target="12000">0</span><span class="trust-suffix">+</span>
+        <span class="trust-label">Equipos Vendidos</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat">
+        <span class="trust-num" data-target="5">0</span>
+        <span class="trust-label">Países / Regiones</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-cert">
+        <span class="cert-badge">IP67 WATERPROOF</span>
+        <span class="cert-badge">IK10 IMPACT</span>
+        <span class="cert-badge">MIAITUE READY</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat">
+        <span class="trust-live-dot"></span>
+        <span class="trust-label" style="color: #59A8FF;">REDUNDANCIA DUAL 24/7</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECCIÓN 1: NUESTRA IDENTIDAD & PILARES DE INGENIERÍA     -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="why-aitue-section" id="nuestra-identidad" style="padding: 6rem 0; position: relative;">
+    <canvas class="products-bg-canvas" id="identidad-network-canvas"></canvas>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="section-header">
+        <span class="section-badge">NUESTRA IDENTIDAD</span>
+        <h2 class="section-title">ADN AITUE COMUNICA</h2>
+        <p class="section-subtitle">
+          Diseñamos soluciones tecnológicas donde la falla no es una opción. Nuestra ingeniería combina resistencia física de grado aeroespacial con redundancia inteligente de conectividad.
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <!-- Pilar 1 -->
+        <div class="why-card glow-card">
+          <div class="why-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h3 class="why-title">Blindaje Aeroespacial IP67 & IK10</h3>
+          <p class="why-desc">
+            Gabinetes herméticos de polímero de alta densidad resistentes a impactos severos, inmersión en agua, radiación UV y temperaturas extremas (-30°C a +65°C).
+          </p>
+          <div class="why-badge">PROTECCIÓN EXTREMA · IP67</div>
+        </div>
+
+        <!-- Pilar 2 -->
+        <div class="why-card glow-card">
+          <div class="why-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+          </div>
+          <h3 class="why-title">Starlink Mini en Movimiento</h3>
+          <p class="why-desc">
+            Desarrollamos montajes magnéticos de neodimio militar de hasta 120kg de sujeción para vehículos terrestres a altas velocidades (+140 km/h) y embarcaciones marítimas.
+          </p>
+          <div class="why-badge">STARLINK READY · ON-THE-MOVE</div>
+        </div>
+
+        <!-- Pilar 3 -->
+        <div class="why-card glow-card">
+          <div class="why-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
+          <h3 class="why-title">Redundancia Híbrida Satelital + LTE</h3>
+          <p class="why-desc">
+            Arquitectura de enlace dual con conmutación automática inteligente entre constelación satelital y redes celulares multi-operador para cero caídas de servicio.
+          </p>
+          <div class="why-badge">FAILOVER ZERO-DOWNTIME</div>
+        </div>
+
+        <!-- Pilar 4 -->
+        <div class="why-card glow-card">
+          <div class="why-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            </svg>
+          </div>
+          <h3 class="why-title">Soporte Técnico de Campo & B2B</h3>
+          <p class="why-desc">
+            Ingenieros dedicados en Argentina, Brasil, Chile, Colombia y España. Garantía corporativa con reemplazo directo y telemetría de estado 24/7.
+          </p>
+          <div class="why-badge">MERCOSUR · ESPAÑA · EU</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECCIÓN 2: PROYECTOS CUMPLIDOS & CASOS DE ÉXITO          -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="star-products-section" id="proyectos-cumplidos" style="padding: 6rem 0; background: rgba(7, 22, 47, 0.65); border-top: 1px solid rgba(89, 168, 255, 0.1);">
+    <canvas class="products-bg-canvas" id="proyectos-network-canvas"></canvas>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="section-header">
+        <span class="section-badge">CASOS DE ÉXITO REALES</span>
+        <h2 class="section-title">Proyectos Cumplidos</h2>
+        <p class="section-subtitle">
+          Explora cómo nuestras integraciones AITUE Ultra+ resuelven los desafíos de comunicación más complejos en terreno.
+        </p>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="star-products-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        
+        <!-- Proyecto 1: Minería de Alta Montaña -->
+        <div class="star-card glow-card" style="display: flex; flex-direction: column;">
+          <div class="star-card-image-wrap" style="height: 220px; overflow: hidden; border-radius: 8px 8px 0 0; position: relative;">
+            <img src="/src/assets/card-mountain-cabinet.png" alt="Proyecto Minería Alta Montaña" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(1, 4, 15, 0.85); color: #59A8FF; font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(89, 168, 255, 0.3);">
+              MINERÍA & ALTA MONTAÑA
+            </span>
+          </div>
+          <div class="star-card-content" style="padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; margin-bottom: 0.6rem;">
+                Despliegue Cordillerano +3.500m
+              </h3>
+              <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 1.2rem;">
+                Conectividad ininterrumpida para convoyes de transporte minero y campamentos móviles en pasos fronterizos de alta montaña con viento extremo y nieve.
+              </p>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc;">RESISTENCIA: -25°C A 55°C</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #59A8FF; font-weight: bold;">UPTIME 100%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 2: Transporte Internacional Mercosur -->
+        <div class="star-card glow-card" style="display: flex; flex-direction: column;">
+          <div class="star-card-image-wrap" style="height: 220px; overflow: hidden; border-radius: 8px 8px 0 0; position: relative;">
+            <img src="/src/assets/card-patagonia-truck.png" alt="Proyecto Flotas de Transporte Internacional" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(1, 4, 15, 0.85); color: #d946ef; font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(217, 70, 239, 0.3);">
+              LOGÍSTICA & TRANSPORTE
+            </span>
+          </div>
+          <div class="star-card-content" style="padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; margin-bottom: 0.6rem;">
+                Flota Transcontinental Mercosur
+              </h3>
+              <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 1.2rem;">
+                Integración de +2.500 unidades magnéticas AITUE Ultra+ en camiones de carga pesada recorriendo rutas de Argentina, Chile y Brasil sin sombra de cobertura.
+              </p>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc;">UNIDADES: +2.500</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #d946ef; font-weight: bold;">TELEMETRÍA GPS LIVE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 3: Operaciones Marítimas & Pesqueras -->
+        <div class="star-card glow-card" style="display: flex; flex-direction: column;">
+          <div class="star-card-image-wrap" style="height: 220px; overflow: hidden; border-radius: 8px 8px 0 0; position: relative;">
+            <img src="/src/assets/card-marine-vessel.png" alt="Proyecto Embarcaciones Marítimas" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(1, 4, 15, 0.85); color: #38bdf8; font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.3);">
+              MARÍTIMO & PESCA
+            </span>
+          </div>
+          <div class="star-card-content" style="padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; margin-bottom: 0.6rem;">
+                Navegación Marítima 200 Millas
+              </h3>
+              <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 1.2rem;">
+                Carcasas herméticas tratadas contra la corrosión marina para buques pesqueros y remolcadores en el Atlántico Sur y Mar Mediterráneo.
+              </p>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc;">GRADO: IP67 SALINO</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #38bdf8; font-weight: bold;">STARLINK MARITIME</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 4: Vehículos Off-Road & Emergencia -->
+        <div class="star-card glow-card" style="display: flex; flex-direction: column;">
+          <div class="star-card-image-wrap" style="height: 220px; overflow: hidden; border-radius: 8px 8px 0 0; position: relative;">
+            <img src="/src/assets/card-offroad-mini.png" alt="Proyecto Vehículos Off-Road" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(1, 4, 15, 0.85); color: #f43f5e; font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(244, 63, 94, 0.3);">
+              RESPUESTA RÁPIDA
+            </span>
+          </div>
+          <div class="star-card-content" style="padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; margin-bottom: 0.6rem;">
+                Unidades de Primera Respuesta
+              </h3>
+              <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 1.2rem;">
+                Gabinetes ultraligeros de montaje rápido en menos de 45 segundos para vehículos off-road, patrulleros y brigadas de respuesta inmediata.
+              </p>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc;">DESPLIEGUE: &lt;45 SEG</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #f43f5e; font-weight: bold;">IMPACTO IK10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 5: Agroindustria & Campos Inteligentes -->
+        <div class="star-card glow-card" style="display: flex; flex-direction: column;">
+          <div class="star-card-image-wrap" style="height: 220px; overflow: hidden; border-radius: 8px 8px 0 0; position: relative;">
+            <img src="/src/assets/casos-agricultura.jpg" alt="Proyecto Agroindustria" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(1, 4, 15, 0.85); color: #10b981; font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">
+              AGRO & IoT
+            </span>
+          </div>
+          <div class="star-card-content" style="padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; margin-bottom: 0.6rem;">
+                Agroindustria de Precisión
+              </h3>
+              <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 1.2rem;">
+                Conexión en tiempo real para maquinaria de siembra y cosecha automatizada en campos rurales de Argentina, Brasil y Valencia.
+              </p>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc;">COBERTURA RURAL</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #10b981; font-weight: bold;">AGRO TELEMETRY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 6: Infraestructura & Catástrofes -->
+        <div class="star-card glow-card" style="display: flex; flex-direction: column;">
+          <div class="star-card-image-wrap" style="height: 220px; overflow: hidden; border-radius: 8px 8px 0 0; position: relative;">
+            <img src="/src/assets/casos-agro-edificio.jpg" alt="Proyecto Infraestructura Crítica" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
+            <span style="position: absolute; top: 12px; left: 12px; background: rgba(1, 4, 15, 0.85); color: #eab308; font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(234, 179, 8, 0.3);">
+              INFRAESTRUCTURA
+            </span>
+          </div>
+          <div class="star-card-content" style="padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; margin-bottom: 0.6rem;">
+                Respaldo de Emergencia B2B
+              </h3>
+              <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 1.2rem;">
+                Kits portátiles AITUE Ultra+ integrados en centros de comando móvil para mantener la comunicación corporativa activa ante cortes de red pública.
+              </p>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc;">FAILOVER AUTOMÁTICO</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #eab308; font-weight: bold;">BACKUP B2B</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- CTA FINAL DE CONTACTO CORPORATIVO                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="cta-band" style="padding: 5rem 0; background: radial-gradient(circle at center, rgba(12, 35, 74, 0.8) 0%, rgba(1, 4, 15, 0.95) 100%);">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <span class="section-badge" style="margin-bottom: 1rem; display: inline-block;">DESARROLLOS A MEDIDA</span>
+      <h2 style="font-family: var(--font-heading); font-size: 2.2rem; color: #fff; margin-bottom: 1.2rem;">
+        ¿Tienes un proyecto de flota o despliegue industrial?
+      </h2>
+      <p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem;">
+        Nuestro equipo de ingenieros diseña e integra la solución a la medida de tus necesidades operativas. Cotiza directamente o solicita una demostración en terreno.
+      </p>
+      <div style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/contacto.html" class="btn btn-primary btn-hero">Solicitar Propuesta Comercial →</a>
+        <a href="https://shop.aitue.net/" class="btn btn-ghost-hero">Ir a Tienda Online</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer - 4 Column Layout -->
+  <footer class="corporate-footer" id="contacto">
+    <!-- Gradient Waves Background Animation -->
+    <canvas class="footer-waves-canvas" id="footer-waves-canvas"></canvas>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="footer-grid">
+        <!-- Col 1: Brand details -->
+        <div>
+          <img src="/src/assets/logo-transparent.png" alt="AITUE Logo" class="brand-logo-img"
+            style="height:32px; margin-bottom:1.2rem;" />
+          <p class="footer-about-text">
+            Soluciones industriales integrales de telecomunicación, telemetría activa y conectividad redundante para
+            flotas terrestres y marítimas.
+          </p>
+          <a href="/contacto.html" class="btn btn-primary"
+            style="margin-top: 1.2rem; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; box-shadow: 0 0 15px rgba(89, 168, 255, 0.25);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            Quiero que me contacten
+          </a>
+        </div>
+
+        <!-- Col 2: Soluciones Links -->
+        <div>
+          <h4 class="footer-col-title">Soluciones</h4>
+          <ul class="footer-links-list">
+            <li><a href="#" class="open-configurator">Flotas de Transporte</a></li>
+            <li><a href="#" class="open-configurator">Monitoreo Marítimo</a></li>
+            <li><a href="#" class="open-configurator">Kits de Despliegue Rápido</a></li>
+            <li><a href="#" class="open-configurator">Starlink Mini Integrado</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Comercial Links -->
+        <div>
+          <h4 class="footer-col-title">Canal Comercial</h4>
+          <ul class="footer-links-list">
+            <li><a href="#" class="open-configurator">Asesoramiento B2B</a></li>
+            <li><a href="#" class="open-configurator">Cotizador Modular</a></li>
+            <li><a href="#" id="footer-partners-trigger">Quiero ser Distribuidor</a></li>
+            <li><a href="#">Soporte Técnico</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contacto Fisico -->
+        <div>
+          <h4 class="footer-col-title">Contacto Directo</h4>
+          <div class="footer-contact-item">
+            <span class="footer-contact-badge">TEL</span>
+            <span>0800 345 2488</span>
+          </div>
+          <div class="footer-contact-item">
+            <span class="footer-contact-badge">WSP</span>
+            <span><a href="https://wa.me/5491154565634" target="_blank" rel="noopener">+54 9 11 5456-5634</a></span>
+          </div>
+          <div class="footer-contact-item">
+            <span class="footer-contact-badge">EMAIL</span>
+            <span><a href="mailto:comercial@aitue.net">comercial@aitue.net</a></span>
+          </div>
+          <div class="footer-contact-item">
+            <span class="footer-contact-badge">DIR</span>
+            <span style="font-size: 0.8rem; line-height: 1.4;">Cerrito 260, 2° piso ”” C.P. 1010, CABA, Buenos Aires,
+              Argentina</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <p>© 2026 AITUE COMUNICA S.A. Todos los derechos reservados.</p>
+          <p style="margin-top: 4px; opacity: 0.6;">Cerrito 260, CABA, Argentina // Operaciones Globales</p>
+        </div>
+        <div class="footer-social-wrap" style="align-items: center;">
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/aitue.net" target="_blank" rel="noopener" class="social-btn facebook"
+            aria-label="Facebook">
+            <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+              <path
+                d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
+            </svg>
+            <span class="social-name">Facebook</span>
+          </a>
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/aituecomunica/" target="_blank" rel="noopener" class="social-btn instagram"
+            aria-label="Instagram">
+            <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+            <span class="social-name">Instagram</span>
+          </a>
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/company/aitue/" target="_blank" rel="noopener" class="social-btn linkedin"
+            aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+            <span class="social-name">LinkedIn</span>
+          </a>
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/@Aitue-TIENDA" target="_blank" rel="noopener" class="social-btn youtube"
+            aria-label="YouTube">
+            <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+              <path
+                d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11C4.482 20.455 12 20.455 12 20.455s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+            <span class="social-name">YouTube</span>
+          </a>
+          <!-- TikTok -->
+          <a href="https://www.tiktok.com/@aitue.movil" target="_blank" rel="noopener" class="social-btn tiktok"
+            aria-label="TikTok">
+            <svg viewBox="0 0 24 24" class="social-icon" fill="currentColor">
+              <path
+                d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.52-4.06-1.39v7.94c0 1.93-.66 3.86-1.95 5.25-1.54 1.67-3.92 2.62-6.23 2.4-2.86-.18-5.59-2.12-6.53-4.83-.98-2.73-.25-6.07 1.83-8.08 1.43-1.4 3.49-2.15 5.51-2.02.01 1.34 0 2.68.01 4.02-1.22-.05-2.52.28-3.39 1.17-.98.98-1.12 2.64-.34 3.79.79 1.22 2.4 1.74 3.78 1.34 1.13-.3 1.95-1.33 2.13-2.48.06-1.18.02-2.38.03-3.57V0h.07z" />
+            </svg>
+            <span class="social-name">TikTok</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
