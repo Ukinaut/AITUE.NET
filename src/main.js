@@ -1776,4 +1776,47 @@ if (scrollIndicator) {
   });
 })();
 
+// ----------------------------------------------------
+// 14. HERO VIDEO INTERACTIVE 3D TILT PARALLAX EFFECT
+// ----------------------------------------------------
+function initHeroVideo3DTilt() {
+  const heroSections = document.querySelectorAll('.hero-section');
+  if (!heroSections.length) return;
+
+  heroSections.forEach(hero => {
+    const video = hero.querySelector('.hero-video-file');
+    if (!video) return;
+
+    let requestID = null;
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Calculate 3D tilt angle (-12deg to +12deg)
+      const rotateX = ((y - centerY) / centerY) * -12;
+      const rotateY = ((x - centerX) / centerX) * 12;
+
+      if (requestID) cancelAnimationFrame(requestID);
+
+      requestID = requestAnimationFrame(() => {
+        video.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale(1.08)`;
+      });
+    });
+
+    hero.addEventListener('mouseleave', () => {
+      if (requestID) cancelAnimationFrame(requestID);
+      requestID = requestAnimationFrame(() => {
+        video.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05)`;
+      });
+    });
+  });
+}
+
+initHeroVideo3DTilt();
+
 
