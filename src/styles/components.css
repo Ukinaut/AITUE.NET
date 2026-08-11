@@ -1048,6 +1048,17 @@
   opacity: 0.6;
 }
 
+.use-cases-section {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0;
+  background-image: linear-gradient(rgba(7, 22, 47, 0.82), rgba(7, 22, 47, 0.88)), url('/src/assets/device-layflat.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll;
+}
+
 .prod-tab-bar {
   display: flex;
   gap: 0;
