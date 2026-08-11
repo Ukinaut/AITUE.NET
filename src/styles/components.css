@@ -1297,12 +1297,16 @@
 
 /* ── USE CASES ────────────────────────────────────────────── */
 .use-cases-section {
+  position: relative;
+  overflow: hidden;
   padding: 6rem 0;
   border-top: 1px solid rgba(89, 168, 255, 0.08);
-  background: linear-gradient(rgba(7, 22, 47, 0.82) 0%, rgba(7, 22, 47, 0.82) 100%),
-              url('/src/assets/device-layflat.jpg') no-repeat center center;
+  background-image: linear-gradient(rgba(7, 22, 47, 0.91), rgba(7, 22, 47, 0.94)),
+                    url('/src/assets/device-layflat.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: scroll !important;
 }
 
 .use-cases-grid {
@@ -1312,12 +1316,16 @@
 }
 
 .use-case-card {
-  background: rgba(12, 35, 74, 0.3);
-  border: 1px solid rgba(89, 168, 255, 0.08);
-  border-radius: 10px;
-  padding: 2rem 1.5rem;
+  background: rgba(12, 35, 74, 0.55);
+  border: 1px solid rgba(89, 168, 255, 0.18);
+  border-radius: 12px;
+  padding: 2.2rem 1.6rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
   gap: 0.8rem;
   transition: all 0.3s ease;
   position: relative;
