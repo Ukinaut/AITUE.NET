@@ -1105,185 +1105,186 @@ initHoverDetails();
 // 12. NETWORK CONSTELLATION BACKGROUND ANIMATION
 // ----------------------------------------------------
 function initNetworkConstellation() {
-  const canvas = document.getElementById('products-network-canvas');
-  if (!canvas) return;
+  const canvases = document.querySelectorAll('.products-bg-canvas');
+  if (!canvases.length) return;
 
-  const ctx = canvas.getContext('2d');
-  let width = (canvas.width = canvas.offsetWidth);
-  let height = (canvas.height = canvas.offsetHeight);
+  canvases.forEach(canvas => {
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = canvas.offsetWidth);
+    let height = (canvas.height = canvas.offsetHeight);
 
-  let isVisible = false;
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { isVisible = entry.isIntersecting; });
-    }, { threshold: 0.05 });
-    observer.observe(canvas);
-  } else {
-    isVisible = true;
-  }
-
-  // Resize handler
-  window.addEventListener('resize', () => {
-    if (canvas.offsetWidth > 0) {
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    }
-  });
-
-  const nodes = [];
-  const maxNodes = 30;
-  const connectionDistance = 140;
-
-  // Pulse Rings Array
-  const pulses = [];
-  const maxPulses = 5;
-
-  class Node {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = (Math.random() - 0.5) * 0.45;
-      this.radius = Math.random() * 2.5 + 1.5;
+    let isVisible = false;
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { isVisible = entry.isIntersecting; });
+      }, { threshold: 0.05 });
+      observer.observe(canvas);
+    } else {
+      isVisible = true;
     }
 
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
+    // Resize handler
+    window.addEventListener('resize', () => {
+      if (canvas.offsetWidth > 0) {
+        width = canvas.width = canvas.offsetWidth;
+        height = canvas.height = canvas.offsetHeight;
+      }
+    });
 
-      // Bounce off walls
-      if (this.x < 0 || this.x > width) this.vx *= -1;
-      if (this.y < 0 || this.y > height) this.vy *= -1;
-    }
+    const nodes = [];
+    const maxNodes = 25;
+    const connectionDistance = 140;
 
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = '#59A8FF';
-      ctx.shadowColor = '#59A8FF';
-      ctx.shadowBlur = 8;
-      ctx.fill();
-      ctx.shadowBlur = 0; // reset
-    }
-  }
+    // Pulse Rings Array
+    const pulses = [];
+    const maxPulses = 4;
 
-  class PulseRing {
-    constructor(x, y) {
-      this.x = x || Math.random() * width;
-      this.y = y || Math.random() * height;
-      this.radius = 1;
-      this.maxRadius = Math.random() * 40 + 25;
-      this.opacity = 1;
-      this.speed = Math.random() * 0.3 + 0.2;
-    }
+    class Node {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.45;
+        this.vy = (Math.random() - 0.5) * 0.45;
+        this.radius = Math.random() * 2.5 + 1.5;
+      }
 
-    update() {
-      this.radius += this.speed;
-      this.opacity = 1 - this.radius / this.maxRadius;
-    }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
 
-    draw() {
-      ctx.strokeStyle = `rgba(89, 168, 255, ${this.opacity * 0.6})`;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.stroke();
+        // Bounce off walls
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
 
-      // Double ring effect
-      if (this.radius > 10) {
-        ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity * 0.35})`;
+      draw() {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius - 8, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#59A8FF';
+        ctx.shadowColor = '#59A8FF';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0; // reset
+      }
+    }
+
+    class PulseRing {
+      constructor(x, y) {
+        this.x = x || Math.random() * width;
+        this.y = y || Math.random() * height;
+        this.radius = 1;
+        this.maxRadius = Math.random() * 40 + 25;
+        this.opacity = 1;
+        this.speed = Math.random() * 0.3 + 0.2;
+      }
+
+      update() {
+        this.radius += this.speed;
+        this.opacity = 1 - this.radius / this.maxRadius;
+      }
+
+      draw() {
+        ctx.strokeStyle = `rgba(89, 168, 255, ${this.opacity * 0.6})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.stroke();
-      }
-    }
-  }
 
-  // Populate Nodes
-  for (let i = 0; i < maxNodes; i++) {
-    nodes.push(new Node());
-  }
-
-  // Spawn periodic pulse rings
-  setInterval(() => {
-    if (pulses.length < maxPulses) {
-      // Spawn near a random existing node or random coords
-      if (nodes.length > 0 && Math.random() > 0.4) {
-        const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
-        pulses.push(new PulseRing(randomNode.x, randomNode.y));
-      } else {
-        pulses.push(new PulseRing());
-      }
-    }
-  }, 1800);
-
-  function animate() {
-    if (!isVisible) {
-      requestAnimationFrame(animate);
-      return;
-    }
-    ctx.clearRect(0, 0, width, height);
-
-    // Draw grid lines
-    ctx.strokeStyle = 'rgba(89, 168, 255, 0.025)';
-    ctx.lineWidth = 0.5;
-    const gridSize = 80;
-    for (let x = 0; x < width; x += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-    }
-    for (let y = 0; y < height; y += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(width, y);
-      ctx.stroke();
-    }
-
-    // Update and draw pulse rings
-    for (let i = pulses.length - 1; i >= 0; i--) {
-      const p = pulses[i];
-      p.update();
-      p.draw();
-      if (p.radius >= p.maxRadius) {
-        pulses.splice(i, 1);
-      }
-    }
-
-    // Connect nodes
-    for (let i = 0; i < nodes.length; i++) {
-      const n1 = nodes[i];
-      for (let j = i + 1; j < nodes.length; j++) {
-        const n2 = nodes[j];
-        const dx = n1.x - n2.x;
-        if (Math.abs(dx) >= connectionDistance) continue;
-        const dy = n1.y - n2.y;
-        if (Math.abs(dy) >= connectionDistance) continue;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < connectionDistance) {
-          const alpha = 1 - dist / connectionDistance;
-          ctx.strokeStyle = `rgba(89, 168, 255, ${alpha * 0.15})`;
-          ctx.lineWidth = alpha * 0.85;
+        // Double ring effect
+        if (this.radius > 10) {
+          ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity * 0.35})`;
           ctx.beginPath();
-          ctx.moveTo(n1.x, n1.y);
-          ctx.lineTo(n2.x, n2.y);
+          ctx.arc(this.x, this.y, this.radius - 8, 0, Math.PI * 2);
           ctx.stroke();
         }
       }
     }
 
-    // Draw and update nodes
-    nodes.forEach((node) => {
-      node.update();
-      node.draw();
-    });
+    // Populate Nodes
+    for (let i = 0; i < maxNodes; i++) {
+      nodes.push(new Node());
+    }
 
-    requestAnimationFrame(animate);
-  }
+    // Spawn periodic pulse rings
+    setInterval(() => {
+      if (pulses.length < maxPulses) {
+        if (nodes.length > 0 && Math.random() > 0.4) {
+          const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+          pulses.push(new PulseRing(randomNode.x, randomNode.y));
+        } else {
+          pulses.push(new PulseRing());
+        }
+      }
+    }, 1800);
 
-  animate();
+    function animate() {
+      if (!isVisible) {
+        requestAnimationFrame(animate);
+        return;
+      }
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw grid lines
+      ctx.strokeStyle = 'rgba(89, 168, 255, 0.025)';
+      ctx.lineWidth = 0.5;
+      const gridSize = 80;
+      for (let x = 0; x < width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      // Update and draw pulse rings
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i];
+        p.update();
+        p.draw();
+        if (p.radius >= p.maxRadius) {
+          pulses.splice(i, 1);
+        }
+      }
+
+      // Connect nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const n1 = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n2 = nodes[j];
+          const dx = n1.x - n2.x;
+          if (Math.abs(dx) >= connectionDistance) continue;
+          const dy = n1.y - n2.y;
+          if (Math.abs(dy) >= connectionDistance) continue;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < connectionDistance) {
+            const alpha = 1 - dist / connectionDistance;
+            ctx.strokeStyle = `rgba(89, 168, 255, ${alpha * 0.15})`;
+            ctx.lineWidth = alpha * 0.85;
+            ctx.beginPath();
+            ctx.moveTo(n1.x, n1.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw and update nodes
+      nodes.forEach((node) => {
+        node.update();
+        node.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
 }
 
 initNetworkConstellation();
