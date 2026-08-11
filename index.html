@@ -338,25 +338,19 @@
 
       <!-- Action Buttons -->
       <div class="hero-cta-centered">
-        <button class="btn btn-primary btn-hero" id="hero-to-configurator">Configurar AITUE Ultra+ →</button>
-        <a href="#caminos" class="btn btn-ghost-hero">Ver Soluciones</a>
+        <a href="#caminos" class="btn btn-primary btn-hero">Ver Soluciones</a>
       </div>
 
       <!-- Stats Row -->
       <div class="hero-stats-row">
         <div class="hero-stat-item">
-          <span class="stat-number">+500</span>
-          <span class="stat-label">Unidades Desplegadas</span>
+          <span class="stat-number">+12.000</span>
+          <span class="stat-label">Equipos Vendidos</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat-item">
-          <span class="stat-number">4</span>
-          <span class="stat-label">Países LATAM</span>
-        </div>
-        <div class="hero-stat-divider"></div>
-        <div class="hero-stat-item">
-          <span class="stat-number">3</span>
-          <span class="stat-label">Líneas de Producto</span>
+          <span class="stat-number">5</span>
+          <span class="stat-label">Países / Regiones</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat-item">
@@ -368,21 +362,70 @@
       <!-- Countries bar -->
       <div class="hero-countries-bar">
         <span class="countries-label">OPERACIONES ACTIVAS:</span>
+        <!-- LATAM -->
         <div class="flag-node">
-          <img src="https://flagcdn.com/w20/ar.png" alt="Argentina" class="flag-img" />
+          <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" class="flag-img" />
           <span class="flag-name">ARG</span>
         </div>
         <div class="flag-node">
-          <img src="https://flagcdn.com/w20/co.png" alt="Colombia" class="flag-img" />
+          <img src="https://flagcdn.com/w40/br.png" alt="Brasil" class="flag-img" />
+          <span class="flag-name">BRA</span>
+        </div>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/co.png" alt="Colombia" class="flag-img" />
           <span class="flag-name">COL</span>
         </div>
         <div class="flag-node">
-          <img src="https://flagcdn.com/w20/cl.png" alt="Chile" class="flag-img" />
+          <img src="https://flagcdn.com/w40/cl.png" alt="Chile" class="flag-img" />
           <span class="flag-name">CHL</span>
         </div>
+        <!-- Mercosur: azul con 5 estrellas blancas -->
         <div class="flag-node">
-          <img src="https://flagcdn.com/w20/pe.png" alt="Perú" class="flag-img" />
-          <span class="flag-name">PER</span>
+          <svg class="flag-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18">
+            <rect width="28" height="18" fill="#003087"/>
+            <polygon points="14,3 14.9,5.7 17.7,5.7 15.5,7.3 16.3,10 14,8.4 11.7,10 12.5,7.3 10.3,5.7 13.1,5.7" fill="white"/>
+            <polygon points="8,8 8.6,9.8 10.5,9.8 9,10.9 9.6,12.7 8,11.6 6.4,12.7 7,10.9 5.5,9.8 7.4,9.8" fill="white" transform="scale(0.7) translate(2,6)"/>
+            <polygon points="20,8 20.6,9.8 22.5,9.8 21,10.9 21.6,12.7 20,11.6 18.4,12.7 19,10.9 17.5,9.8 19.4,9.8" fill="white" transform="scale(0.7) translate(8,6)"/>
+            <polygon points="9,12 9.5,13.5 11.1,13.5 9.8,14.4 10.3,15.9 9,15 7.7,15.9 8.2,14.4 6.9,13.5 8.5,13.5" fill="white" transform="scale(0.7) translate(2,1)"/>
+            <polygon points="19,12 19.5,13.5 21.1,13.5 19.8,14.4 20.3,15.9 19,15 17.7,15.9 18.2,14.4 16.9,13.5 18.5,13.5" fill="white" transform="scale(0.7) translate(8,1)"/>
+          </svg>
+          <span class="flag-name">MERCOSUR</span>
+        </div>
+        <!-- Divisor -->
+        <span class="countries-label" style="opacity: 0.3; font-size: 1rem; padding: 0 0.2rem;">|</span>
+        <!-- Europa -->
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/es.png" alt="España" class="flag-img" />
+          <span class="flag-name">ESP</span>
+        </div>
+        <!-- Comunidad Valenciana: franja azul + senyera (barras rojas y amarillas) -->
+        <div class="flag-node">
+          <svg class="flag-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18">
+            <rect width="28" height="18" fill="#FFCC00"/>
+            <rect y="2" width="28" height="2" fill="#CC0001"/>
+            <rect y="6" width="28" height="2" fill="#CC0001"/>
+            <rect y="10" width="28" height="2" fill="#CC0001"/>
+            <rect y="14" width="28" height="2" fill="#CC0001"/>
+            <rect width="6" height="18" fill="#003399"/>
+          </svg>
+          <span class="flag-name">VALENCIA</span>
+        </div>
+        <!-- Alicante: escudo sobre barras amarillas y rojas -->
+        <div class="flag-node">
+          <svg class="flag-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18">
+            <rect width="28" height="18" fill="#FFCC00"/>
+            <rect y="2" width="28" height="2" fill="#CC0001"/>
+            <rect y="6" width="28" height="2" fill="#CC0001"/>
+            <rect y="10" width="28" height="2" fill="#CC0001"/>
+            <rect y="14" width="28" height="2" fill="#CC0001"/>
+            <rect x="10" y="4" width="8" height="10" fill="#003399" opacity="0.85" rx="1"/>
+            <text x="14" y="12" font-size="6" text-anchor="middle" fill="white" font-weight="bold">A</text>
+          </svg>
+          <span class="flag-name">ALICANTE</span>
+        </div>
+        <div class="flag-node">
+          <img src="https://flagcdn.com/w40/eu.png" alt="Unión Europea" class="flag-img" />
+          <span class="flag-name">EU</span>
         </div>
       </div>
 
@@ -396,19 +439,19 @@
   <div class="trust-strip">
     <div class="trust-strip-inner">
       <div class="trust-stat">
-        <span class="trust-num" data-target="500">0</span><span class="trust-suffix">+</span>
-        <span class="trust-label">Unidades Activas</span>
+        <span class="trust-num" data-target="12000">0</span><span class="trust-suffix">+</span>
+        <span class="trust-label">Equipos Vendidos</span>
       </div>
       <div class="trust-divider"></div>
       <div class="trust-stat">
-        <span class="trust-num" data-target="4">0</span>
-        <span class="trust-label">Países LATAM</span>
+        <span class="trust-num" data-target="5">0</span>
+        <span class="trust-label">Países / Regiones</span>
       </div>
       <div class="trust-divider"></div>
       <div class="trust-cert">
         <span class="cert-badge">IP67</span>
         <span class="cert-badge">IK10</span>
-        <span class="cert-badge">STARLINK READY</span>
+        <span class="cert-badge">MIAITUE READY</span>
       </div>
       <div class="trust-divider"></div>
       <div class="trust-stat">
