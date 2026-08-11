@@ -1628,9 +1628,19 @@
   width: 280px;
   height: 280px;
   z-index: 5;
-  animation: rotate-orbit 30s linear infinite;
+  animation: rotate-orbit 25s linear infinite;
   pointer-events: none;
   transform-style: preserve-3d;
+}
+
+.orbit-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed rgba(89, 168, 255, 0.4);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(89, 168, 255, 0.18), inset 0 0 22px rgba(89, 168, 255, 0.08);
+  pointer-events: none;
 }
 
 .orbit-container:hover,
@@ -1640,20 +1650,22 @@
 
 .orbit-item {
   position: absolute;
-  width: 44px;
-  height: 44px;
-  background: #ffffff;
-  border: 1.5px solid rgba(12, 35, 74, 0.2);
+  width: 46px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.8px solid rgba(89, 168, 255, 0.45);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary);
-  box-shadow: 0 4px 15px rgba(12, 35, 74, 0.08);
-  animation: counter-rotate-item 30s linear infinite;
+  color: #0066cc;
+  box-shadow: 0 4px 18px rgba(12, 35, 74, 0.12), 0 0 10px rgba(89, 168, 255, 0.2);
+  animation: counter-rotate-item 25s linear infinite;
   pointer-events: auto;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .orbit-container:hover .orbit-item,
@@ -1663,20 +1675,30 @@
 
 .orbit-item:hover,
 .orbit-item.active {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #0066cc 0%, #2c6edb 100%);
   color: #ffffff;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 15px rgba(12, 35, 74, 0.25), 0 0 30px rgba(12, 35, 74, 0.15);
-  transform: translate(-50%, -50%) scale(1.15) !important;
+  border-color: #59a8ff;
+  box-shadow: 0 0 20px rgba(89, 168, 255, 0.7), 0 0 35px rgba(44, 110, 219, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%) scale(1.22) !important;
 }
 
 .orbit-item.active::after {
   content: '';
   position: absolute;
-  inset: -6px;
-  border: 1px solid var(--color-primary);
+  inset: -8px;
+  border: 1.5px solid rgba(89, 168, 255, 0.8);
   border-radius: 50%;
-  animation: pulse-hud 2s infinite ease-out;
+  animation: pulse-hud 1.8s infinite ease-out;
+  pointer-events: none;
+}
+
+.orbit-item.active::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border: 1px dashed rgba(89, 168, 255, 0.4);
+  border-radius: 50%;
+  animation: rotate-orbit 10s linear infinite;
   pointer-events: none;
 }
 
