@@ -1,7 +1,7 @@
 import os
 import re
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, KeepTogether, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.pdfgen import canvas
@@ -42,8 +42,18 @@ class NumberedCanvas(canvas.Canvas):
         
         page_text = f"Página {self._pageNumber} de {page_count}"
         self.drawRightString(558, 36, page_text)
-        self.drawString(54, 36, "AITUE COMUNICA S.A. © 2026 — Documento Oficial de Desarrollo")
+        self.drawString(54, 36, "AITUE COMUNICA S.A. © 2026 — Documento Oficial de Desarrollo e IA")
         self.restoreState()
+
+def get_image_flowable(img_filename, width=450, height=200):
+    assets_dir = r"c:\Users\Ukina\OneDrive\Escritorio\AITUE Acorrecion\AITUE.NET2\AITUE.NET\src\assets"
+    img_path = os.path.join(assets_dir, img_filename)
+    if os.path.exists(img_path):
+        try:
+            return Image(img_path, width=width, height=height)
+        except Exception as e:
+            print(f"Error cargando imagen {img_filename}: {e}")
+    return None
 
 def build_aitue_pdf():
     pdf_filename = "Documentacion_Tecnica_AITUE_COMUNICA.pdf"
@@ -145,10 +155,15 @@ def build_aitue_pdf():
 
     story = []
 
-    # Title Banner
+    # Title Banner with Logo
+    logo_img = get_image_flowable("logo-horizontal-blue.jpg", width=180, height=45)
+    if logo_img:
+        story.append(logo_img)
+        story.append(Spacer(1, 8))
+
     story.append(Paragraph("AITUE COMUNICA S.A.", ParagraphStyle('SubHeader', fontName='Helvetica-Bold', fontSize=10, textColor=c_cyan, spaceAfter=2)))
-    story.append(Paragraph("Documentación Técnica & Funcional de Plataforma Web e IA", style_title))
-    story.append(Paragraph("Resumen de procesos implementados, arquitectura, funciones, animaciones y servidor de WhatsApp", style_subtitle))
+    story.append(Paragraph("Documentación Técnica & Funcional Ilustrada", style_title))
+    story.append(Paragraph("Plataforma Web, Panel Admin, Animaciones 2D/3D, IA & Bot de WhatsApp", style_subtitle))
     story.append(HRFlowable(width="100%", thickness=1.5, color=c_cyan, spaceBefore=0, spaceAfter=12))
 
     md_path = os.path.join(r"C:\Users\Ukina\.gemini\antigravity-ide\brain\0b64ccb1-5c3e-41b5-9095-8941a5b69085", "documentacion_tecnica_aitue.md")
@@ -176,12 +191,36 @@ def build_aitue_pdf():
             continue
 
         if in_code_block:
-            # Escape HTML in code block
             clean_code = line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             code_lines.append(clean_code)
             continue
 
-        if not line_str:
+        if not line_str or line_str.startswith('````carousel') or line_str.startswith('<!-- slide -->') or line_str == '````':
+            continue
+
+        # Check markdown image tags
+        img_match = re.search(r'!\[(.*?)\]\((.*?)\)', line_str)
+        if img_match:
+            img_alt = img_match.group(1)
+            img_src = img_match.group(2)
+            base_name = os.path.basename(img_src)
+            
+            # Map filename to custom dimensions
+            w, h = 420, 180
+            if 'logo' in base_name:
+                w, h = 200, 50
+            elif 'exploded' in base_name:
+                w, h = 420, 220
+            elif 'standar' in base_name or 'pro' in base_name:
+                w, h = 380, 190
+            
+            img_obj = get_image_flowable(base_name, width=w, height=h)
+            if img_obj:
+                story.append(Spacer(1, 4))
+                story.append(img_obj)
+                if img_alt:
+                    story.append(Paragraph(f"<i>Figura: {img_alt}</i>", ParagraphStyle('Caption', parent=style_body, fontSize=8, textColor=colors.HexColor("#64748b"), alignment=1)))
+                story.append(Spacer(1, 6))
             continue
 
         # Headers
@@ -195,7 +234,6 @@ def build_aitue_pdf():
             clean_h = line_str[4:].replace('**', '').strip()
             story.append(Paragraph(clean_h, style_h2))
         elif line_str.startswith('|') and '|' in line_str[1:]:
-            # Simple table formatting
             parts = [p.strip() for p in line_str.split('|')[1:-1]]
             if len(parts) >= 2 and not ('---' in parts[0] or ':---' in parts[0]):
                 col1 = Paragraph(re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', parts[0]), style_body)
