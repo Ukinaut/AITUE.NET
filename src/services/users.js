@@ -16,26 +16,6 @@ const DEFAULT_USERS = [
     createdAt: '2026-08-11T12:00:00.000Z'
   },
   {
-    id: 'usr_2',
-    name: 'Susana Pedotti',
-    phone: '+54 9 11 4164-0955',
-    email: 'spedotti@aitue.net',
-    area: 'Área Comercial',
-    role: 'Operador Ventas',
-    status: 'Activo',
-    createdAt: '2026-08-11T12:00:00.000Z'
-  },
-  {
-    id: 'usr_3',
-    name: 'Alejandro Muñoz',
-    phone: '+54 9 11 6230-0000',
-    email: 'amunoz@aitue.net',
-    area: 'Dirección General',
-    role: 'Super Admin',
-    status: 'Activo',
-    createdAt: '2026-08-11T12:00:00.000Z'
-  },
-  {
     id: 'usr_4',
     name: 'Hugo Flores',
     phone: '+54 9 387 501-4000',
@@ -52,7 +32,10 @@ export class UsersService {
     try {
       const saved = localStorage.getItem(USERS_STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.filter(u => !u.name.includes('Susana') && !u.name.includes('Alejandro'));
+        }
       }
     } catch (e) {
       console.error('Error loading users:', e);

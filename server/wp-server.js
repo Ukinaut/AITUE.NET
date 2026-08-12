@@ -374,8 +374,6 @@ async function startBaileysSocket() {
 async function autoBroadcastTeamIntro() {
   const team = [
     { name: 'Micaela Quinteros', jid: '5491173583768@s.whatsapp.net', area: 'Técnica' },
-    { name: 'Susana Pedotti', jid: '5491141640955@s.whatsapp.net', area: 'Comercial' },
-    { name: 'Alejandro Muñoz', jid: '5491162300000@s.whatsapp.net', area: 'Administración' },
     { name: 'Hugo Flores', jid: '5493875014000@s.whatsapp.net', area: 'Técnica' }
   ];
 
