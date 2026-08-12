@@ -412,6 +412,20 @@ function generateSmartFallback(userJid, userText) {
 
   let botReply = '';
 
+  // Multilingual auto-detection fallback matching
+  if (text.includes('hello') || text.includes('hi ') || text === 'hi' || text.includes('hey') || text.includes('good morning') || text.includes('good afternoon') || text.includes('english')) {
+    return `👋 Hi! I am the Official Virtual Assistant of AITUE COMUNICA S.A. 🚀\n\nHow can I assist you today with our Starlink Mini satellite connectivity kits, IK10/IP67 armored enclosures, or B2B solutions?`;
+  }
+  if (text.includes('ola') || text.includes('olá') || text.includes('bom dia') || text.includes('boa tarde') || text.includes('portugues') || text.includes('português')) {
+    return `👋 Olá! Sou o Assistente Virtual Oficial da AITUE COMUNICA S.A. 🚀\n\nComo posso ajudá-lo hoje em relação aos nossos kits de conectividade satelital Starlink Mini e gabinetes blindados IK10/IP67?`;
+  }
+  if (text.includes('bonjour') || text.includes('salut') || text.includes('francais') || text.includes('français')) {
+    return `👋 Bonjour! Je suis l'Assistant Virtuel Officiel d'AITUE COMUNICA S.A. 🚀\n\nComment puis-je vous aider aujourd'hui concernant nos kits de connectivité satellite Starlink Mini?`;
+  }
+  if (text.includes('hallo') || text.includes('guten tag') || text.includes('deutsch')) {
+    return `👋 Hallo! Ich bin der offizielle virtuelle Assistent von AITUE COMUNICA S.A. 🚀\n\nWie kann ich Ihnen heute bei Fragen zu Starlink Mini-Satellitenkits und IK10/IP67-Gehäusen helfen?`;
+  }
+
   // Conversational meta understanding & typos
   if (text.includes('funciona') || text.includes('funcionas') || text.includes('ficciones') || text.includes('activo') || text.includes('operativo') || text.includes('sirve') || text.includes('sirves')) {
     botReply = `👋 ¡Sí, 100% operativo y respondiendo en tiempo real! 🚀\n\nSoy AITUE Bot IA. Puedo orientarte sobre los kits Starlink Mini, gabinetes solares o conectarte con el equipo técnico y comercial de AITUE COMUNICA S.A. ¿Qué duda tenés?`;
