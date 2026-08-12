@@ -76,14 +76,25 @@ export class OpenAIService {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        const modelToUse = (parsed.model === 'openai/gpt-oss-120b' || !parsed.model)
-          ? 'meta/llama-3.3-70b-instruct'
+        const modelToUse = (!parsed.model || parsed.model === 'openai/gpt-oss-120b')
+          ? 'meta/llama-3.1-8b-instruct'
           : parsed.model;
+
+        // Ensure latest system prompt directives with anti-hallucination rules are present
+        const webPrompt = (parsed.assistantSystemPrompt && parsed.assistantSystemPrompt.includes('AITUE COMUNICA S.A.'))
+          ? parsed.assistantSystemPrompt
+          : DEFAULT_CONFIG.assistantSystemPrompt;
+
+        const wpPrompt = (parsed.wpSystemPrompt && parsed.wpSystemPrompt.includes('AITUE COMUNICA S.A.'))
+          ? parsed.wpSystemPrompt
+          : DEFAULT_CONFIG.wpSystemPrompt;
 
         return {
           ...DEFAULT_CONFIG,
           ...parsed,
           model: modelToUse,
+          assistantSystemPrompt: webPrompt,
+          wpSystemPrompt: wpPrompt,
           apiKey: (parsed.apiKey && parsed.apiKey.trim()) ? parsed.apiKey.trim() : DEFAULT_CONFIG.apiKey
         };
       }

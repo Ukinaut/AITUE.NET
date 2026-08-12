@@ -69,7 +69,14 @@ export class KnowledgeService {
     try {
       const saved = localStorage.getItem(KNOWLEDGE_STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const hasKb0 = parsed.some(a => a.id === 'kb_0');
+          if (!hasKb0) {
+            parsed.unshift(DEFAULT_KNOWLEDGE[0]);
+          }
+          return parsed;
+        }
       }
     } catch (e) {
       console.error('Error loading Knowledge Base:', e);
