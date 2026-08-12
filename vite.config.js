@@ -10,8 +10,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
+        empresas: resolve(import.meta.dirname, 'empresas.html'),
         contacto: resolve(import.meta.dirname, 'contacto.html'),
         tienda: resolve(import.meta.dirname, 'tienda.html'),
+        admin: resolve(import.meta.dirname, 'admin.html'),
       },
     },
   },

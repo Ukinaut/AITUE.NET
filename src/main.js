@@ -2,6 +2,7 @@
 import './styles/main.css';
 import './styles/components.css';
 import './styles/ecommerce.css';
+import { OpenAIService } from './services/openai.js';
 
 // Force scroll to top on page entry/refresh
 if ('scrollRestoration' in history) {
@@ -740,40 +741,33 @@ function initAssistantChat() {
     e.stopPropagation();
   });
 
+  const chatHistory = [];
+
   // Send message function
-  function sendMessage() {
+  async function sendMessage() {
     const text = chatInput.value.trim();
     if (!text) return;
 
     // Add user message
     addMessage(text, 'user');
     chatInput.value = '';
+    chatHistory.push({ role: 'user', content: text });
 
     // Show typing indicator
     showTypingIndicator();
-
-    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Mock bot responses based on keywords
-    setTimeout(() => {
+    try {
+      const reply = await OpenAIService.sendMessage(text, 'assistant', chatHistory);
       removeTypingIndicator();
-      let reply = "Lo lamento, en este momento estoy operando en modo local fuera de línea. Próximamente se integrará mi panel con la API de OpenAI para brindarte respuestas inteligentes personalizadas sobre Starlink Mini e integraciones industriales.";
-
-      const lower = text.toLowerCase();
-      if (lower.includes('hola') || lower.includes('buen')) {
-        reply = "¡Hola! ¿Cómo estás? Soy el Asistente Virtual de AITUE COMUNICA. ¿En qué te puedo asesorar hoy sobre conectividad Starlink Mini e integraciones industriales?";
-      } else if (lower.includes('starlink') || lower.includes('mini')) {
-        reply = "Ofrecemos gabinetes blindados e integraciones redundantes personalizadas para Starlink Mini y Standard. ¿Te interesaría cotizar un modelo Standard, Pro o Ultra+?";
-      } else if (lower.includes('precio') || lower.includes('cuanto') || lower.includes('costo')) {
-        reply = "Nuestras soluciones se cotizan a medida según los requerimientos específicos de conectividad, telemetría y tamaño de tu flota. Puedes solicitar una propuesta comercial personalizada usando el cotizador B2B o nuestro formulario de contacto.";
-      } else if (lower.includes('contacto') || lower.includes('telefono') || lower.includes('mail')) {
-        reply = "Puedes llamarnos al 0800 345 2488 o enviarnos un email a comercial@aitue.net. ¡También puedes pulsar en 'Chat WhatsApp' en el menú de asistencia!";
-      }
-
       addMessage(reply, 'bot');
+      chatHistory.push({ role: 'assistant', content: reply });
       chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 1500);
+    } catch (e) {
+      removeTypingIndicator();
+      addMessage("Gracias por tu consulta. Estamos a tu disposición para asesorarte en conectividad Starlink Mini e integraciones blindadas AITUE.", 'bot');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   }
 
   function addMessage(text, sender) {
@@ -811,6 +805,61 @@ function initAssistantChat() {
   // Event Listeners
   if (chatSendBtn) {
     chatSendBtn.addEventListener('click', sendMessage);
+  }
+
+  // Voice Dictation (Web Speech API)
+  const chatMicBtn = document.getElementById('chat-mic-btn');
+  if (chatMicBtn && chatInput) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'es-AR';
+      recognition.interimResults = true;
+      recognition.continuous = false;
+
+      let isListening = false;
+
+      chatMicBtn.addEventListener('click', () => {
+        if (!isListening) {
+          try {
+            recognition.start();
+            isListening = true;
+            chatMicBtn.style.transform = 'scale(1.3)';
+            chatMicBtn.style.color = '#ff4d6d';
+            chatMicBtn.title = 'Escuchando... Hablá ahora';
+          } catch (e) {
+            console.error('Speech recognition error:', e);
+          }
+        } else {
+          recognition.stop();
+          isListening = false;
+          chatMicBtn.style.transform = 'scale(1)';
+          chatMicBtn.style.color = '#59A8FF';
+        }
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0].transcript)
+          .join('');
+        chatInput.value = transcript;
+      };
+
+      recognition.onerror = () => {
+        isListening = false;
+        chatMicBtn.style.transform = 'scale(1)';
+        chatMicBtn.style.color = '#59A8FF';
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        chatMicBtn.style.transform = 'scale(1)';
+        chatMicBtn.style.color = '#59A8FF';
+        chatMicBtn.title = 'Dictar mensaje por voz';
+      };
+    } else {
+      chatMicBtn.title = 'Dictado de voz no soportado en este navegador';
+    }
   }
 
   if (chatInput) {
@@ -1776,47 +1825,6 @@ if (scrollIndicator) {
   });
 })();
 
-// ----------------------------------------------------
-// 14. HERO VIDEO INTERACTIVE 3D TILT PARALLAX EFFECT
-// ----------------------------------------------------
-function initHeroVideo3DTilt() {
-  const heroSections = document.querySelectorAll('.hero-section');
-  if (!heroSections.length) return;
 
-  heroSections.forEach(hero => {
-    const video = hero.querySelector('.hero-video-file');
-    if (!video) return;
-
-    let requestID = null;
-
-    hero.addEventListener('mousemove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      // Calculate 3D tilt angle (-12deg to +12deg)
-      const rotateX = ((y - centerY) / centerY) * -12;
-      const rotateY = ((x - centerX) / centerX) * 12;
-
-      if (requestID) cancelAnimationFrame(requestID);
-
-      requestID = requestAnimationFrame(() => {
-        video.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale(1.08)`;
-      });
-    });
-
-    hero.addEventListener('mouseleave', () => {
-      if (requestID) cancelAnimationFrame(requestID);
-      requestID = requestAnimationFrame(() => {
-        video.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05)`;
-      });
-    });
-  });
-}
-
-initHeroVideo3DTilt();
 
 

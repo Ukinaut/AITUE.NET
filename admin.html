@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="AITUE COMUNICA S.A. - Panel de Administración B2B, Base de Conocimiento, Vinculación QR WhatsApp y Gestión IA." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tab Icon -->
+  <link rel="icon" type="image/jpg" href="/src/assets/logo-icon-blue.jpg" />
+  <title>Admin Dashboard | AITUE COMUNICA S.A.</title>
+</head>
+
+<body class="admin-body">
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 1. LOGIN OVERLAY SCREEN                                 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="admin-login-screen" id="admin-login-view">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="/src/assets/Log-win-nav.png" alt="AITUE Logo" />
+        <h2 class="login-title">PANEL DE ADMINISTRACIÓN</h2>
+        <span class="login-subtitle">// GESTIÓN OPENAI & ENTRENAMIENTO IA //</span>
+      </div>
+
+      <form id="admin-login-form" style="display:flex; flex-direction:column; gap:1.2rem;" onsubmit="return false;">
+        <div class="form-group-admin">
+          <label class="admin-label" for="login-email">Usuario / Correo Administrador</label>
+          <input type="email" id="login-email" class="admin-input" placeholder="admin@aitue.net" required />
+        </div>
+
+        <div class="form-group-admin">
+          <label class="admin-label" for="login-password">Contraseña</label>
+          <input type="password" id="login-password" class="admin-input" placeholder="••••••••" required />
+        </div>
+
+        <div id="login-feedback-msg" class="login-msg"></div>
+
+        <button type="submit" class="btn-admin-primary" id="login-submit-btn">
+          INICIAR SESIÓN DE ADMIN <span>→</span>
+        </button>
+
+        <a href="/" class="btn-admin-ghost" style="text-align:center; text-decoration:none; margin-top:0.4rem;">
+          ← Volver al sitio web principal
+        </a>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 2. MAIN ADMIN DASHBOARD VIEW                            -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="admin-container" id="admin-dashboard-view" style="display: none;">
+
+    <!-- Top Header Bar -->
+    <header class="admin-header-bar">
+      <div class="admin-header-left">
+        <img src="/src/assets/Log-win-nav.png" alt="AITUE Logo" />
+        <div>
+          <h1 class="admin-page-title">AITUE Admin Hub</h1>
+          <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#94a3b8;">
+            Sesión Activa: <strong id="admin-user-display" style="color:#59A8FF;">admin@aitue.net</strong>
+          </span>
+        </div>
+      </div>
+
+      <div class="admin-header-status">
+        <div class="status-badge-pill active" id="openai-status-pill">
+          <span class="dot-indicator"></span>
+          <span id="openai-status-text">OpenAI: Configurado</span>
+        </div>
+        <div class="status-badge-pill active" id="wp-qr-status-pill">
+          <span class="dot-indicator"></span>
+          <span id="wp-qr-status-text">Bot WP: Vinculado (+54 9 11 5456-5634)</span>
+        </div>
+        <button class="btn-admin-ghost" id="admin-logout-btn">Cerrar Sesión</button>
+      </div>
+    </header>
+
+    <!-- Centralized Navigation Tabs -->
+    <nav class="admin-nav-tabs">
+      <button class="tab-btn active" data-tab="tab-dashboard">
+        🏠 Centro de Control
+      </button>
+      <button class="tab-btn" data-tab="tab-openai">
+        ⚙️ OpenAI API
+      </button>
+      <button class="tab-btn" data-tab="tab-knowledge">
+        🧠 Memoria & RAG
+      </button>
+      <button class="tab-btn" data-tab="tab-whatsapp-bot">
+        💬 Bot WhatsApp & QR
+      </button>
+      <button class="tab-btn" data-tab="tab-virtual-assistant">
+        🤖 Asistente Web
+      </button>
+      <button class="tab-btn" data-tab="tab-users">
+        👥 Equipo & Admins
+      </button>
+      <button class="tab-btn" data-tab="tab-analytics">
+        📊 Métricas & Logs
+      </button>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 0: CENTRO DE CONTROL GENERAL (COMMAND CENTER)        -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view active" id="tab-dashboard">
+      <div class="admin-cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+
+        <!-- Module 1: OpenAI -->
+        <div class="hub-launcher-card" data-launch="tab-openai">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+              <span style="font-size:1.8rem;">⚙️</span>
+              <span class="status-badge-pill active" style="font-size:0.68rem;">OpenAI Configurado</span>
+            </div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; margin:0 0 0.4rem 0; color:#ffffff;">
+              Configuración OpenAI API</h3>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.4; margin:0;">
+              Gestión de clave API (sk-proj...), modelo gpt-4o-mini, temperatura y parámetros de generación.
+            </p>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.5rem;">
+            <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#00f5d4;">API KEY //
+              ACTIVA</span>
+            <span
+              style="font-family:'Share Tech Mono', monospace; font-size:0.8rem; color:var(--admin-accent); font-weight:700;">Configurar
+              API →</span>
+          </div>
+        </div>
+
+        <!-- Module 2: Base de Conocimientos -->
+        <div class="hub-launcher-card" data-launch="tab-knowledge">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+              <span style="font-size:1.8rem;">🧠</span>
+              <span class="status-badge-pill active" style="font-size:0.68rem;">Memoria RAG Activa</span>
+            </div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; margin:0 0 0.4rem 0; color:#ffffff;">Base de
+              Conocimientos & Entrenamiento</h3>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.4; margin:0;">
+              Documentos corporativos, precios, Starlink Mini y pautas de atención para enseñar a la IA.
+            </p>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.5rem;">
+            <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#00f5d4;">5 PAUTAS
+              REGISTRADAS</span>
+            <span
+              style="font-family:'Share Tech Mono', monospace; font-size:0.8rem; color:var(--admin-accent); font-weight:700;">Entrenar
+              IA →</span>
+          </div>
+        </div>
+
+        <!-- Module 3: WhatsApp Bot -->
+        <div class="hub-launcher-card" data-launch="tab-whatsapp-bot">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+              <span style="font-size:1.8rem;">💬</span>
+              <span class="status-badge-pill active" style="font-size:0.68rem;">WhatsApp Vinculado</span>
+            </div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; margin:0 0 0.4rem 0; color:#ffffff;">Bot
+              WhatsApp & Vinculación QR</h3>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.4; margin:0;">
+              Escaneo QR real, código numérico de 8 dígitos, disparadores automáticos y simulador.
+            </p>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.5rem;">
+            <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#00f5d4;">+54 9 11
+              5456-5634</span>
+            <span
+              style="font-family:'Share Tech Mono', monospace; font-size:0.8rem; color:var(--admin-accent); font-weight:700;">Abrir
+              WhatsApp →</span>
+          </div>
+        </div>
+
+        <!-- Module 4: Asistente Virtual Web -->
+        <div class="hub-launcher-card" data-launch="tab-virtual-assistant">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+              <span style="font-size:1.8rem;">🤖</span>
+              <span class="status-badge-pill active" style="font-size:0.68rem;">Modal Flotante Web</span>
+            </div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; margin:0 0 0.4rem 0; color:#ffffff;">
+              Asistente Virtual Web</h3>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.4; margin:0;">
+              System Prompt de la landing page y playground de pruebas en tiempo real.
+            </p>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.5rem;">
+            <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#00f5d4;">ACTIVO EN
+              INDEX.HTML</span>
+            <span
+              style="font-family:'Share Tech Mono', monospace; font-size:0.8rem; color:var(--admin-accent); font-weight:700;">Probar
+              Asistente →</span>
+          </div>
+        </div>
+
+        <!-- Module 5: Equipo de Pruebas -->
+        <div class="hub-launcher-card" data-launch="tab-users">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+              <span style="font-size:1.8rem;">👥</span>
+              <span class="status-badge-pill active" style="font-size:0.68rem;">4 Integrantes Registrados</span>
+            </div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; margin:0 0 0.4rem 0; color:#ffffff;">Equipo
+              de Pruebas & Admins</h3>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.4; margin:0;">
+              Micaela Quinteros, Susana Pedotti, Alejandro Muñoz, Hugo Flores.
+            </p>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.5rem;">
+            <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#00f5d4;">ROLES
+              ASIGNADOS</span>
+            <span
+              style="font-family:'Share Tech Mono', monospace; font-size:0.8rem; color:var(--admin-accent); font-weight:700;">Ver
+              Integrantes →</span>
+          </div>
+        </div>
+
+        <!-- Module 6: Métricas & Logs -->
+        <div class="hub-launcher-card" data-launch="tab-analytics">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+              <span style="font-size:1.8rem;">📊</span>
+              <span class="status-badge-pill active" style="font-size:0.68rem;">Logs 24/7</span>
+            </div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; margin:0 0 0.4rem 0; color:#ffffff;">Métricas
+              & Registro de Consultas</h3>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.4; margin:0;">
+              Contadores de interacciones, consumo de tokens y auditoría de chats en tiempo real.
+            </p>
+          </div>
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.5rem;">
+            <span style="font-family:'Share Tech Mono', monospace; font-size:0.75rem; color:#59a8ff;">HISTORIAL
+              COMPLETO</span>
+            <span
+              style="font-family:'Share Tech Mono', monospace; font-size:0.8rem; color:var(--admin-accent); font-weight:700;">Ver
+              Métricas →</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 1: CONFIGURACIÓN OPENAI                             -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view" id="tab-openai">
+      <div class="admin-cards-grid">
+
+        <div class="admin-card" style="grid-column: span 2;">
+          <h3 class="admin-card-title">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Credenciales & Modelo OpenAI API
+          </h3>
+          <p class="admin-card-desc">
+            Ingresá tu clave API de OpenAI para conectar el Asistente Virtual Web y el Bot de WhatsApp con inteligencia
+            artificial en tiempo real.
+          </p>
+
+          <form id="openai-config-form" style="display:flex; flex-direction:column; gap:1.2rem; margin-top:0.5rem;"
+            onsubmit="return false;">
+            <div class="form-group-admin">
+              <label class="admin-label" for="cfg-api-key">API Key de IA (NVIDIA o OpenAI)</label>
+              <div style="display:flex; gap:0.6rem;">
+                <input type="password" id="cfg-api-key" class="admin-input"
+                  placeholder="nvapi-•••••••••••••••••••••••• o sk-proj-••••" />
+                <button type="button" class="btn-admin-ghost" id="toggle-show-key">Mostrar</button>
+              </div>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="cfg-whisper-key">🎙️ Clave para Transcripción de Audio / Voz (Groq o OpenAI Key)</label>
+              <div style="display:flex; gap:0.6rem;">
+                <input type="password" id="cfg-whisper-key" class="admin-input"
+                  placeholder="gsk_•••••••• o sk-proj-•••• (Clave activa para transcribir audios de WhatsApp)" />
+              </div>
+              <span style="font-size:0.72rem; color:#94a3b8; margin-top:3px; display:block;">
+                * Permite convertir notas de voz entrantes de WhatsApp a texto en español usando Whisper (Groq es 100% gratis con gsk_...).
+              </span>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.2rem;">
+              <div class="form-group-admin">
+                <label class="admin-label" for="cfg-model">Modelo de Lenguaje</label>
+                <select id="cfg-model" class="admin-select">
+                  <option value="meta/llama-3.1-8b-instruct">meta/llama-3.1-8b-instruct (⚡ Respuesta Instantánea ~1.4s / Recomendado WhatsApp)</option>
+                  <option value="meta/llama-3.3-70b-instruct">meta/llama-3.3-70b-instruct (🚀 Alta Capacidad 70B)</option>
+                  <option value="openai/gpt-oss-120b">openai/gpt-oss-120b (🧠 Razonamiento Profundo NVIDIA)</option>
+                  <option value="gpt-4o-mini">gpt-4o-mini (OpenAI Oficial)</option>
+                  <option value="gpt-4o">gpt-4o (OpenAI Oficial Alta Precisión)</option>
+                </select>
+              </div>
+
+              <div class="form-group-admin">
+                <label class="admin-label" for="cfg-max-tokens">Max Tokens por Respuesta</label>
+                <input type="number" id="cfg-max-tokens" class="admin-input" min="100" max="2000" step="50"
+                  value="500" />
+              </div>
+            </div>
+
+            <div class="form-group-admin">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label class="admin-label" for="cfg-temperature">Creatividad / Temperatura: <span id="temp-val-display"
+                    style="color:var(--admin-accent);">0.7</span></label>
+              </div>
+              <input type="range" id="cfg-temperature" min="0.0" max="1.0" step="0.05" value="0.7"
+                style="width:100%; accent-color:var(--admin-accent);" />
+            </div>
+
+            <div id="openai-test-feedback" class="login-msg" style="margin-top:0.4rem;"></div>
+
+            <div style="display:flex; gap:1rem; margin-top:0.5rem;">
+              <button type="submit" class="btn-admin-success" id="save-openai-btn">
+                💾 Guardar Configuración
+              </button>
+              <button type="button" class="btn-admin-primary" id="test-openai-btn">
+                ⚡ Probar Conexión OpenAI
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h3 class="admin-card-title">⚡ Estado del Sistema</h3>
+          <div style="display:flex; flex-direction:column; gap:0.8rem; font-size:0.85rem;">
+            <div
+              style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:6px;">
+              <span style="color:#94a3b8;">Motor de Respuestas:</span>
+              <strong id="engine-type-display" style="color:var(--admin-accent);">OpenAI GPT</strong>
+            </div>
+            <div
+              style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:6px;">
+              <span style="color:#94a3b8;">Memoria RAG:</span>
+              <span style="color:#00f5d4;">Activa & Enlazada</span>
+            </div>
+            <div
+              style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:6px;">
+              <span style="color:#94a3b8;">Asistente Web:</span>
+              <span style="color:#00f5d4;">Activo en index.html</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span style="color:#94a3b8;">WhatsApp Bot:</span>
+              <span style="color:#00f5d4;">Vinculado por QR</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 2: BASE DE CONOCIMIENTOS & ENTRENAMIENTO IA          -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view" id="tab-knowledge">
+      <div class="admin-cards-grid">
+
+        <!-- Add New Training Document Form -->
+        <div class="admin-card" style="grid-column: span 1;">
+          <h3 class="admin-card-title">🧠 Agregar Pauta de Conocimiento</h3>
+          <p class="admin-card-desc">
+            Enseñale a la IA cómo responder sobre la empresa, productos, precios y pautas de atención para los clientes.
+          </p>
+
+          <form id="add-kb-form" style="display:flex; flex-direction:column; gap:1rem; margin-top:0.5rem;"
+            onsubmit="return false;">
+            <div class="form-group-admin">
+              <label class="admin-label" for="kb-category">Categoría de Conocimiento</label>
+              <select id="kb-category" class="admin-select">
+                <option value="Empresa & Visión">Empresa & Visión Corporativa</option>
+                <option value="Starlink Mini & Gabinetes">Starlink Mini & Gabinetes Blindados</option>
+                <option value="Protocolos de Atención">Protocolos de Atención & Tono</option>
+                <option value="Precios & Pagos">Precios, Cotizaciones & Formas de Pago</option>
+                <option value="Garantía & Soporte">Garantía, Envíos & Soporte Técnico</option>
+              </select>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="kb-title">Título del Documento / Regla</label>
+              <input type="text" id="kb-title" class="admin-input"
+                placeholder="Ej. Protocolo de atención para minería..." required />
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="kb-content">Contenido / Pautas de Respuesta</label>
+              <textarea id="kb-content" class="admin-textarea" rows="8"
+                placeholder="Escribí aquí las explicaciones, precios, ventajas o la forma exacta en que la IA debe interactuar..."
+                required></textarea>
+            </div>
+
+            <button type="submit" class="btn-admin-success" id="save-kb-btn">
+              ➕ Guardar en Base de Conocimientos
+            </button>
+          </form>
+        </div>
+
+        <!-- Knowledge Cards List -->
+        <div class="admin-card" style="grid-column: span 2;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <h3 class="admin-card-title">📚 Memoria & Documentos Guardados</h3>
+            <input type="text" id="kb-search-input" class="admin-input" placeholder="🔍 Buscar pauta..."
+              style="max-width:240px; padding:0.5rem 0.8rem; font-size:0.8rem;" />
+          </div>
+
+          <div id="kb-cards-container"
+            style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.2rem; margin-top:1rem;">
+            <!-- Knowledge cards rendered dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 3: BOT DE WHATSAPP & VINCULACIÓN QR                 -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view" id="tab-whatsapp-bot">
+
+      <!-- QR & Pairing Header Banner Card -->
+      <div class="admin-card"
+        style="background: linear-gradient(135deg, rgba(5,46,38,0.85) 0%, rgba(12,35,74,0.85) 100%); border-color: rgba(0,245,212,0.3);">
+        <div style="display:grid; grid-template-columns: 220px 1fr; gap:2rem; align-items:center;">
+
+          <!-- QR Box Wrap -->
+          <div
+            style="display:flex; flex-direction:column; align-items:center; gap:0.8rem; background:rgba(1,15,12,0.9); padding:1.2rem; border-radius:14px; border:1px solid rgba(0,245,212,0.4); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <div id="qr-box-wrap"
+              style="position:relative; width:180px; height:180px; background:#ffffff; border-radius:12px; padding:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 25px rgba(0,245,212,0.35); cursor:pointer;"
+              title="Hacé clic para simular la vinculación directa">
+              <img id="wp-qr-img"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=2%40AITUE_BOT_INSTANCE_5491154565634%2CAITUE_AUTH_TOKEN_SESSION"
+                alt="Código QR WhatsApp AITUE"
+                style="width:160px; height:160px; border-radius:6px; object-fit:contain;" />
+              <canvas id="wp-qr-canvas" width="160" height="160" style="display:none;"></canvas>
+              <div id="qr-overlay-status"
+                style="position:absolute; inset:0; background:rgba(7,22,47,0.95); border-radius:12px; display:none; flex-direction:column; align-items:center; justify-content:center; padding:10px; text-align:center;">
+                <span style="font-size:2rem;">✅</span>
+                <span
+                  style="font-family:'Outfit', sans-serif; font-size:0.85rem; font-weight:700; color:#00f5d4; margin-top:6px;">DISPOSITIVO
+                  VINCULADO</span>
+                <span style="font-size:0.65rem; color:#94a3b8; margin-top:2px;" id="connected-phone-display">+54 9 11
+                  5456-5634</span>
+              </div>
+            </div>
+
+            <span
+              style="font-size:0.7rem; color:#00f5d4; font-family:'Share Tech Mono', monospace; text-align:center;">👆
+              Haz clic en el QR para vincular</span>
+          </div>
+
+          <!-- Connection Info & Pairing Actions -->
+          <div style="display:flex; flex-direction:column; gap:0.8rem;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.5rem;">📱</span>
+              <div>
+                <h3 style="font-family:'Outfit', sans-serif; font-size:1.3rem; margin:0; color:#ffffff;">Vinculación
+                  Directa de WhatsApp (Bot WhatsApp & Simulador)</h3>
+                <span style="font-family:'Share Tech Mono', monospace; font-size:0.78rem; color:#00f5d4;"
+                  id="qr-status-label">
+                  ESTADO: ESPERANDO ESCANEO O VINCULACIÓN INSTANTÁNEA
+                </span>
+              </div>
+            </div>
+
+            <div
+              style="background:rgba(0,245,212,0.08); border-left:3px solid #00f5d4; padding:0.8rem 1rem; border-radius:6px; font-size:0.83rem; color:#cbd5e1; line-height:1.4;">
+              <strong style="color:#ffffff;">💡 Nota de Vinculación Frontend:</strong> Para vincular la instancia en
+              esta versión web de demostración, podés hacer <strong>clic directo sobre la imagen QR</strong> o presionar
+              <strong>`⚡ Vincular Instancia Con 1 Clic`</strong>. Esto activará el estado en línea y habilitará la
+              atención del bot con el equipo de pruebas.
+            </div>
+
+            <!-- Pairing Controls -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:0.4rem;">
+              <button class="btn-admin-success" id="sim-scan-qr-btn"
+                style="padding:0.75rem 1.4rem; font-weight:700; box-shadow:0 0 15px rgba(0,245,212,0.4);">
+                ⚡ Vincular Instancia Con 1 Clic (Simulación Activa)
+              </button>
+              <button class="btn-admin-primary" id="open-code-pair-btn">
+                🔢 Código de 8 Dígitos
+              </button>
+              <a href="https://wa.me/5491154565634?text=VINCULAR_BOT_AITUE_ADMIN" target="_blank" rel="noopener"
+                class="btn-admin-ghost" style="text-decoration:none; color:#59a8ff;">
+                💬 Abrir Chat Directo
+              </a>
+              <button class="btn-admin-ghost" id="disconnect-wp-btn"
+                style="color:#ff4d6d; border-color:rgba(255,77,109,0.3);">
+                Desconectar Instancia
+              </button>
+            </div>
+
+            <!-- Numeric Code Box -->
+            <div id="numeric-pair-box"
+              style="display:none; margin-top:0.8rem; background:rgba(7,22,47,0.85); border:1px solid rgba(0,245,212,0.4); padding:1rem; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.4);">
+              <span class="admin-label" style="color:var(--admin-accent);">VINCULAR POR CÓDIGO DE 8 DÍGITOS Y NÚMERO DEL
+                EQUIPO:</span>
+              <div style="display:flex; gap:0.6rem; margin-top:0.5rem; flex-wrap:wrap; align-items:center;">
+                <select id="team-phone-select" class="admin-select" style="max-width:280px;">
+                  <option value="+54 9 11 7358-3768">Micaela Quinteros (+54 9 11 7358-3768)</option>
+                  <option value="+54 9 11 4164-0955">Susana Pedotti (+54 9 11 4164-0955)</option>
+                  <option value="+54 9 11 6230-0000">Alejandro Muñoz (+54 9 11 6230-0000)</option>
+                  <option value="+54 9 387 501-4000">Hugo Flores (+54 9 387 501-4000)</option>
+                </select>
+                <button type="button" class="btn-admin-primary" id="generate-num-code-btn">Generar PIN WhatsApp</button>
+              </div>
+              <div id="code-output-display"
+                style="display:none; margin-top:0.8rem; align-items:center; gap:14px; flex-wrap:wrap;">
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                  <span style="font-size:0.75rem; color:#94a3b8;">Código PIN (WhatsApp Web):</span>
+                  <span
+                    style="font-family:'Share Tech Mono', monospace; font-size:1.6rem; letter-spacing:4px; color:#00f5d4; background:rgba(0,245,212,0.12); border:1px solid #00f5d4; padding:6px 14px; border-radius:8px;"
+                    id="pairing-code-str">
+                    8492-X7K3
+                  </span>
+                </div>
+                <button type="button" class="btn-admin-success" id="confirm-num-pair-btn"
+                  style="padding:0.8rem 1.2rem; font-size:0.82rem;">
+                  ✅ Confirmar y Conectar Instancia
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Split Layout: Settings & WhatsApp Chat Simulator -->
+      <div class="split-simulator-layout" style="margin-top:1.5rem;">
+
+        <!-- Left: WP System Prompt & Triggers -->
+        <div class="admin-card">
+          <h3 class="admin-card-title">💬 Reglas de Atención por WhatsApp</h3>
+
+          <div class="form-group-admin">
+            <label class="admin-label" for="prompt-wp-bot">System Prompt (Bot WhatsApp)</label>
+            <textarea id="prompt-wp-bot" class="admin-textarea" rows="5"></textarea>
+          </div>
+
+          <h4 style="font-family:'Outfit', sans-serif; font-size:0.95rem; color:#ffffff; margin:1rem 0 0.4rem 0;">
+            Reglas de Auto-Respuesta por Palabras Clave
+          </h4>
+
+          <div id="wp-triggers-container" style="display:flex; flex-direction:column; gap:0.8rem;">
+            <!-- Dynamic triggers -->
+          </div>
+
+          <button class="btn-admin-success" id="save-wp-config-btn" style="margin-top:1.2rem;">
+            💾 Guardar Configuración de WhatsApp
+          </button>
+        </div>
+
+        <!-- Right: Interactive WhatsApp Simulator -->
+        <div class="admin-chat-simulator" style="border-color: rgba(0, 245, 212, 0.3);">
+          <div class="sim-header" style="background: rgba(5, 46, 38, 0.9);">
+            <div class="sim-title-wrap">
+              <div
+                style="width:32px; height:32px; border-radius:50%; background:#10b981; display:flex; align-items:center; justify-content:center; color:#ffffff; font-weight:bold;">
+                WP
+              </div>
+              <div>
+                <div class="sim-title">AITUE WhatsApp Bot (Simulador en Vivo)</div>
+                <div class="sim-tag" style="color:#00f5d4;" id="sim-wp-number-tag">+54 9 11 5456-5634 // ONLINE</div>
+              </div>
+            </div>
+            <button class="btn-admin-ghost" id="clear-wp-sim-btn"
+              style="padding:4px 8px; font-size:0.7rem;">Limpiar</button>
+          </div>
+
+          <div class="sim-messages" id="wp-sim-messages" style="background: rgba(1, 15, 12, 0.85);">
+            <div class="sim-msg bot" style="border-color: rgba(16, 185, 129, 0.3);">
+              ¡Hola! Gracias por escribir a AITUE COMUNICA S.A. ¿En qué podemos ayudarte respecto a tus necesidades de
+              conectividad satelital?
+              <span class="sim-msg-meta">WhatsApp Bot // Auto</span>
+            </div>
+          </div>
+
+          <form id="wp-sim-form" class="sim-input-area" style="background: rgba(5, 46, 38, 0.9);"
+            onsubmit="return false;">
+            <input type="text" id="wp-sim-input" class="admin-input"
+              placeholder="Escribí como cliente (ej. 'cotizar', 'garantía')..." autocomplete="off" />
+            <button type="submit" class="btn-admin-success" id="wp-sim-send-btn">Enviar WP</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 4: ASISTENTE VIRTUAL WEB                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view" id="tab-virtual-assistant">
+      <div class="split-simulator-layout">
+
+        <div class="admin-card">
+          <h3 class="admin-card-title">🤖 Personalidad & System Prompt (Web)</h3>
+          <p class="admin-card-desc">
+            Define las instrucciones de comportamiento, contexto de AITUE COMUNICA S.A. y restricciones del asistente
+            virtual integrado en el sitio web.
+          </p>
+
+          <div class="form-group-admin" style="margin-top:0.8rem;">
+            <label class="admin-label" for="prompt-web-assistant">System Prompt (Asistente Web)</label>
+            <textarea id="prompt-web-assistant" class="admin-textarea" rows="12"></textarea>
+          </div>
+
+          <button class="btn-admin-success" id="save-web-prompt-btn" style="margin-top:0.8rem;">
+            💾 Guardar Prompt del Asistente Web
+          </button>
+        </div>
+
+        <div class="admin-chat-simulator">
+          <div class="sim-header">
+            <div class="sim-title-wrap">
+              <img src="/src/assets/logo-icon-blue.jpg" alt="Avatar" class="sim-avatar" />
+              <div>
+                <div class="sim-title">Asistente Virtual Web (Simulador)</div>
+                <div class="sim-tag">PLAYGROUND OPENAI EN VIVO</div>
+              </div>
+            </div>
+            <button class="btn-admin-ghost" id="clear-web-sim-btn"
+              style="padding:4px 8px; font-size:0.7rem;">Limpiar</button>
+          </div>
+
+          <div class="sim-messages" id="web-sim-messages">
+            <div class="sim-msg bot">
+              ¡Hola! Soy el asistente virtual configurado para la web de AITUE. Escribí una consulta para probar cómo
+              responderé a los usuarios.
+              <span class="sim-msg-meta">Sistema // Listo</span>
+            </div>
+          </div>
+
+          <form id="web-sim-form" class="sim-input-area" onsubmit="return false;">
+            <input type="text" id="web-sim-input" class="admin-input"
+              placeholder="Preguntá sobre precios, Starlink Mini, gabinetes..." autocomplete="off" />
+            <button type="submit" class="btn-admin-primary" id="web-sim-send-btn">Enviar</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 5: ADMINISTRADORES & ENTRENADORES                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view" id="tab-users">
+      <div class="admin-cards-grid">
+
+        <!-- Add Admin User Form -->
+        <div class="admin-card">
+          <h3 class="admin-card-title">👥 Registrar Nuevo Administrador / Entrenador</h3>
+          <p class="admin-card-desc">
+            Añadí administradores e ingenieros autorizados para entrenar a la IA y modificar la Base de Conocimientos de
+            AITUE.
+          </p>
+
+          <form id="add-user-form" style="display:flex; flex-direction:column; gap:1rem; margin-top:0.5rem;"
+            onsubmit="return false;">
+            <div class="form-group-admin">
+              <label class="admin-label" for="usr-name">Nombre y Apellido</label>
+              <input type="text" id="usr-name" class="admin-input" placeholder="Ej. Micaela Quinteros" required />
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="usr-phone">Teléfono / WhatsApp</label>
+              <input type="text" id="usr-phone" class="admin-input" placeholder="+54 9 11 7358-3768" required />
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="usr-email">Correo Electrónico Corporativo</label>
+              <input type="email" id="usr-email" class="admin-input" placeholder="mquinteros@aitue.net" required />
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="usr-area">Área / Departamento</label>
+              <select id="usr-area" class="admin-select">
+                <option value="Área Técnica">Área Técnica</option>
+                <option value="Área Comercial">Área Comercial</option>
+                <option value="Dirección General">Dirección General</option>
+                <option value="Soporte Técnico">Soporte Técnico</option>
+              </select>
+            </div>
+
+            <div class="form-group-admin">
+              <label class="admin-label" for="usr-role">Rol / Permisos de Entrenador</label>
+              <select id="usr-role" class="admin-select">
+                <option value="Entrenador IA">Entrenador IA / Knowledge Manager</option>
+                <option value="Super Admin">Super Admin (Control Total)</option>
+                <option value="Operador Ventas">Operador Ventas / Atención</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn-admin-success" id="save-user-btn">
+              ➕ Dar de Alta Administrador
+            </button>
+          </form>
+        </div>
+
+        <!-- Admin Users Table -->
+        <div class="admin-card" style="grid-column: span 2;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:0.8rem;">
+            <h3 class="admin-card-title" style="margin:0;">👥 Equipo de Pruebas & Administradores Registrados</h3>
+            <button type="button" class="btn-admin-success" id="send-team-intro-btn"
+              style="font-weight:700; padding:0.6rem 1.2rem;">
+              📢 Enviar Mensaje de Presentación por WhatsApp
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Teléfono / WhatsApp</th>
+                  <th>Correo</th>
+                  <th>Área</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <!-- User rows dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 6: MÉTRICAS & HISTORIAL                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-content-view" id="tab-analytics">
+      <div class="admin-cards-grid">
+
+        <div class="admin-card">
+          <span class="admin-label">TOTAL INTERACCIONES</span>
+          <h2 id="metric-total-chats"
+            style="font-family:'Outfit', sans-serif; font-size:2.2rem; color:#ffffff; margin:0.2rem 0;">0</h2>
+          <span style="font-size:0.75rem; color:#00f5d4;">Registradas en esta sesión/browser</span>
+        </div>
+
+        <div class="admin-card">
+          <span class="admin-label">TOKENS ESTIMADOS PROCESADOS</span>
+          <h2 id="metric-total-tokens"
+            style="font-family:'Outfit', sans-serif; font-size:2.2rem; color:var(--admin-accent); margin:0.2rem 0;">0
+          </h2>
+          <span style="font-size:0.75rem; color:#94a3b8;">OpenAI GPT API Consumption</span>
+        </div>
+
+        <div class="admin-card">
+          <span class="admin-label">ORIGEN PRINCIPAL</span>
+          <h2 id="metric-top-source"
+            style="font-family:'Outfit', sans-serif; font-size:1.8rem; color:var(--admin-cyber); margin:0.2rem 0;">Web
+            Assistant</h2>
+          <span style="font-size:0.75rem; color:#94a3b8;">Canal con más actividad</span>
+        </div>
+
+      </div>
+
+      <div class="admin-card" style="margin-top:1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <div style="display:flex; align-items:center; gap:0.8rem;">
+            <h3 class="admin-card-title" style="margin:0;">📜 Registro de Consultas</h3>
+            <span class="status-badge-pill active" style="font-size:0.68rem; padding:2px 8px;">
+              <span class="dot-indicator"></span>
+              🔴 EN VIVO (Auto-Sync 3s)
+            </span>
+          </div>
+          <button class="btn-admin-ghost" id="clear-logs-btn" style="padding:6px 12px; font-size:0.75rem;">Borrar
+            Registro</button>
+        </div>
+
+        <div class="admin-table-wrap" style="margin-top:0.8rem;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Fecha / Hora</th>
+                <th>Canal</th>
+                <th>Consulta Usuario</th>
+                <th>Respuesta Emitida</th>
+              </tr>
+            </thead>
+            <tbody id="logs-table-body">
+              <tr>
+                <td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">No hay registros de chats
+                  recientes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="/src/admin.js"></script>
+</body>
+
+</html>
