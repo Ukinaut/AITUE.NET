@@ -71,20 +71,18 @@ export class KnowledgeService {
   static getArticles() {
     try {
       const saved = localStorage.getItem(KNOWLEDGE_STORAGE_KEY);
-      if (saved) {
+      if (saved !== null) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const hasKb0 = parsed.some(a => a.id === 'kb_0');
-          if (!hasKb0) {
-            parsed.unshift(DEFAULT_KNOWLEDGE[0]);
-          }
+        if (Array.isArray(parsed)) {
           return parsed;
         }
       }
     } catch (e) {
       console.error('Error loading Knowledge Base:', e);
     }
-    return [...DEFAULT_KNOWLEDGE];
+    const initial = [...DEFAULT_KNOWLEDGE];
+    this.saveArticles(initial);
+    return initial;
   }
 
   static saveArticles(articles) {
@@ -111,10 +109,28 @@ export class KnowledgeService {
     return newArt;
   }
 
+  static updateArticle(article) {
+    const articles = this.getArticles();
+    const index = articles.findIndex(a => a.id === article.id);
+    if (index !== -1) {
+      articles[index] = {
+        ...articles[index],
+        category: article.category || articles[index].category,
+        title: article.title || articles[index].title,
+        content: article.content || articles[index].content,
+        updatedAt: new Date().toISOString()
+      };
+      this.saveArticles(articles);
+      return articles[index];
+    }
+    return null;
+  }
+
   static deleteArticle(id) {
     let articles = this.getArticles();
     articles = articles.filter(a => a.id !== id);
-    return this.saveArticles(articles);
+    this.saveArticles(articles);
+    return articles;
   }
 
   static getKnowledgeContext(query = '') {

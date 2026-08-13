@@ -289,13 +289,15 @@
             </div>
 
             <div class="form-group-admin">
-              <label class="admin-label" for="cfg-whisper-key">🎙️ Clave para Transcripción de Audio / Voz (Groq o OpenAI Key)</label>
+              <label class="admin-label" for="cfg-whisper-key">🎙️ Clave para Transcripción de Audio / Voz (Groq o
+                OpenAI Key)</label>
               <div style="display:flex; gap:0.6rem;">
                 <input type="password" id="cfg-whisper-key" class="admin-input"
                   placeholder="gsk_•••••••• o sk-proj-•••• (Clave activa para transcribir audios de WhatsApp)" />
               </div>
               <span style="font-size:0.72rem; color:#94a3b8; margin-top:3px; display:block;">
-                * Permite convertir notas de voz entrantes de WhatsApp a texto en español usando Whisper (Groq es 100% gratis con gsk_...).
+                * Permite convertir notas de voz entrantes de WhatsApp a texto en español usando Whisper (Groq es 100%
+                gratis con gsk_...).
               </span>
             </div>
 
@@ -303,8 +305,10 @@
               <div class="form-group-admin">
                 <label class="admin-label" for="cfg-model">Modelo de Lenguaje</label>
                 <select id="cfg-model" class="admin-select">
-                  <option value="meta/llama-3.1-8b-instruct">meta/llama-3.1-8b-instruct (⚡ Respuesta Instantánea ~1.4s / Recomendado WhatsApp)</option>
-                  <option value="meta/llama-3.3-70b-instruct">meta/llama-3.3-70b-instruct (🚀 Alta Capacidad 70B)</option>
+                  <option value="meta/llama-3.1-8b-instruct">meta/llama-3.1-8b-instruct (⚡ Respuesta Instantánea ~1.4s /
+                    Recomendado WhatsApp)</option>
+                  <option value="meta/llama-3.3-70b-instruct">meta/llama-3.3-70b-instruct (🚀 Alta Capacidad 70B)
+                  </option>
                   <option value="openai/gpt-oss-120b">openai/gpt-oss-120b (🧠 Razonamiento Profundo NVIDIA)</option>
                   <option value="gpt-4o-mini">gpt-4o-mini (OpenAI Oficial)</option>
                   <option value="gpt-4o">gpt-4o (OpenAI Oficial Alta Precisión)</option>
@@ -811,9 +815,40 @@
             </tbody>
           </table>
         </div>
+  <!-- Edit Knowledge Base Article Modal -->
+  <div id="edit-kb-modal" style="display:none; position:fixed; inset:0; background:rgba(2,10,23,0.85); backdrop-filter:blur(8px); z-index:99999; align-items:center; justify-content:center; padding:1rem;">
+    <div style="background:rgba(7,22,47,0.95); border:1px solid rgba(89,168,255,0.3); border-radius:16px; width:100%; max-width:600px; padding:1.8rem; box-shadow:0 20px 50px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:1.2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:0.8rem;">
+        <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; color:#ffffff; margin:0;">✏️ Editar Pauta de Conocimiento</h3>
+        <button type="button" id="close-edit-kb-modal-x" class="btn-admin-ghost" style="padding:2px 8px; font-size:1rem; color:#94a3b8;">✕</button>
       </div>
+      <form id="edit-kb-form" style="display:flex; flex-direction:column; gap:1rem;" onsubmit="return false;">
+        <input type="hidden" id="edit-kb-id" />
+        <div class="form-group-admin">
+          <label class="admin-label" for="edit-kb-category">Categoría de Conocimiento</label>
+          <select id="edit-kb-category" class="admin-select">
+            <option value="Empresa & Visión Corporativa">Empresa & Visión Corporativa</option>
+            <option value="Starlink Mini & Gabinetes">Starlink Mini & Gabinetes</option>
+            <option value="Protocolos de Atención">Protocolos de Atención</option>
+            <option value="Precios & Cotizaciones">Precios & Cotizaciones</option>
+            <option value="Garantía & Soporte Técnico">Garantía & Soporte Técnico</option>
+            <option value="Visión de Producto & Catálogo">Visión de Producto & Catálogo</option>
+          </select>
+        </div>
+        <div class="form-group-admin">
+          <label class="admin-label" for="edit-kb-title">Título del Documento / Regla</label>
+          <input type="text" id="edit-kb-title" class="admin-input" required />
+        </div>
+        <div class="form-group-admin">
+          <label class="admin-label" for="edit-kb-content">Contenido / Pautas de Respuesta</label>
+          <textarea id="edit-kb-content" class="admin-textarea" rows="8" required></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.8rem; margin-top:0.5rem;">
+          <button type="button" class="btn-admin-ghost" id="cancel-edit-kb-btn">Cancelar</button>
+          <button type="submit" class="btn-admin-success" id="save-edit-kb-btn">💾 Guardar Cambios</button>
+        </div>
+      </form>
     </div>
-
   </div>
 
   <script type="module" src="/src/admin.js"></script>

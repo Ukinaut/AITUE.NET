@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(() => {});
     }
 
-    if (articles && articles.length) {
+    if (articles && Array.isArray(articles)) {
       fetch('http://localhost:3001/api/config/knowledge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -427,7 +427,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <span style="font-family:'Share Tech Mono', monospace; font-size:0.68rem; color:#00f5d4; background:rgba(0,245,212,0.1); border:1px solid rgba(0,245,212,0.3); padding:2px 8px; border-radius:4px; text-transform:uppercase;">
             ${art.category}
           </span>
-          <button class="btn-admin-ghost delete-kb-btn" data-id="${art.id}" style="padding:2px 6px; font-size:0.65rem; color:#ff4d6d;">Eliminar</button>
+          <div>
+            <button class="btn-admin-ghost edit-kb-btn" data-id="${art.id}" style="padding:2px 8px; font-size:0.65rem; color:#00f5d4; border-color:rgba(0,245,212,0.3); margin-right:4px;">Editar</button>
+            <button class="btn-admin-ghost delete-kb-btn" data-id="${art.id}" style="padding:2px 8px; font-size:0.65rem; color:#ff4d6d; border-color:rgba(255,77,109,0.3);">Eliminar</button>
+          </div>
         </div>
         <h4 style="font-family:'Outfit', sans-serif; font-size:1rem; color:#ffffff; margin:0;">${art.title}</h4>
         <p style="font-size:0.82rem; color:#cbd5e1; line-height:1.4; white-space:pre-line; margin:0; flex:1;">${art.content}</p>
@@ -445,6 +448,59 @@ document.addEventListener('DOMContentLoaded', () => {
           syncServerKnowledgeAndPrompt();
         }
       });
+    });
+
+    kbCardsContainer.querySelectorAll('.edit-kb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const articles = KnowledgeService.getArticles();
+        const art = articles.find(a => a.id === id);
+        if (!art) return;
+
+        const editModal = document.getElementById('edit-kb-modal');
+        const editId = document.getElementById('edit-kb-id');
+        const editCat = document.getElementById('edit-kb-category');
+        const editTitle = document.getElementById('edit-kb-title');
+        const editContent = document.getElementById('edit-kb-content');
+
+        if (editModal && editId && editCat && editTitle && editContent) {
+          editId.value = art.id;
+          editCat.value = art.category || 'General';
+          editTitle.value = art.title || '';
+          editContent.value = art.content || '';
+          editModal.style.display = 'flex';
+        }
+      });
+    });
+  }
+
+  // Edit Modal Event Handlers
+  const editKbModal = document.getElementById('edit-kb-modal');
+  const editKbForm = document.getElementById('edit-kb-form');
+  const cancelEditKbBtn = document.getElementById('cancel-edit-kb-btn');
+  const closeEditKbModalX = document.getElementById('close-edit-kb-modal-x');
+
+  function hideEditKbModal() {
+    if (editKbModal) editKbModal.style.display = 'none';
+  }
+
+  if (cancelEditKbBtn) cancelEditKbBtn.addEventListener('click', hideEditKbModal);
+  if (closeEditKbModalX) closeEditKbModalX.addEventListener('click', hideEditKbModal);
+
+  if (editKbForm) {
+    editKbForm.addEventListener('submit', () => {
+      const id = document.getElementById('edit-kb-id').value;
+      const category = document.getElementById('edit-kb-category').value;
+      const title = document.getElementById('edit-kb-title').value.trim();
+      const content = document.getElementById('edit-kb-content').value.trim();
+
+      if (!id || !title || !content) return;
+
+      KnowledgeService.updateArticle({ id, category, title, content });
+      hideEditKbModal();
+      renderKnowledgeCards();
+      syncServerKnowledgeAndPrompt();
+      alert('¡Pauta de conocimiento actualizada correctamente!');
     });
   }
 
