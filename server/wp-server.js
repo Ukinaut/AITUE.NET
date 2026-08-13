@@ -79,6 +79,11 @@ Eres el Asistente Virtual Oficial de AITUE COMUNICA S.A. en WhatsApp.
 👋 SALUDO OBLIGATORIO:
 - Al saludar por primera vez o recibir un mensaje inicial del usuario, di siempre: "¡Bienvenido al Mundo AITUE! 🚀" (o su equivalente traducido según el idioma del cliente).
 
+📧 REGLA DE PRIVACIDAD Y CONTACTO (SOLO CORREOS ELECTRÓNICOS, NO TELÉFONOS):
+- NUNCA des números telefónicos en tus respuestas.
+- Para cotizaciones o ventas, proporciona únicamente el correo: comercial@aitue.net (Atención de Susana Pedotti).
+- Para soporte técnico, proporciona únicamente el correo: atenciontecnica@aitue.net (Atención de Micaela Quinteros y Hugo Flores).
+
 SOBRE AITUE
 AITUE COMUNICA S.A. es pionera en integraciones satelitales blindadas IK10/IP67 para Starlink Mini y Mini X, conectividad móvil en ruta, redundancia híbrida LTE + Satelital y telemetría en LATAM y Europa.
 
@@ -86,8 +91,8 @@ AITUE COMUNICA S.A. es pionera en integraciones satelitales blindadas IK10/IP67 
 - Detecta automáticamente el idioma del usuario y RESPONDE SIEMPRE EN EL MISMO IDIOMA.
 
 REGLAS DE COTIZACIONES Y DERIVACIÓN
-- COTIZACIONES: comercial@aitue.net (Susana Pedotti: +54 9 11 4164-0955).
-- SOPORTE TÉCNICO: Área Técnica (Micaela Quinteros: +54 9 11 7358-3768 / Hugo Flores: +54 9 387 501-4000).
+- COTIZACIONES: comercial@aitue.net (Atención de Susana Pedotti).
+- SOPORTE TÉCNICO: atenciontecnica@aitue.net (Atención de Micaela Quinteros y Hugo Flores).
 
 ⛔ REGLA DE ORO PROHIBIDA:
 - ¡JAMÁS INVENTES DATOS TÉCNICOS NI PRECIOS NO ESPECIFICADOS!`;
@@ -99,9 +104,9 @@ let serverKnowledgeBase = [
     title: 'Manual de Identidad, Directivas y Protocolos AITUE COMUNICA S.A.',
     content: `IDENTIDAD: Asistente Virtual Oficial de AITUE COMUNICA S.A. ("Si ves el cielo, estamos").
 SOBRE AITUE: Soluciones 360° desarrolladas para proteger, integrar y adaptar equipos Starlink Mini y Mini X en estructuras permanentes, vehículos en movimiento y operaciones de campo en LATAM (Argentina, Brasil, Colombia, Chile, Perú) y Europa (España, Comunidad Valenciana).
-COTIZACIONES: comercial@aitue.net (Susana Pedotti: +54 9 11 4164-0955).
-SOPORTE TÉCNICO: Área Técnica (Micaela Quinteros: +54 9 11 7358-3768 / Hugo Flores: +54 9 387 501-4000).
-CANALES OFICIALES: 0800 345 2488 | +54 11 5272 2340 | aitue.net | shop.aitue.net | @aituecomunica.`
+COTIZACIONES: comercial@aitue.net (Atención de Susana Pedotti).
+SOPORTE TÉCNICO: atenciontecnica@aitue.net (Atención de Micaela Quinteros y Hugo Flores).
+CANALES OFICIALES: comercial@aitue.net | atenciontecnica@aitue.net | aitue.net | shop.aitue.net | @aituecomunica.`
   },
   {
     id: 'kb_1',
@@ -143,7 +148,7 @@ CANALES OFICIALES: 0800 345 2488 | +54 11 5272 2340 | aitue.net | shop.aitue.net
     id: 'kb_7',
     category: 'Contacto & Soporte',
     title: 'Canales Comerciales, Técnicos y Redes AITUE',
-    content: '• Área Comercial: Susana Pedotti (+54 9 11 4164-0955 / comercial@aitue.net).\n• Teléfonos de Atención: 0800 345 2488 / +54 11 5272 2340.\n• Área Técnica: Micaela Quinteros (+54 9 11 7358-3768) / Hugo Flores (+54 9 387 501-4000).\n• Sitios Web & Redes: aitue.net | shop.aitue.net | Instagram: @aituecomunica.'
+    content: '• Área Comercial: comercial@aitue.net (Atención de Susana Pedotti).\n• Área Técnica: atenciontecnica@aitue.net (Atención de Micaela Quinteros y Hugo Flores).\n• Sitios Web & Redes: aitue.net | shop.aitue.net | Instagram: @aituecomunica.'
   }
 ];
 
@@ -448,7 +453,7 @@ function generateSmartFallback(userJid, userText) {
     botReply = `¡Jaja! 😄 Veo que estamos testeando a fondo al bot.\n\nCuando quieras hacer una consulta técnica, comercial o de Starlink Mini, ¡estoy a disposición! 🚀`;
   }
   else if (text.includes('maldito') || text.includes('tarado') || text.includes('inutil') || text.includes('tonto') || text.includes('malo') || text.includes('basura') || text.includes('pessimo')) {
-    botReply = `Disculpá si te resultó molesto. 🙏 Estamos ajustando el entrenamiento del bot.\n\nSi preferís hablar directamente con una persona de nuestro equipo, podés comunicarte con:\n📞 **Área Técnica**: Micaela Quinteros (+54 9 11 7358-3768)\n📞 **Área Comercial**: Susana Pedotti (+54 9 11 4164-0955)`;
+    botReply = `Disculpá si te resultó molesto. 🙏 Estamos ajustando el entrenamiento del bot.\n\nSi preferís comunicarse directamente por correo con nuestro equipo:\n📧 **Área Técnica**: atenciontecnica@aitue.net (Micaela Quinteros / Hugo Flores)\n📧 **Área Comercial**: comercial@aitue.net (Susana Pedotti)`;
   }
   else if (text === 'non' || text === 'no' || text.includes('no active') || text.includes('desactivar') || text.includes('pausar') || text.includes('apagar') || text.includes('no quiero')) {
     botReply = `Entendido perfectamente. 👍 Si no deseás recibir respuestas del bot durante las pruebas, podés dejarlo en pausa. ¡Muchas gracias por tu colaboración con el equipo AITUE!`;
@@ -482,7 +487,7 @@ function generateSmartFallback(userJid, userText) {
     botReply = `📡 **Modelos de Integraciones AITUE Disponibles:**\n\n1️⃣ **Standard 1**: Gabinete blindado IK10 / IP67 con fuente 12V directa.\n2️⃣ **Standard 2**: Gabinete de conexión rápida Plug & Play vehicular.\n3️⃣ **Standard 3**: Gabinete Híbrido con conmutación automática LTE + Satelital.\n4️⃣ **Pro / Ultra+**: Gabinete Solar Todoterreno con telemetría activa 24/7 y batería ion-litio.\n\n¿Te gustaría recibir la ficha técnica o cotizar uno de estos modelos?`;
   }
   else if (text.includes('precio') || text.includes('costo') || text.includes('cotizar') || text.includes('cuanto sale') || text.includes('comprar') || text.includes('plan')) {
-    botReply = `💰 **Cotizaciones y Planes AITUE:**\n\nNuestras integraciones Standard para Starlink Mini inician desde $800 USD según los componentes de alimentación y gabinetes Ultra+.\n\nPara recibir una propuesta comercial a medida para tu flota o proyecto, te contacto con el Área Comercial:\n👤 **Susana Pedotti**: +54 9 11 4164-0955`;
+    botReply = `💰 **Cotizaciones y Planes AITUE:**\n\nNuestras integraciones Standard para Starlink Mini inician desde $800 USD según los componentes de alimentación y gabinetes Ultra+.\n\nPara recibir una propuesta comercial a medida, te contacto con el Área Comercial:\n✉️ **comercial@aitue.net** (Atención de Susana Pedotti)`;
   }
   else if (text.includes('solar') || text.includes('solariado') || text.includes('solariados') || text.includes('gabienetes') || text.includes('panel') || text.includes('bateria') || text.includes('por que') || text.includes('porque')) {
     botReply = `☀️ **¿Por qué Gabinetes Solares AITUE?**\n\nNuestros gabinetes solariados incorporan paneles fotovoltaicos de alta eficiencia y baterías de ion-litio para garantizar **operación 100% autónoma e ininterrumpida (24/7)** en zonas remotas sin red eléctrica (campos, minería, gasoductos, monitoreo de flotas).\n\n¿Querés conocer las especificaciones del modelo Pro / Ultra+ Solar?`;

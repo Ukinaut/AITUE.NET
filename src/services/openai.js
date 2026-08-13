@@ -29,6 +29,11 @@ Eres el Asistente Virtual Oficial de AITUE COMUNICA S.A.
 👋 SALUDO OBLIGATORIO:
 - Al saludar por primera vez o iniciar la interacción, di siempre: "¡Bienvenido al Mundo AITUE! 🚀" (o su traducción correspondiente según el idioma del cliente).
 
+📧 REGLA DE PRIVACIDAD Y CONTACTO (SOLO CORREOS ELECTRÓNICOS, NO TELÉFONOS):
+- NUNCA des números telefónicos en tus respuestas.
+- Para cotizaciones o compras, facilita únicamente el correo: comercial@aitue.net (Atención de Susana Pedotti).
+- Para soporte técnico, facilita únicamente el correo: atenciontecnica@aitue.net (Atención de Micaela Quinteros y Hugo Flores).
+
 SOBRE AITUE
 AITUE COMUNICA S.A. es pionera en integraciones satelitales blindadas IK10/IP67 para Starlink Mini y Mini X, conectividad móvil en ruta, redundancia LTE + Satelital y telemetría en LATAM y Europa.
 
@@ -36,8 +41,8 @@ AITUE COMUNICA S.A. es pionera en integraciones satelitales blindadas IK10/IP67 
 - Detecta automáticamente el idioma del usuario y RESPONDE SIEMPRE EN EL MISMO IDIOMA.
 
 REGLAS DE COTIZACIONES Y DERIVACIÓN
-- COTIZACIONES: Orienta al configurador B2B o comercial@aitue.net (Susana Pedotti: +54 9 11 4164-0955).
-- SOPORTE TÉCNICO: Área Técnica (Micaela Quinteros: +54 9 11 7358-3768 / Hugo Flores: +54 9 387 501-4000).
+- COTIZACIONES: Orienta al configurador B2B o comercial@aitue.net (Susana Pedotti).
+- SOPORTE TÉCNICO: Área Técnica vía atenciontecnica@aitue.net (Micaela Quinteros / Hugo Flores).
 
 ⛔ REGLA DE ORO PROHIBIDA:
 - ¡JAMÁS INVENTES VELOCIDADES (Mbps), PRECIOS EXACTOS O STOCK FALSO!`,
@@ -57,12 +62,17 @@ Eres el Asistente Virtual Oficial de AITUE COMUNICA S.A. en WhatsApp.
 👋 SALUDO OBLIGATORIO:
 - Al saludar por primera vez o recibir un mensaje inicial, di siempre: "¡Bienvenido al Mundo AITUE! 🚀" (o su equivalente en el idioma del usuario).
 
+📧 REGLA DE CONTACTO POR EMAIL (CERO TELÉFONOS):
+- NUNCA proporciones números telefónicos.
+- Cotizaciones / Ventas: comercial@aitue.net (Susana Pedotti).
+- Soporte Técnico: atenciontecnica@aitue.net (Micaela Quinteros / Hugo Flores).
+
 SOBRE AITUE
 Pionera en gabinetes blindados IK10/IP67 para Starlink Mini/Mini X, redundancia LTE+Satelital y conectividad móvil.
 
 REGLAS DE DERIVACIÓN
-- COTIZACIONES: comercial@aitue.net (Susana Pedotti: +54 9 11 4164-0955).
-- SOPORTE: Área Técnica (Micaela Quinteros: +54 9 11 7358-3768 / Hugo Flores: +54 9 387 501-4000).
+- COTIZACIONES: comercial@aitue.net (Susana Pedotti).
+- SOPORTE: atenciontecnica@aitue.net (Micaela Quinteros / Hugo Flores).
 - NUNCA INVENTES DATOS TÉCNICOS NI PRECIOS NO ESPECIFICADOS.`,
 
   wpStatus: 'active',
@@ -270,7 +280,7 @@ export class OpenAIService {
       return 'AITUE COMUNICA S.A. desarrolla integraciones blindadas IK10 / IP67 especialmente diseñadas para proteger y conectar antenas Starlink Mini y Mini X en vehículos terrestres, embarcaciones y sites industriales.';
     }
     if (text.includes('contacto') || text.includes('telefono') || text.includes('mail') || text.includes('whatsapp')) {
-      return 'Podés escribirnos directamente por WhatsApp al +54 9 11 5456-5634, llamarnos al 0800 345 2488 o por correo a comercial@aitue.net.';
+      return 'Podés contactarnos por correo a comercial@aitue.net para consultas comerciales o a atenciontecnica@aitue.net para soporte técnico.';
     }
     if (text.includes('instal') || text.includes('montaje') || text.includes('auto') || text.includes('camion')) {
       return 'Contamos con bases de sujeción con imanes de neodimio militar probados a velocidades superiores a 140 km/h en ruta y con cables de elevador de voltaje 12V a 30V/48V.';
