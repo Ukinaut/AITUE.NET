@@ -61,6 +61,13 @@ REGLA FUNDAMENTAL: ENTENDER LA NECESIDAD ➔ ORIENTAR ➔ AYUDAR ➔ RESOLVER �
     title: 'Garantía Corporativa de Reemplazo Directo',
     content: 'Todos los gabinetes e integraciones AITUE cuentan con 2 años de garantía oficial con sustitución directa en caso de falla técnica y soporte remoto 24/7.',
     updatedAt: '2026-08-11T12:00:00.000Z'
+  },
+  {
+    id: 'kb_6',
+    category: 'Visión de Producto & Catálogo',
+    title: 'Lógica de Catálogo: Sistema Modular Integral AITUE',
+    content: 'AITUE no vende simplemente accesorios sueltos para Starlink Mini. AITUE construye un sistema modular integral diseñado para transformar Starlink Mini y Mini X en una solución completa y robusta de conectividad operativa utilizable en vehículos en ruta, instalaciones fijas y entornos exigentes.',
+    updatedAt: new Date().toISOString()
   }
 ];
 
