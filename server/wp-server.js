@@ -97,48 +97,53 @@ let serverKnowledgeBase = [
     id: 'kb_0',
     category: 'Protocolos de Atención',
     title: 'Manual de Identidad, Directivas y Protocolos AITUE COMUNICA S.A.',
-    content: `IDENTIDAD: Asistente Virtual Oficial de AITUE COMUNICA S.A. Primer punto de contacto con clientes, empresas y técnicos.
-SOBRE AITUE: Pionera en integraciones satelitales blindadas IK10/IP67 para Starlink Mini y Mini X, conectividad móvil en ruta, redundancia híbrida LTE + Satelital, telemetría activa para flotas, embarcaciones y minería en LATAM y Europa.
-PERSONALIDAD: Tecnología + Profesionalismo + Cercanía + Seguridad + Resolución.
-COTIZACIONES: Configurador B2B o comercial@aitue.net (Susana Pedotti: +54 9 11 4164-0955).
+    content: `IDENTIDAD: Asistente Virtual Oficial de AITUE COMUNICA S.A. ("Si ves el cielo, estamos").
+SOBRE AITUE: Soluciones 360° desarrolladas para proteger, integrar y adaptar equipos Starlink Mini y Mini X en estructuras permanentes, vehículos en movimiento y operaciones de campo en LATAM (Argentina, Brasil, Colombia, Chile, Perú) y Europa (España, Comunidad Valenciana).
+COTIZACIONES: comercial@aitue.net (Susana Pedotti: +54 9 11 4164-0955).
 SOPORTE TÉCNICO: Área Técnica (Micaela Quinteros: +54 9 11 7358-3768 / Hugo Flores: +54 9 387 501-4000).
-REGLA FUNDAMENTAL: ENTENDER LA NECESIDAD ➔ ORIENTAR ➔ AYUDAR ➔ RESOLVER ➔ DERIVAR CUANDO SEA NECESARIO.`
+CANALES OFICIALES: 0800 345 2488 | +54 11 5272 2340 | aitue.net | shop.aitue.net | @aituecomunica.`
   },
   {
     id: 'kb_1',
     category: 'Empresa & Visión',
-    title: 'Identidad Corporativa AITUE COMUNICA S.A.',
-    content: 'AITUE COMUNICA S.A. es una empresa de ingeniería en telecomunicaciones especializada en soluciones satelitales móviles de alta disponibilidad. Diseñamos e integramos gabinetes blindados certificados IK10 contra impactos y sellado IP67 para Starlink Mini y Mini X, permitiendo conectividad en movimiento en rutas extremas, zonas mineras, agro y alta mar.'
+    title: 'Identidad Corporativa y El Problema que Resolvemos',
+    content: 'AITUE COMUNICA S.A. ofrece soluciones profesionales de protección 360°, integración hermética, movilidad vehicular y confiabilidad operativa para Starlink Mini y Mini X. Protege los equipos contra polvo, agua, viento, vibraciones intensas y temperatura extrema sin necesidad de abrir el gabinete en cada uso.'
   },
   {
     id: 'kb_2',
-    category: 'Starlink Mini & Gabinetes',
-    title: 'Modelos de Gabinete Standard y Ultra+',
-    content: '1. Modelo Standard: Incluye soporte magnético para vehículos con imanes de neodimio militar (+140 km/h) y gabinete termoconformado IP67.\n2. Modelo Ultra+: Agrega módulo de redundancia híbrida Dual LTE Cell/Failover automático, telemetría GPS en tiempo real y elevador de voltaje inteligente 12V a 48V sin modificar el vehículo.'
+    category: 'Línea Standard',
+    title: 'Aitue Standard - Protección Fija y Semifija',
+    content: '• Medidas: 32 cm largo × 28 cm ancho × 5.5 cm alto.\n• Material: Plástico ABS inyectado reforzado con matriz propia, cordón de sellado EPDM y 4 bulones de acero inoxidable.\n• Conectividad: Conector hermético externo e interno. Alojamiento preciso para Starlink Mini y Mini X.\n• Aplicación: Techos de fibra, motorhomes, casillas, trailers, viviendas rurales, soportes de pared o mástil, y vehículos donde se requiera protección fija y permanente.'
   },
   {
     id: 'kb_3',
-    category: 'Protocolos de Atención',
-    title: 'Pauta de Respuesta: Atención y Tono al Cliente',
-    content: '1. Saludar siempre con amabilidad tecnológica y profesional.\n2. Explicar que los productos AITUE están diseñados por ingenieros para resistir las condiciones más exigentes.\n3. Ante preguntas sobre compras o cotizaciones, orientar al cliente hacia el Cotizador B2B o solicitar cantidad de vehículos/equipos para derivarlo con un ingeniero de ventas.'
+    category: 'Línea Pro',
+    title: 'Aitue Pro - Fijación Magnética de Grado Industrial',
+    content: '• Medidas: 41 cm largo × 29 cm ancho × 6 cm alto.\n• Fijación: 4 imanes de neodimio de grado industrial con recubrimiento de goma antideslizante (+50 kg de fuerza por imán, total sistema +200 kg de sujeción).\n• Uso: Instalación rápida y desmontable sobre superficies metálicas (techos y capots de vehículos) sin perforaciones permanentes. Ideal para camionetas operativas, minería, petróleo, agro, transporte, turismo, prensa y emergencias.'
   },
   {
     id: 'kb_4',
-    category: 'Precios & Pagos',
-    title: 'Políticas de Precios y Formas de Pago B2B',
-    content: 'Los precios de integración arrancan desde $800 USD para el modelo Standard y $1,200 USD para kits Pro/Ultra+. Aceptamos transferencias bancarias internacionales, tarjetas corporativas y factura A/B en Argentina, Chile, Colombia, Perú y España.'
+    category: 'Línea Ultra+',
+    title: 'Aitue Ultra+ - Plataforma Industrial Corporativa (Satelital + LTE)',
+    content: '• Especificaciones: Medidas 34.3 × 28.2 × 4.5 cm, Peso 675 gr, Material PC/ABS anti-UV, Grado IP67/IP68, Rango térmico -40 °C a +80 °C.\n• Válvula Hidrofóbica: Membrana ePTFE de grado automotriz (>0.3 Bar WEP) para ecualización continua de presión y escape de aire caliente bloqueando ingreso de agua.\n• Módulos Configurables: Satelital (Mini/Nano) + Dual LTE Cat 4 (hasta 150/50 Mbps), GPS/Trackeo (CamBus), Video Streaming HD 1080p, Telemetría activa (medición temp/humedad/voltaje) y administración de red Appcontrol.'
   },
   {
     id: 'kb_5',
-    category: 'Garantía & Soporte',
-    title: 'Garantía Corporativa de Reemplazo Directo',
-    content: 'Todos los gabinetes e integraciones AITUE cuentan con 2 años de garantía oficial con sustitución directa en caso de falla técnica y soporte remoto 24/7.'
+    category: 'Alimentación DBP',
+    title: 'Aitue DBP - Direct Battery Power (Alimentación 12V/24V a 30V)',
+    content: '• Función: Alimentación directa a batería para Starlink Mini y Mini X en vehículos sin toma de 12V o encendedor.\n• Especificaciones: Convierte entrada de 12V/24V (12-30 VDC) a salida estabilizada constante de 30V (30-45W típico, pico 60W).\n• Control ACC/Contacto: Cable verde se conecta a la fusilera/señal de contacto del vehículo, encendiendo el equipo automáticamente con el auto y previniendo consumo de batería al apagarlo.\n• Instalación: Conexión directa a bornes (+/-), auto-instalable.'
   },
   {
     id: 'kb_6',
     category: 'Visión de Producto & Catálogo',
     title: 'Lógica de Catálogo: Sistema Modular Integral AITUE',
     content: 'AITUE no vende simplemente accesorios sueltos para Starlink Mini. AITUE construye un sistema modular integral diseñado para transformar Starlink Mini y Mini X en una solución completa y robusta de conectividad operativa utilizable en vehículos en ruta, instalaciones fijas y entornos exigentes.'
+  },
+  {
+    id: 'kb_7',
+    category: 'Contacto & Soporte',
+    title: 'Canales Comerciales, Técnicos y Redes AITUE',
+    content: '• Área Comercial: Susana Pedotti (+54 9 11 4164-0955 / comercial@aitue.net).\n• Teléfonos de Atención: 0800 345 2488 / +54 11 5272 2340.\n• Área Técnica: Micaela Quinteros (+54 9 11 7358-3768) / Hugo Flores (+54 9 387 501-4000).\n• Sitios Web & Redes: aitue.net | shop.aitue.net | Instagram: @aituecomunica.'
   }
 ];
 
