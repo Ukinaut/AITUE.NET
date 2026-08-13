@@ -427,9 +427,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <span style="font-family:'Share Tech Mono', monospace; font-size:0.68rem; color:#00f5d4; background:rgba(0,245,212,0.1); border:1px solid rgba(0,245,212,0.3); padding:2px 8px; border-radius:4px; text-transform:uppercase;">
             ${art.category}
           </span>
-          <div>
-            <button class="btn-admin-ghost edit-kb-btn" data-id="${art.id}" style="padding:2px 8px; font-size:0.65rem; color:#00f5d4; border-color:rgba(0,245,212,0.3); margin-right:4px;">Editar</button>
-            <button class="btn-admin-ghost delete-kb-btn" data-id="${art.id}" style="padding:2px 8px; font-size:0.65rem; color:#ff4d6d; border-color:rgba(255,77,109,0.3);">Eliminar</button>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn-admin-ghost edit-kb-btn" data-id="${art.id}" style="padding:4px 10px; font-size:0.7rem; color:#00f5d4; border-color:rgba(0,245,212,0.4); cursor:pointer; font-weight:bold;">✏️ Editar</button>
+            <button type="button" class="btn-admin-ghost delete-kb-btn" data-id="${art.id}" style="padding:4px 10px; font-size:0.7rem; color:#ff4d6d; border-color:rgba(255,77,109,0.4); cursor:pointer; font-weight:bold;">🗑️ Eliminar</button>
           </div>
         </div>
         <h4 style="font-family:'Outfit', sans-serif; font-size:1rem; color:#ffffff; margin:0;">${art.title}</h4>
@@ -439,19 +439,25 @@ document.addEventListener('DOMContentLoaded', () => {
       kbCardsContainer.appendChild(card);
     });
 
+    // Delete handlers
     kbCardsContainer.querySelectorAll('.delete-kb-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const id = btn.getAttribute('data-id');
         if (confirm('¿Deseás eliminar esta pauta de conocimiento de la IA?')) {
           KnowledgeService.deleteArticle(id);
-          renderKnowledgeCards(searchFilter);
+          renderKnowledgeCards(kbSearchInput ? kbSearchInput.value.trim() : '');
           syncServerKnowledgeAndPrompt();
         }
       });
     });
 
+    // Edit handlers
     kbCardsContainer.querySelectorAll('.edit-kb-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const id = btn.getAttribute('data-id');
         const articles = KnowledgeService.getArticles();
         const art = articles.find(a => a.id === id);
@@ -477,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Edit Modal Event Handlers
   const editKbModal = document.getElementById('edit-kb-modal');
   const editKbForm = document.getElementById('edit-kb-form');
+  const saveEditKbBtn = document.getElementById('save-edit-kb-btn');
   const cancelEditKbBtn = document.getElementById('cancel-edit-kb-btn');
   const closeEditKbModalX = document.getElementById('close-edit-kb-modal-x');
 
@@ -487,20 +494,35 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cancelEditKbBtn) cancelEditKbBtn.addEventListener('click', hideEditKbModal);
   if (closeEditKbModalX) closeEditKbModalX.addEventListener('click', hideEditKbModal);
 
+  function executeSaveArticle() {
+    const id = document.getElementById('edit-kb-id')?.value;
+    const category = document.getElementById('edit-kb-category')?.value.trim();
+    const title = document.getElementById('edit-kb-title')?.value.trim();
+    const content = document.getElementById('edit-kb-content')?.value.trim();
+
+    if (!id || !title || !content) {
+      alert('Por favor completa los campos de Título y Contenido.');
+      return;
+    }
+
+    KnowledgeService.updateArticle({ id, category, title, content });
+    hideEditKbModal();
+    renderKnowledgeCards(kbSearchInput ? kbSearchInput.value.trim() : '');
+    syncServerKnowledgeAndPrompt();
+    alert('¡Pauta de conocimiento actualizada correctamente!');
+  }
+
+  if (saveEditKbBtn) {
+    saveEditKbBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      executeSaveArticle();
+    });
+  }
+
   if (editKbForm) {
-    editKbForm.addEventListener('submit', () => {
-      const id = document.getElementById('edit-kb-id').value;
-      const category = document.getElementById('edit-kb-category').value;
-      const title = document.getElementById('edit-kb-title').value.trim();
-      const content = document.getElementById('edit-kb-content').value.trim();
-
-      if (!id || !title || !content) return;
-
-      KnowledgeService.updateArticle({ id, category, title, content });
-      hideEditKbModal();
-      renderKnowledgeCards();
-      syncServerKnowledgeAndPrompt();
-      alert('¡Pauta de conocimiento actualizada correctamente!');
+    editKbForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      executeSaveArticle();
     });
   }
 
